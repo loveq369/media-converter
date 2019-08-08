@@ -63,11 +63,4 @@
  */
 - (void)updatePreview;
 
-/**
- *  Get defaults
- *
- *  @return The default preset dictionary
- */
-- (NSDictionary * _Nonnull)defaults;
-
 @end

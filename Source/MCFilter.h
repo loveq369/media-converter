@@ -84,7 +84,7 @@
  *
  *  @return An image
  */
-- (CGImageRef _Nonnull)imageWithSize:(NSSize)size;
+- (nullable CGImageRef)newImageWithSize:(NSSize)size;
 
 /**
  *  A default outlet to set a filter option

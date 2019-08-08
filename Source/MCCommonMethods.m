@@ -429,7 +429,7 @@
     outputPipe = nil;
     task = nil;
     
-    if (error | string)
+    if (error || string)
     *data = output;
     
     return (result == 0);
@@ -468,7 +468,7 @@
     return items;
 }
 
-+ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings size:(NSSize)size
++ (CGImageRef)newOverlayImageWithObject:(id)object withSettings:(NSDictionary *)settings size:(NSSize)size
 {
     BOOL isString = ([object isKindOfClass:[NSString class]]);
     BOOL isAttributedString = ([object isKindOfClass:[NSAttributedString class]]);
@@ -490,7 +490,7 @@
 	    fontColor = [NSUnarchiver unarchiveObjectWithData:[settings objectForKey:@"Color"]];
     }
 
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    visibilityMethod = [settings objectForKey:@"Method"];
 	    borderColor = [NSUnarchiver unarchiveObjectWithData:[settings objectForKey:@"Border Color"]];
@@ -514,7 +514,7 @@
     NSMutableAttributedString *attrStr;
     NSMutableAttributedString *strokeAttrStr;
 
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    border = ([visibilityMethod isEqualTo:@"border"]);
 	    box = ([visibilityMethod isEqualTo:@"box"]);
@@ -556,7 +556,7 @@
 
     NSRect objectFrame;
     
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    objectFrame = [MCCommonMethods frameForStringDrawing:attrStr forWidth:imageSize.width];
     }
@@ -569,7 +569,7 @@
     CGFloat width;
     CGFloat height;
     
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    width = imageSize.width - leftMargin - rightMargin;
 	    height = objectFrame.size.height + 10;
@@ -590,7 +590,7 @@
     else if ([vAlignString isEqualTo:@"bottom"])
 	    y = 0 + bottomMargin;
     
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    NSMutableParagraphStyle *centeredStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     
@@ -626,9 +626,11 @@
     	    x = (imageSize.width - width - rightMargin);
     }
     
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, imageSize.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, imageSize.width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
     
-    if (isString | isAttributedString)
+    if (isString || isAttributedString)
     {
 	    if (box)
 	    {
@@ -679,6 +681,7 @@
     {
         CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)object);
         CGImageRef image = CGImageCreateWithPNGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
+        CGDataProviderRelease(imgDataProvider);
         
         CGContextSetAlpha(bitmapContext, alphaValue);
         CGContextDrawImage(bitmapContext, NSMakeRect(x, y, width, height), image);
@@ -691,7 +694,9 @@
 
 //    NSImage *finalImage = [[NSImage alloc] initWithCGImage:subImageRef size:imageSize];
 
-    return CGBitmapContextCreateImage(bitmapContext);
+    CGImageRef overlayImage = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+    return overlayImage;
 }
 
 //+ (NSMutableAttributedString *)stringOnMainThreadWithHTML:(NSString *)html
@@ -751,7 +756,6 @@
 
 + (void)setViewOptions:(NSArray *)views infoObject:(id)info fallbackInfo:(id)fallback mappingsObject:(NSArray *)mappings startCount:(NSInteger)start
 {
-    NSEnumerator *iter = [[NSEnumerator alloc] init];
     NSControl *cntl;
 
     NSInteger x;
@@ -764,7 +768,7 @@
 	    else
     	    currentView = [[views objectAtIndex:x] view];
 	    
-	    iter = [[currentView subviews] objectEnumerator];
+	    NSEnumerator *iter = [[currentView subviews] objectEnumerator];
 	    while ((cntl = [iter nextObject]) != NULL)
 	    {
     	    NSInteger tag = [cntl tag] - start;

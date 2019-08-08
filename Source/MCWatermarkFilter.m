@@ -172,7 +172,7 @@
     NSButton *watermarkAspectCheckBox = [self watermarkAspectCheckBox];
     CGFloat aspectRatio = [self aspectRatio];
 
-    if (([sender isEqualTo:watermarkWidthField] | [sender isEqualTo:watermarkHeightField]) && [watermarkAspectCheckBox state] == NSOnState)
+    if (([sender isEqualTo:watermarkWidthField] || [sender isEqualTo:watermarkHeightField]) && [watermarkAspectCheckBox state] == NSOnState)
     {
 	    CGFloat width = [watermarkWidthField doubleValue];
 	    CGFloat height = [watermarkHeightField doubleValue];
@@ -200,12 +200,12 @@
     [super setFilterOption:sender];
 }
 
-- (CGImageRef)imageWithSize:(NSSize)size
+- (CGImageRef)newImageWithSize:(NSSize)size
 {
     NSMutableDictionary *filterOptions = [self filterOptions];
     NSData *imageData = [filterOptions objectForKey:@"Overlay Image"];
 
-    return [MCCommonMethods overlayImageWithObject:imageData withSettings:filterOptions size:size];
+    return [MCCommonMethods newOverlayImageWithObject:imageData withSettings:filterOptions size:size];
 }
 
 @end

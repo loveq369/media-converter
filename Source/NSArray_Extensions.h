@@ -21,7 +21,16 @@
  *
  *  @return An object
  */
-- (id)objectForKey:(id)aKey;
+- (nullable id)objectForKey:(nonnull id)aKey;
+
+/**
+ *  Object for key (subscript version)
+ *
+ *  @param aKey A key
+ *
+ *  @return An object
+ */
+- (nullable id)objectForKeyedSubscript:(nonnull id)key;
 
 /**
  *  Objects for key
@@ -30,7 +39,7 @@
  *
  *  @return An array of objects
  */
-- (id)objectsForKey:(id)aKey;
+- (nonnull id)objectsForKey:(nonnull id)aKey;
 
 /**
  *  Index of object
@@ -38,7 +47,7 @@
  *  @param anObject An object
  *  @param aKey A key
  */
-- (NSInteger)indexOfObject:(id)aObject forKey:(id)aKey;
+- (NSInteger)indexOfObject:(nonnull id)aObject forKey:(nonnull id)aKey;
 
 @end
 
@@ -49,10 +58,18 @@
 
 /**
  *  Set object
- 
+ *
  *  @param anObject An object
  *  @param aKey A key
  */
-- (void)setObject:(id)anObject forKey:(id)aKey;
+- (void)setObject:(nullable id)anObject forKey:(nonnull id)aKey;
+
+/**
+ *  Set object (subscript version)
+ *
+ *  @param anObject An object
+ *  @param aKey A key
+ */
+- (void)setObject:(nullable id)obj forKeyedSubscript:(nonnull id <NSCopying>)key;
 
 @end

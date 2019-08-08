@@ -162,13 +162,13 @@
 	    [self setFilterOption:sender];
 }
 
-- (CGImageRef)imageWithSize:(NSSize)size
+- (CGImageRef)newImageWithSize:(NSSize)size
 {
    NSMutableDictionary *filterOptions = [self filterOptions];
     NSData *textData = [filterOptions objectForKey:@"Text"];
     NSAttributedString *attrString = [NSUnarchiver unarchiveObjectWithData:textData];
 
-    return [MCCommonMethods overlayImageWithObject:attrString withSettings:filterOptions size:size];
+    return [MCCommonMethods newOverlayImageWithObject:attrString withSettings:filterOptions size:size];
 }
 
 @end

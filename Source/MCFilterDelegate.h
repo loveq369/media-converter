@@ -21,7 +21,7 @@
  *
  *  @return An image
  */
-- (CGImageRef _Nonnull)previewImageWithSize:(NSSize)size;
+- (CGImageRef _Nonnull)newPreviewImageWithSize:(NSSize)size;
 
 /**
  *  The current filter options

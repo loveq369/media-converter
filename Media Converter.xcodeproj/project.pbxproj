@@ -38,6 +38,7 @@
 		FE6677281425D458009BB3A5 /* MCPresetManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6677251425D458009BB3A5 /* MCPresetManager.xib */; };
 		FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */; };
 		FE700959140CD7F1002429E1 /* MCProgressSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FE700953140CD7F1002429E1 /* MCProgressSlider.m */; };
+		FE703A6022FC822F00917539 /* MCPresetDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FE703A5F22FC822F00917539 /* MCPresetDefaults.m */; };
 		FE7AAEE513B602E8008DC4F7 /* MCFilterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AAEE013B602E8008DC4F7 /* MCFilterDelegate.m */; };
 		FEA63EA91376C28D001816F2 /* MCInstallPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA63EA41376C28D001816F2 /* MCInstallPanel.m */; };
 		FEA63EBC1376C352001816F2 /* MCInstallPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA63EB61376C352001816F2 /* MCInstallPanel.xib */; };
@@ -173,6 +174,8 @@
 		FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAutoLayoutTextField.m; path = Source/MCAutoLayoutTextField.m; sourceTree = "<group>"; };
 		FE700952140CD7F1002429E1 /* MCProgressSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressSlider.h; path = Source/MCProgressSlider.h; sourceTree = "<group>"; };
 		FE700953140CD7F1002429E1 /* MCProgressSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProgressSlider.m; path = Source/MCProgressSlider.m; sourceTree = "<group>"; };
+		FE703A5E22FC822F00917539 /* MCPresetDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetDefaults.h; path = Source/MCPresetDefaults.h; sourceTree = "<group>"; };
+		FE703A5F22FC822F00917539 /* MCPresetDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCPresetDefaults.m; path = Source/MCPresetDefaults.m; sourceTree = "<group>"; };
 		FE77D66E13192E8800731569 /* Create Preset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset.png"; path = "Images/Create Preset.png"; sourceTree = "<group>"; };
 		FE77D9BC131940B000731569 /* MCCrippledButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCrippledButton.h; path = Source/MCCrippledButton.h; sourceTree = "<group>"; };
 		FE77D9BD131940B000731569 /* MCCrippledButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCrippledButton.m; path = Source/MCCrippledButton.m; sourceTree = "<group>"; };
@@ -476,6 +479,8 @@
 			children = (
 				FE66771D1425D434009BB3A5 /* MCPresetManager.h */,
 				FE66771E1425D434009BB3A5 /* MCPresetManager.m */,
+				FE703A5E22FC822F00917539 /* MCPresetDefaults.h */,
+				FE703A5F22FC822F00917539 /* MCPresetDefaults.m */,
 				FE3A195B22FAD023005BED34 /* TableView Delegates */,
 				FE10B97113C1CC9E00194E45 /* Filters */,
 			);
@@ -760,6 +765,7 @@
 				FEA8CF5D13227D3C00C10516 /* MCConverter.m in Sources */,
 				FEA8CF5E13227D3C00C10516 /* MCProgressPanel.m in Sources */,
 				FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */,
+				FE703A6022FC822F00917539 /* MCPresetDefaults.m in Sources */,
 				FEA8CF6013227D3C00C10516 /* MCPreferences.m in Sources */,
 				FEA8CF6213227D3C00C10516 /* MCAdvancedOptionsDelegate.m in Sources */,
 				FEF8B01722F8444200603B84 /* MCColorView.m in Sources */,

@@ -283,9 +283,11 @@
     }
 }
 
-- (CGImageRef)previewImageWithSize:(NSSize)size
+- (CGImageRef)newPreviewImageWithSize:(NSSize)size
 {
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
     
     for (NSDictionary *filterOptions in [self tableData])
     {
@@ -296,7 +298,7 @@
     	    MCFilter *filter = [[NSClassFromString(type) alloc] init];
     	    [filter setOptions:[filterOptions objectForKey:@"Options"]];
     	    
-    	    CGImageRef filterImage = [filter imageWithSize:size];
+    	    CGImageRef filterImage = [filter newImageWithSize:size];
             CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
             CGImageRelease(filterImage);
 	    }
@@ -305,12 +307,14 @@
     MCFilter *openFilter = [self openFilter];
     if (openFilter != nil)
     {
-	    CGImageRef filterImage = [openFilter imageWithSize:size];
+	    CGImageRef filterImage = [openFilter newImageWithSize:size];
         CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
         CGImageRelease(filterImage);
     }
     
-    return CGBitmapContextCreateImage(bitmapContext);
+    CGImageRef previewImage = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+    return previewImage;
 }
 
 //////////////////////

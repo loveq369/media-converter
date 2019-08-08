@@ -90,7 +90,7 @@
     else
     {
         NSMutableArray *popUpArray = [self popUpArray];
-	    if (obj == nil | [popUpArray indexOfObject:obj] == NSNotFound)
+	    if (obj == nil || [popUpArray indexOfObject:obj] == NSNotFound)
     	    [self selectItemAtIndex:0];
 	    else
     	    [self selectItemAtIndex:[popUpArray indexOfObject:obj]];

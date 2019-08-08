@@ -26,6 +26,11 @@
     return nil;
 }
 
+- (id)objectForKeyedSubscript:(id)key
+{
+    return [self objectForKey:key];
+}
+
 - (id)objectsForKey:(id)aKey
 {
     NSInteger i;
@@ -96,6 +101,11 @@
 	    NSDictionary *newDict = [NSDictionary dictionaryWithObject:anObject forKey:aKey];
 	    [self addObject:newDict];
     }
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key
+{
+    [self setObject:obj forKey:key];
 }
 
 @end

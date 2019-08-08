@@ -86,9 +86,9 @@
     return [NSMutableDictionary dictionary];
 }
 
-- (CGImageRef)imageWithSize:(NSSize)size
+- (CGImageRef)newImageWithSize:(NSSize)size
 {
-    return nil;
+    return NULL;
 }
 
 - (IBAction)setFilterOption:(id)sender

@@ -553,7 +553,7 @@
     {
         NSTableView *presetsTableView = [self presetsTableView];
     
-	    if (([presetsTableView selectedRow] == -1 | [presetsTableView numberOfSelectedRows] > 1) && (aSelector == @selector(edit:) | aSelector == @selector(saveDocumentAs:)))
+	    if (([presetsTableView selectedRow] == -1 || [presetsTableView numberOfSelectedRows] > 1) && (aSelector == @selector(edit:) || aSelector == @selector(saveDocumentAs:)))
     	    return NO;
 	    
 	    if (([presetsTableView selectedRow] == -1) && (aSelector == @selector(duplicate:) || (aSelector == @selector(delete:))))

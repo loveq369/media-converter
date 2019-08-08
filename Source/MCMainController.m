@@ -97,7 +97,7 @@
     
     NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
     
-    BOOL hasSupportFolder = ([defaultManager fileExistsAtPath:folder] | [defaultManager fileExistsAtPath:userFolder]);
+    BOOL hasSupportFolder = ([defaultManager fileExistsAtPath:folder] || [defaultManager fileExistsAtPath:userFolder]);
     
     //Popupulate preset folder after creating it
     if (!hasSupportFolder || [presets count] == 0)

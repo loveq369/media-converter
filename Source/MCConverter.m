@@ -8,8 +8,8 @@
 #import "MCConverter.h"
 #import "NSArray_Extensions.h"
 #import "MCFilter.h"
-#import "MCPresetManager.h"
 #import "MCProgressPanel.h"
+#import "MCPresetDefaults.h"
 
 @interface NSScreen (NewMethods)
 - (CGFloat)backingScaleFactor;
@@ -237,7 +237,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     
     NSArray *quicktimeOptions = [NSArray array];
     NSArray *wavOptions = [NSArray array];
-    NSArray *inputOptions = [NSArray array];
+    NSArray *inputOptions;// = [NSArray array];
     
     NSArray *padOptions = [NSArray array];
     
@@ -463,7 +463,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     
     	    NSArray *threadObjects = [NSArray arrayWithObjects:@"-threads", threads, nil];
     	    NSString *pathExtension = [outFileWithExtension pathExtension];
-    	    if ([pathExtension isEqualTo:@"mov"] | [pathExtension isEqualTo:@"m4v"] | [pathExtension isEqualTo:@"mp4"])
+    	    if ([pathExtension isEqualTo:@"mov"] || [pathExtension isEqualTo:@"m4v"] || [pathExtension isEqualTo:@"mp4"])
 	    	    [args addObjectsFromArray:threadObjects];
     	    else
 	    	    [args insertObjects:threadObjects atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]];
@@ -514,9 +514,11 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    if ([filters count] > 0)
     	    {
 	    	    NSString *newImagePath = [temporaryFolder stringByAppendingPathComponent:@"overlay.png"];
-          
-                CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width, height, 8, width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
-
+                
+                CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+                CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+                CGColorSpaceRelease(colorSpace);
+                
 	    	    NSInteger z;
 	    	    for (z = 0; z < [filters count]; z ++)
 	    	    {
@@ -532,16 +534,20 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    	    else
 	    	    	    imageSize = NSMakeSize((height * aspect), height);
     	    	     
-    	    	    CGImageRef filterImage = [filter imageWithSize:imageSize];
+    	    	    CGImageRef filterImage = [filter newImageWithSize:imageSize];
 
-    	    	    if (filterImage != nil)
+    	    	    if (filterImage != NULL)
     	    	    {
                         CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, imageSize.width, imageSize.height), filterImage);
+                        CGImageRelease(filterImage);
     	    	    }
 	    	    }
                 
                 NSError *writeError;
-	    	    BOOL succes = CGImageWriteToFile(CGBitmapContextCreateImage(bitmapContext), newImagePath);
+                CGImageRef newImage = CGBitmapContextCreateImage(bitmapContext);
+                CGContextRelease(bitmapContext);
+	    	    BOOL succes = CGImageWriteToFile(newImage, newImagePath);
+                CGImageRelease(newImage);
 	    	    
 	    	    if (succes == NO && writeError != nil)
     	    	    NSLog(@"Error: %@", writeError);
@@ -858,7 +864,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 {
     userCanceled = YES;
     
-    if (status == 2 | status == 3)
+    if (status == 2 || status == 3)
 	    [ffmpeg terminate];
     
     if (status == 4)
@@ -900,7 +906,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    NSString *key = [[dict allKeys] objectAtIndex:0];
     	    NSString *object = [dict objectForKey:key];
     	    
-    	    if (![key isEqualTo:@"-t"] | ![key isEqualTo:@"-ss"] | ![key isEqualTo:@"-vframes"] | ![key isEqualTo:@"-dframes"])
+    	    if (![key isEqualTo:@"-t"] || ![key isEqualTo:@"-ss"] || ![key isEqualTo:@"-vframes"] || ![key isEqualTo:@"-dframes"])
     	    {
 	    	    [arguments addObject:key];
     	    
@@ -991,7 +997,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    {
     	    	    code = 1;
 	    	    }
-	    	    else if (!audioWorksCheck | !videoWorksCheck)
+	    	    else if (!audioWorksCheck || !videoWorksCheck)
 	    	    {
     	    	    if (videoWorks && audioWorks)
 	    	    	    keepGoing = YES;
@@ -1043,7 +1049,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    {
 	    	    if (videoWorks && !audioWorks)
 	    	    {
-    	    	    if ([[[path pathExtension] lowercaseString] isEqualTo:@"mpg"] | [[[path pathExtension] lowercaseString] isEqualTo:@"mpeg"] | [[[path pathExtension] lowercaseString] isEqualTo:@"m2v"])
+    	    	    if ([[[path pathExtension] lowercaseString] isEqualTo:@"mpg"] || [[[path pathExtension] lowercaseString] isEqualTo:@"mpeg"] || [[[path pathExtension] lowercaseString] isEqualTo:@"m2v"])
 	    	    	    error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unsupported audio)", nil), displayName];
     	    	    else
 	    	    	    code = 4;
@@ -1058,8 +1064,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    }
     	    }
     	    
-    	    //useWav = (code == 2 | code == 4 | code == 8);
-    	    //useQuickTime = (code == 2 | code == 3 | code == 6);
+    	    //useWav = (code == 2 || code == 4 || code == 8);
+    	    //useQuickTime = (code == 2 || code == 3 || code == 6);
     	    
     	    if (code > 0)
     	    {
@@ -1096,7 +1102,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    two = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0:1"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
 
     //Is stream 0:0 audio or video
-    if ([output rangeOfString:@"for input stream #0:0"].length > 0 | [output rangeOfString:@"Error while decoding stream #0:0"].length > 0)
+    if ([output rangeOfString:@"for input stream #0:0"].length > 0 || [output rangeOfString:@"Error while decoding stream #0:0"].length > 0)
     {
 	    if ([one isEqualTo:kind])
 	    {
@@ -1119,7 +1125,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 - (BOOL)isReferenceMovie:(NSString *)output
 {
     //Found in reference or streaming QuickTime movies
-    return ([output rangeOfString:@"unsupported slice header"].length > 0 | [output rangeOfString:@"bitrate: 5 kb/s"].length > 0);
+    return ([output rangeOfString:@"unsupported slice header"].length > 0 || [output rangeOfString:@"bitrate: 5 kb/s"].length > 0);
 }
 
 - (BOOL)setTimeAndAspectFromOutputString:(NSString *)output fromFile:(NSString *)file
@@ -1168,9 +1174,9 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 
 	    inputAspect = (CGFloat)inputWidth / (CGFloat)inputHeight;
 	    
-	    if (inputWidth == 352 && (inputHeight == 288 | inputHeight == 240))
+	    if (inputWidth == 352 && (inputHeight == 288 || inputHeight == 240))
     	    inputAspect = (CGFloat)4 / (CGFloat)3;
-	    else if ((inputWidth == 480 | inputWidth == 720 | inputWidth == 784) && (inputHeight == 576 | inputHeight == 480))
+	    else if ((inputWidth == 480 || inputWidth == 720 || inputWidth == 784) && (inputHeight == 576 || inputHeight == 480))
     	    inputAspect = (CGFloat)4 / (CGFloat)3;
 
 	    //Check if the iMovie project is 4:3 or 16:9
@@ -1353,7 +1359,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 //outputType: 0 = mp4, 1 = mkv, 2 = ogg (kate)
 - (BOOL)createMovieWithSubtitlesAtPath:(NSString *)path inputFile:(NSString *)inFile ouputType:(NSString *)type currentOptions:(NSArray *)options withSize:(NSSize)size
 {
-    BOOL result;
+//    BOOL result;
     BOOL firstSubtitle = YES;
 
     //Extract subtitles from input mp4 / mkv / ogg, when possible
@@ -1367,7 +1373,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     NSInteger i;
     for (i = 0; i < [folderContents count]; i ++)
     {
-	    result = YES;
+//        result = YES;
     
 	    NSString *currentPath = [folderContents objectAtIndex:i];	    
 	    NSString *language = [[[[currentPath stringByDeletingPathExtension] pathExtension] componentsSeparatedByString:@"_"] objectAtIndex:0];
@@ -1455,11 +1461,11 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 
     //Extract subtitles from input mp4 / mkv / ogg, when possible
     NSString *inputExtension = [[inPath pathExtension] lowercaseString];
-    if ([inputExtension isEqualTo:@"mp4"] | [inputExtension isEqualTo:@"3gp"] | [inputExtension isEqualTo:@"mov"] | [inputExtension isEqualTo:@"m4v"])
+    if ([inputExtension isEqualTo:@"mp4"] || [inputExtension isEqualTo:@"3gp"] || [inputExtension isEqualTo:@"mov"] || [inputExtension isEqualTo:@"m4v"])
 	    [self extractSubtitlesFromMP4Movie:inPath ofType:@"srt" toPath:outPath];
     else if ([inputExtension isEqualTo:@"mkv"])
 	    [self extractSubtitlesFromMKVMovie:inPath ofType:@"srt" toPath:outPath];
-    else if ([inputExtension isEqualTo:@"ogg"] | [inputExtension isEqualTo:@"ogv"])
+    else if ([inputExtension isEqualTo:@"ogg"] || [inputExtension isEqualTo:@"ogv"])
 	    [self extractSubtitlesFromOGGMovie:inPath ofType:@"srt" toPath:outPath];
     
     NSArray *folderContents = [MCCommonMethods getFullPathsForFolders:[NSArray arrayWithObject:inputFolder] withType:nil];
@@ -1489,7 +1495,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    NSString *language = [[currentPath stringByDeletingPathExtension] pathExtension];
 	    	    language = [[language componentsSeparatedByString:@"-"] objectAtIndex:0];
 	    	    
-	    	    if (![language isEqualTo:@"zh_TW"] | ![language isEqualTo:@"zh_CN"])
+	    	    if (![language isEqualTo:@"zh_TW"] || ![language isEqualTo:@"zh_CN"])
     	    	    language = [[language componentsSeparatedByString:@"_"] objectAtIndex:0];
 
 	    	    if ([fileExtension isEqualTo:@"srt"])
@@ -1512,25 +1518,25 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    	    	    
     	    	    	    if ([cyrillicLanguages containsObject:language])
 	    	    	    	    encoding = 0x0000000B;
-    	    	    	    else if ([language isEqualTo:@"zh"] | [language isEqualTo:@"zht"])
+    	    	    	    else if ([language isEqualTo:@"zh"] || [language isEqualTo:@"zht"])
 	    	    	    	    encoding = 0x80000632;
-    	    	    	    else if ([language isEqualTo:@"cn"] | [language isEqualTo:@"zhs"])
+    	    	    	    else if ([language isEqualTo:@"cn"] || [language isEqualTo:@"zhs"])
 	    	    	    	    encoding = 0x80000421;
-    	    	    	    else if ([language isEqualTo:@"ara"] | [language isEqualTo:@"ar"] | [language isEqualTo:@"som"] | [language isEqualTo:@"so"] | [language isEqualTo:@"kur"] | [language isEqualTo:@"ku"])
+    	    	    	    else if ([language isEqualTo:@"ara"] || [language isEqualTo:@"ar"] || [language isEqualTo:@"som"] || [language isEqualTo:@"so"] || [language isEqualTo:@"kur"] || [language isEqualTo:@"ku"])
 	    	    	    	    encoding = 0x80000506;
-    	    	    	    else if ([language isEqualTo:@"ell"] | [language isEqualTo:@"el"])
+    	    	    	    else if ([language isEqualTo:@"ell"] || [language isEqualTo:@"el"])
 	    	    	    	    encoding = 0x0000000D;
-    	    	    	    else if ([language isEqualTo:@"heb"] | [language isEqualTo:@"he"] | [language isEqualTo:@"yid"] | [language isEqualTo:@"yi"])
+    	    	    	    else if ([language isEqualTo:@"heb"] || [language isEqualTo:@"he"] || [language isEqualTo:@"yid"] || [language isEqualTo:@"yi"])
 	    	    	    	    encoding = 0x80000505;
-    	    	    	    else if ([language isEqualTo:@"jpn"] | [language isEqualTo:@"ja"])
+    	    	    	    else if ([language isEqualTo:@"jpn"] || [language isEqualTo:@"ja"])
 	    	    	    	    encoding = 0x00000003;
-    	    	    	    else if ([language isEqualTo:@"tur"] | [language isEqualTo:@"tr"])
+    	    	    	    else if ([language isEqualTo:@"tur"] || [language isEqualTo:@"tr"])
 	    	    	    	    encoding = 0x0000000E;
-    	    	    	    else if ([language isEqualTo:@"tha"] | [language isEqualTo:@"th"])
+    	    	    	    else if ([language isEqualTo:@"tha"] || [language isEqualTo:@"th"])
 	    	    	    	    encoding = 0x8000041D;
-    	    	    	    else if ([language isEqualTo:@"kor"] | [language isEqualTo:@"ko"])
+    	    	    	    else if ([language isEqualTo:@"kor"] || [language isEqualTo:@"ko"])
 	    	    	    	    encoding = 0x80000422;
-    	    	    	    else if ([language isEqualTo:@"vie"] | [language isEqualTo:@"vi"])
+    	    	    	    else if ([language isEqualTo:@"vie"] || [language isEqualTo:@"vi"])
 	    	    	    	    encoding = 0x80000508;
     	    	    	    
     	    	    	    originalString = [MCCommonMethods stringWithContentsOfFile:currentPath encoding:encoding error:nil];
@@ -1544,7 +1550,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    	    
 	    	    	    if (rename == YES)
 	    	    	    {
-    	    	    	    if ([language isEqualTo:@"zht"] | [language isEqualTo:@"zhs"])
+    	    	    	    if ([language isEqualTo:@"zht"] || [language isEqualTo:@"zhs"])
 	    	    	    	    language = @"zh";
 	    	    	    }
 	    	    	    
@@ -1622,7 +1628,9 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    srtFile = [NSString stringWithFormat:@"<br>%@", srtFile];
     
     //Create a empty image used between subtitles (do some bogus drawing so it can be saved or served to pipe
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4,colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
     CGImageRef emptyImage = CGBitmapContextCreateImage(bitmapContext);
     CGContextRelease(bitmapContext);
     NSString *emptyImagePath = [temporaryFolder stringByAppendingPathComponent:@"empty.png"];
@@ -1700,10 +1708,10 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    while ([string length] > 4 && [[string substringWithRange:NSMakeRange([string length] - 4, 4)] isEqualTo:@"<br>"])
     	    string = [string substringWithRange:NSMakeRange(0, [string length] - 4)];
         
-	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetManager defaultManager] defaults]];
+	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetDefaults standardDefaults] defaults]];
 	    [defaultSettings addEntriesFromDictionary:[convertOptions objectForKey:@"Extra Options"]];
 	    
-	    CGImageRef image = [MCCommonMethods overlayImageWithObject:string withSettings:defaultSettings size:size];
+	    CGImageRef image = [MCCommonMethods newOverlayImageWithObject:string withSettings:defaultSettings size:size];
 	    
 	    NSString *imagePath = [temporaryFolder stringByAppendingPathComponent:@"not-empty.png"];
         CGImageWriteToFile(image, imagePath);
@@ -1799,7 +1807,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    {
     	    NSString *currentSentence = [components objectAtIndex:i];
     	    
-    	    if ([currentSentence rangeOfString:@"WARNING: "].length == 0 | [currentSentence rangeOfString:@"SRT"].length == 0)
+    	    if ([currentSentence rangeOfString:@"WARNING: "].length == 0 || [currentSentence rangeOfString:@"SRT"].length == 0)
     	    {
 	    	    if (!subtitleString)
     	    	    subtitleString = currentSentence;
@@ -1943,7 +1951,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    
     	    if ([component rangeOfString:@"TrackID"].length > 0)
     	    {
-	    	    if ([component rangeOfString:@"sbtl:"].length > 0 | [component rangeOfString:@"text:"].length > 0)
+	    	    if ([component rangeOfString:@"sbtl:"].length > 0 || [component rangeOfString:@"text:"].length > 0)
 	    	    {
     	    	    NSString *trackID = [[[[component componentsSeparatedByString:@"TrackID "] objectAtIndex:1] componentsSeparatedByString:@" -"] objectAtIndex:0];
     	    	    NSString *language = [[[[component componentsSeparatedByString:@"Language \""] objectAtIndex:1] componentsSeparatedByString:@"\""] objectAtIndex:0];
@@ -2228,23 +2236,23 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    
 	    //Note Kudish doesn't seem to work, don't know why :-(
 	    NSString *font = nil;
-	    if ([cyrillicLanguages containsObject:language] | [language isEqualTo:@"ell"] | [language isEqualTo:@"el"])
+	    if ([cyrillicLanguages containsObject:language] || [language isEqualTo:@"ell"] || [language isEqualTo:@"el"])
     	    font = @"Helvetica";
-	    else if ([language isEqualTo:@"cn"] | [language isEqualTo:@"zhs"])
+	    else if ([language isEqualTo:@"cn"] || [language isEqualTo:@"zhs"])
     	    font = @"Hei";
-	    else if ([language isEqualTo:@"ara"] | [language isEqualTo:@"ar"] | [language isEqualTo:@"som"] | [language isEqualTo:@"so"] | [language isEqualTo:@"kur"] | [language isEqualTo:@"ku"])
+	    else if ([language isEqualTo:@"ara"] || [language isEqualTo:@"ar"] || [language isEqualTo:@"som"] || [language isEqualTo:@"so"] || [language isEqualTo:@"kur"] || [language isEqualTo:@"ku"])
     	    font = @"AlBayan";
-	    else if ([language isEqualTo:@"heb"] | [language isEqualTo:@"he"] | [language isEqualTo:@"yid"] | [language isEqualTo:@"yi"])
+	    else if ([language isEqualTo:@"heb"] || [language isEqualTo:@"he"] || [language isEqualTo:@"yid"] || [language isEqualTo:@"yi"])
     	    font = @"Raanana";
-	    else if ([language isEqualTo:@"jpn"] | [language isEqualTo:@"ja"])
+	    else if ([language isEqualTo:@"jpn"] || [language isEqualTo:@"ja"])
     	    font = @"Osaka";
-	    else if ([language isEqualTo:@"tha"] | [language isEqualTo:@"th"])
+	    else if ([language isEqualTo:@"tha"] || [language isEqualTo:@"th"])
     	    font = @"Ayuthaya";
-	    else if ([language isEqualTo:@"kor"] | [language isEqualTo:@"ko"])
+	    else if ([language isEqualTo:@"kor"] || [language isEqualTo:@"ko"])
     	    font = @"AppleGothic";
-	    else if ([language isEqualTo:@"zh"] | [language isEqualTo:@"zht"])
+	    else if ([language isEqualTo:@"zh"] || [language isEqualTo:@"zht"])
     	    font = @"儷黑 Pro";
-	    else if ([language isEqualTo:@"hye"] | [language isEqualTo:@"hy"])
+	    else if ([language isEqualTo:@"hye"] || [language isEqualTo:@"hy"])
     	    font = @"MshtakanRegular";
 
 	    if (font == nil || ![defaultManager fileExistsAtPath:[fontPath stringByAppendingPathComponent:[font stringByAppendingPathExtension:@"ttf"]]])

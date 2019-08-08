@@ -19,6 +19,7 @@
 #import "MCFilter.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MCCommonMethods.h"
+#import "MCPresetDefaults.h"
 
 @interface MCPresetManager()
 
@@ -70,8 +71,6 @@
 /* Variables */
 @property (nonatomic, strong) NSArray *viewMappings;
 @property (nonatomic, strong) NSArray *preferenceMappings;
-@property (nonatomic, strong) NSArray *extraOptionMappings;
-@property (nonatomic, strong) NSArray *extraOptionDefaultValues;
 @property (nonatomic, strong) NSString *currentPresetPath;
 @property (nonatomic, strong) NSMutableDictionary *extraOptions;
 @property (nonatomic) NSModalSession session;
@@ -90,104 +89,19 @@ static MCPresetManager *_defaultManager = nil;
 
     if (self != nil)
     {
-	    _viewMappings = [[NSArray alloc] initWithObjects:	    @"-f",	    //1
-	    	    	    	    	    	    	    	    @"-vcodec", //2
-	    	    	    	    	    	    	    	    @"-b",	    //3
-	    	    	    	    	    	    	    	    @"-s",	    //4
-	    	    	    	    	    	    	    	    @"-r",	    //5
-	    	    	    	    	    	    	    	    @"-acodec", //6
-	    	    	    	    	    	    	    	    @"-ab",	    //7
-	    	    	    	    	    	    	    	    @"-ar",	    //8
-	    nil];
-	    
-	    _extraOptionMappings = [[NSArray alloc] initWithObjects:
-	    	    	    	    	    	    	    	    //Video
-	    	    	    	    	    	    	    	    @"Keep Aspect",    	    	    	    	    // Tag: 101
-	    	    	    	    	    	    	    	    @"Auto Aspect",    	    	    	    	    // Tag: 102
-	    	    	    	    	    	    	    	    @"Auto Size",    	    	    	    	    // Tag: 103
-	    	    	    	    	    	    	    	    
-	    	    	    	    	    	    	    	    //Subtitles
-	    	    	    	    	    	    	    	    @"Subtitle Type",	    	    	    	    // Tag: 104
-	    	    	    	    	    	    	    	    @"Subtitle Default Language",    	    	    // Tag: 105
-	    	    	    	    	    	    	    	    // Hardcoded
-	    	    	    	    	    	    	    	    @"Font",	    	    	    	    	    // Tag: 106
-	    	    	    	    	    	    	    	    @"Font Size",    	    	    	    	    // Tag: 107
-	    	    	    	    	    	    	    	    @"Color",	    	    	    	    	    // Tag: 108
-	    	    	    	    	    	    	    	    @"Horizontal Alignment",	    	    	    // Tag: 109
-	    	    	    	    	    	    	    	    @"Vertical Alignment",    	    	    	    // Tag: 110
-	    	    	    	    	    	    	    	    @"Left Margin",    	    	    	    	    // Tag: 111
-	    	    	    	    	    	    	    	    @"Right Margin",	    	    	    	    // Tag: 112
-	    	    	    	    	    	    	    	    @"Top Margin",    	    	    	    	    // Tag: 113
-	    	    	    	    	    	    	    	    @"Bottom Margin",	    	    	    	    // Tag: 114
-	    	    	    	    	    	    	    	    @"Method",	    	    	    	    	    // Tag: 115
-	    	    	    	    	    	    	    	    @"Box Color",    	    	    	    	    // Tag: 116
-	    	    	    	    	    	    	    	    @"Box Marge",    	    	    	    	    // Tag: 117
-	    	    	    	    	    	    	    	    @"Box Alpha Value",	    	    	    	    // Tag: 118
-	    	    	    	    	    	    	    	    @"Border Color",	    	    	    	    // Tag: 119
-	    	    	    	    	    	    	    	    @"Border Size",    	    	    	    	    // Tag: 120
-	    	    	    	    	    	    	    	    @"Alpha Value",    	    	    	    	    // Tag: 121
-	    	    	    	    	    	    	    	    // DVD
-	    	    	    	    	    	    	    	    @"Subtitle Font",	    	    	    	    // Tag: 122
-	    	    	    	    	    	    	    	    @"Subtitle Font Size",    	    	    	    // Tag: 123
-	    	    	    	    	    	    	    	    @"Subtitle Horizontal Alignment",	    	    // Tag: 124
-	    	    	    	    	    	    	    	    @"Subtitle Vertical Alignment",    	    	    // Tag: 125
-	    	    	    	    	    	    	    	    @"Subtitle Left Margin",	    	    	    // Tag: 126
-	    	    	    	    	    	    	    	    @"Subtitle Right Margin",	    	    	    // Tag: 127
-	    	    	    	    	    	    	    	    @"Subtitle Top Margin",    	    	    	    // Tag: 128
-	    	    	    	    	    	    	    	    @"Subtitle Bottom Margin",	    	    	    // Tag: 129
-	    	    	    	    	    	    	    	    
-	    	    	    	    	    	    	    	    //Advanced
-	    	    	    	    	    	    	    	    @"Two Pass",    	    	    	    	    // Tag: 130
-	    	    	    	    	    	    	    	    @"Start Atom",    	    	    	    	    // Tag: 131
-	    nil];
-	    
-	    _extraOptionDefaultValues = [[NSArray alloc] initWithObjects:
-	    	    	    	    	    	    	    	    //Video
-	    	    	    	    	    	    	    	    [NSNumber numberWithInt:1],    	    	    	    	    	    // Keep Aspect
-	    	    	    	    	    	    	    	    [NSNumber numberWithBool:NO],	    	    	    	    	    // Auto Aspect
-	    	    	    	    	    	    	    	    [NSNumber numberWithBool:NO],	    	    	    	    	    // Auto Size
-	    	    	    	    	    	    	    	    
-	    	    	    	    	    	    	    	    //Subtitles
-	    	    	    	    	    	    	    	    @"Subtitle Type",    	    	    	    	    	    	    // Subtitle Type
-	    	    	    	    	    	    	    	    @"Subtitle Default Language",	    	    	    	    	    // Subtitle Default Language
-	    	    	    	    	    	    	    	    // Hardcoded
-	    	    	    	    	    	    	    	    @"Helvetica",	    	    	    	    	    	    	    // Font
-	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:24],    	    	    	    	    // Font Size
-	    	    	    	    	    	    	    	    [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]],	    // Color
-	    	    	    	    	    	    	    	    @"center",    	    	    	    	    	    	    	    // Horizontal Alignment
-	    	    	    	    	    	    	    	    @"bottom",    	    	    	    	    	    	    	    // Vertical Alignment
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],	    	    	    	    	    // Left Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],	    	    	    	    	    // Right Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],	    	    	    	    	    // Top Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],	    	    	    	    	    // Bottom Margin
-	    	    	    	    	    	    	    	    @"border",    	    	    	    	    	    	    	    // Method
-	    	    	    	    	    	    	    	    [NSArchiver archivedDataWithRootObject:[NSColor darkGrayColor]],    // Box Color
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:10],    	    	    	    	    // Box Marge
-	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:0.50],    	    	    	    	    // Box Alpha Value
-	    	    	    	    	    	    	    	    [NSArchiver archivedDataWithRootObject:[NSColor blackColor]],	    // Border Color
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:4],	    	    	    	    	    // Border Size
-	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:1.0],    	    	    	    	    // Alpha Value
-	    	    	    	    	    	    	    	    // DVD
-	    	    	    	    	    	    	    	    @"Helvetica",	    	    	    	    	    	    	    // Subtitle Font
-	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:24],    	    	    	    	    // Subtitle Font Size
-	    	    	    	    	    	    	    	    @"center",    	    	    	    	    	    	    	    // Subtitle Horizontal Alignment
-	    	    	    	    	    	    	    	    @"bottom",    	    	    	    	    	    	    	    // Subtitle Vertical Alignment
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:60],    	    	    	    	    // Subtitle Left Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:60],    	    	    	    	    // Subtitle Right Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:20],    	    	    	    	    // Subtitle Top Margin
-	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],    	    	    	    	    // Subtitle Bottom Margin
-	    	    	    	    	    	    	    	    
-	    	    	    	    	    	    	    	    //Advanced
-	    	    	    	    	    	    	    	    [NSNumber numberWithBool:NO],	    	    	    	    	    // Two Pass
-	    	    	    	    	    	    	    	    [NSNumber numberWithBool:NO],	    	    	    	    	    // Start Atom
+	    _viewMappings = [[NSArray alloc] initWithObjects:   @"-f",	    //1
+                                                            @"-vcodec", //2
+                                                            @"-b",	    //3
+                                                            @"-s",	    //4
+                                                            @"-r",	    //5
+                                                            @"-acodec", //6
+                                                            @"-ab",	    //7
+                                                            @"-ar",	    //8
 	    nil];
 	    
 	    _darkBackground = NO;
 	    
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^
-        {
-            [[NSBundle mainBundle] loadNibNamed:@"MCPresetManager" owner:self topLevelObjects:nil];
-        }];
+        [[NSBundle mainBundle] loadNibNamed:@"MCPresetManager" owner:self topLevelObjects:nil];
     }
 
     return self;
@@ -238,7 +152,7 @@ static MCPresetManager *_defaultManager = nil;
     [[self nameField] setStringValue:presetDictionary[@"Name"]];
     [[self extensionField] setStringValue:presetDictionary[@"Extension"]];
     
-    NSArray *options = [presetDictionary objectForKey:@"Encoder Options"];
+    NSArray *options = presetDictionary[@"Encoder Options"];
     
     NSPanel *presetsPanel = [self presetsPanel];
 
@@ -246,13 +160,13 @@ static MCPresetManager *_defaultManager = nil;
 
     [self setExtraOptions:[presetDictionary[@"Extra Options"] mutableCopy]];
     
-    NSArray *extraOptionMappings = [self extraOptionMappings];
-    [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[presetsPanel contentView], [self DVDSettingsView], [self hardcodedSettingsView], nil] infoObject:[self extraOptions] fallbackInfo:[NSDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:extraOptionMappings] mappingsObject:extraOptionMappings startCount:100];
+    NSArray *extraOptionMappings = [[MCPresetDefaults standardDefaults] extraOptionMappings];
+    [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[presetsPanel contentView], [self DVDSettingsView], [self hardcodedSettingsView], nil] infoObject:[self extraOptions] fallbackInfo:[NSDictionary dictionaryWithObjects:[[MCPresetDefaults standardDefaults] extraOptionDefaultValues] forKeys:extraOptionMappings] mappingsObject:extraOptionMappings startCount:100];
     
     NSMutableArray *filters;
     
     if ([[presetDictionary allKeys] containsObject:@"Video Filters"])
-	    filters = [NSMutableArray arrayWithArray:[presetDictionary objectForKey:@"Video Filters"]];
+	    filters = [NSMutableArray arrayWithArray:presetDictionary[@"Video Filters"]];
     else
 	    filters = [NSMutableArray array];
     
@@ -261,7 +175,7 @@ static MCPresetManager *_defaultManager = nil;
     [self setSubtitleKind:nil];
     [self setHarcodedVisibility:nil];
 	    
-    NSString *aspectString = [options objectForKey:@"-vf"];
+    NSString *aspectString = options[@"-vf"];
 	    
     if (aspectString)
     {
@@ -278,9 +192,9 @@ static MCPresetManager *_defaultManager = nil;
     [[self aspectRatioButton] setState:[[NSNumber numberWithBool:(aspectString != nil)] integerValue]];
     
     NSPopUpButton *modePopup = [self modePopup];
-    if ([options containsObject:[NSDictionary dictionaryWithObject:@"1" forKey:@"-ac"]])
+    if ([options containsObject:@{@"-ac": @"1"}])
 	    [modePopup selectItemAtIndex:0];
-    else if ([options containsObject:[NSDictionary dictionaryWithObject:@"2" forKey:@"-ac"]])
+    else if ([options containsObject:@{@"-ac": @"2"}])
 	    [modePopup selectItemAtIndex:1];
     else
 	    [modePopup selectItemAtIndex:3];
@@ -305,7 +219,7 @@ static MCPresetManager *_defaultManager = nil;
 - (void)savePresetForWindow:(NSWindow *)window withPresetPath:(NSString *)path
 {
     NSDictionary *presetDictionary = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSString *name = [presetDictionary objectForKey:@"Name"];
+    NSString *name = presetDictionary[@"Name"];
 
     NSSavePanel *sheet = [NSSavePanel savePanel];
     [sheet setAllowedFileTypes:@[@"mcpreset"]];
@@ -320,7 +234,9 @@ static MCPresetManager *_defaultManager = nil;
             BOOL result = [MCCommonMethods writeDictionary:presetDictionary toFile:[[sheet URL] path] errorString:&error];
 
             if (result == NO)
+            {
                 [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed save preset file", nil) withInformationText:error withParentWindow:nil withDetails:nil];
+            }
         }
     }];
 }
@@ -330,22 +246,20 @@ static MCPresetManager *_defaultManager = nil;
     NSInteger numberOfFiles = [paths count];
     NSMutableArray *names = [NSMutableArray array];
     NSMutableArray *dictionaries = [NSMutableArray array];
-
-    NSInteger i;
-    for (i = 0; i < numberOfFiles; i ++)
+    
+    for (NSString *path in paths)
     {
-	    NSString *path = [paths objectAtIndex:i];
 	    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
     	    
 	    if (dictionary)
 	    {
-    	    [names addObject:[dictionary objectForKey:@"Name"]];
+    	    [names addObject:dictionary[@"Name"]];
     	    [dictionaries addObject:dictionary];
 	    }
     }
 	    
     NSInteger numberOfDicts = [dictionaries count];
-    if (numberOfDicts == 0 | numberOfDicts < numberOfFiles)
+    if (numberOfDicts == 0 || numberOfDicts < numberOfFiles)
     {
 	    NSAlert *alert = [[NSAlert alloc] init];
     	    
@@ -357,7 +271,7 @@ static MCPresetManager *_defaultManager = nil;
 	    {
     	    [alert addButtonWithTitle:NSLocalizedString(@"Continue", nil)];
     	    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    	    [[[alert buttons] objectAtIndex:1] setKeyEquivalent:@"\E"];
+    	    [[alert buttons][1] setKeyEquivalent:@"\E"];
 	    }
 	    
 	    NSString *warningString;
@@ -375,13 +289,15 @@ static MCPresetManager *_defaultManager = nil;
 	    }
     	    
 	    if (numberOfDicts > 0)
+        {
     	    detailsString = [NSString stringWithFormat:NSLocalizedString(@"%@ Would you like to continue?", nil), detailsString];
+        }
 	    
 	    [alert setMessageText:warningString];
 	    [alert setInformativeText:detailsString];
 	    NSInteger result = [alert runModal];
 
-	    if (result != NSAlertFirstButtonReturn | numberOfDicts == 0)
+	    if (result != NSAlertFirstButtonReturn || numberOfDicts == 0)
 	    {
     	    return 0;
 	    }
@@ -516,10 +432,14 @@ static MCPresetManager *_defaultManager = nil;
 	    NSString *filePath;
 	    
 	    if (editingPreset)
+        {
     	    filePath = currentPresetPath;
-	    else
+        }
+        else
+        {
     	    filePath = [MCCommonMethods uniquePathNameFromPath:[[savePath stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"mcpreset"] withSeperator:@" "];
-	    
+        }
+        
 	    NSString *error = NSLocalizedString(@"An unkown error occured", nil);
 	    BOOL result = [MCCommonMethods writeDictionary:dictionary toFile:filePath errorString:&error];
 	    
@@ -539,26 +459,27 @@ static MCPresetManager *_defaultManager = nil;
 - (NSMutableDictionary *)presetDictionary
 {
     NSMutableDictionary *presetDictionary;
-    NSString *name;
+    // TODO: why is name never used???
+//    NSString *name;
     NSString *currentPresetPath = [self currentPresetPath];
     
     if (!currentPresetPath)
     {
 	    presetDictionary = [NSMutableDictionary dictionary];
-	    name = [[self nameField] stringValue];
+//        name = [[self nameField] stringValue];
     }
     else
     {
 	    presetDictionary = [NSMutableDictionary dictionaryWithContentsOfFile:currentPresetPath];
-	    name = [NSString stringWithString:[presetDictionary objectForKey:@"Name"]];
+//        name = [NSString stringWithString:[presetDictionary objectForKey:@"Name"]];
     }
     
-    [presetDictionary setObject:[[self nameField] stringValue] forKey:@"Name"];
-    [presetDictionary setObject:@"1.3" forKey:@"Version"];
-    [presetDictionary setObject:[[self extensionField] stringValue] forKey:@"Extension"];
-    [presetDictionary setObject:[[self optionDelegate] options] forKey:@"Encoder Options"];
-    [presetDictionary setObject:[self extraOptions] forKey:@"Extra Options"];
-    [presetDictionary setObject:[[self filterDelegate] filterOptions] forKey:@"Video Filters"];
+    presetDictionary[@"Name"] = [[self nameField] stringValue];
+    presetDictionary[@"Version"] = @"1.3";
+    presetDictionary[@"Extension"] = [[self extensionField] stringValue];
+    presetDictionary[@"Encoder Options"] = [[self optionDelegate] options];
+    presetDictionary[@"Extra Options"] = [self extraOptions];
+    presetDictionary[@"Video Filters"] = [[self filterDelegate] filterOptions];
     
     return presetDictionary;
 }
@@ -591,7 +512,9 @@ static MCPresetManager *_defaultManager = nil;
     }
     
     if (shouldExpand)
+    {
 	    [presetsPanel setFrame:NSMakeRect(windowFrame.origin.x, newY, windowFrame.size.width, newHeight) display:YES animate:YES];
+    }
     
     [[[self advancedTableView] enclosingScrollView] setHidden:(!shouldExpand)];
     [[self advancedAddButton] setHidden:(!shouldExpand)];
@@ -599,7 +522,9 @@ static MCPresetManager *_defaultManager = nil;
     [[self advancedBarButton] setHidden:(!shouldExpand)];
     
     if (!shouldExpand)
+    {
 	    [presetsPanel setFrame:NSMakeRect(windowFrame.origin.x, newY, windowFrame.size.width, newHeight) display:YES animate:YES];
+    }
 }
 
 - (IBAction)setOption:(id)sender
@@ -623,9 +548,13 @@ static MCPresetManager *_defaultManager = nil;
     	    }
     	    
     	    if ([option isEqualTo:@"-acodec"])
+            {
 	    	    [advancedOptions setObject:@"" forKey:@"-an"];
+            }
     	    else
+            {
 	    	    [advancedOptions setObject:@"" forKey:@"-vn"];
+            }
 	    	    
     	    [[self advancedTableView] reloadData];
 	    	    
@@ -636,20 +565,26 @@ static MCPresetManager *_defaultManager = nil;
     	    NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-an"]];
     	    
     	    if (index != NSNotFound)
+            {
 	    	    [advancedOptions removeObjectAtIndex:index];
+            }
 	    }
 	    else if ([option isEqualTo:@"-vcodec"])
 	    {
     	    NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-vn"]];
     	    
     	    if (index != NSNotFound)
+            {
 	    	    [advancedOptions removeObjectAtIndex:index];
+            }
 	    }
     }
     else
     {
 	    if ([sender objectValue])
+        {
     	    settings = [sender stringValue];
+        }
     }
 
     [advancedOptions setObject:settings forKey:option];
@@ -659,7 +594,7 @@ static MCPresetManager *_defaultManager = nil;
 - (IBAction)setExtraOption:(id)sender
 {
     NSInteger index = [sender tag] - 101;
-    NSString *option = [[self extraOptionMappings] objectAtIndex:index];
+    NSString *option = [[[MCPresetDefaults standardDefaults] extraOptionMappings] objectAtIndex:index];
 
     [[self extraOptions] setObject:[sender objectValue] forKey:option];
     [[self advancedTableView] reloadData];
@@ -784,7 +719,9 @@ static MCPresetManager *_defaultManager = nil;
     NSString *settings = [extraOptions objectForKey:@"Subtitle Type"];
 
     if (settings == nil)
+    {
 	    settings = @"";
+    }
     
     BOOL isDVD = ([settings isEqualTo:@"dvd"]);
     BOOL isHardcoded = ([settings isEqualTo:@"hard"]);
@@ -796,18 +733,17 @@ static MCPresetManager *_defaultManager = nil;
     NSArray *subviews = [subtitleSettingsView subviews];
     
     if ([subviews containsObject:DVDSettingsView])
-	    [DVDSettingsView removeFromSuperview];
-    else if ([subviews containsObject:hardcodedSettingsView])
-	    [hardcodedSettingsView removeFromSuperview];
-    
-    if (isDVD | isHardcoded)
     {
-	    NSView *subview;
-	    if (isDVD)
-    	    subview = DVDSettingsView;
-	    else
-    	    subview = hardcodedSettingsView;
-
+	    [DVDSettingsView removeFromSuperview];
+    }
+    else if ([subviews containsObject:hardcodedSettingsView])
+    {
+	    [hardcodedSettingsView removeFromSuperview];
+    }
+    
+    if (isDVD || isHardcoded)
+    {
+	    NSView *subview = isDVD ? DVDSettingsView : hardcodedSettingsView;
 	    [subview setFrame:NSMakeRect(0, [subtitleSettingsView frame].size.height - [subview frame].size.height, [subview frame].size.width, [subview frame].size.height)];
 	    [subtitleSettingsView addSubview:subview];
 	    
@@ -826,16 +762,22 @@ static MCPresetManager *_defaultManager = nil;
     
     //Seems when editing a preset from the main window, we have to try until we're woken from the NIB
     while (selectedIndex == -1)
+    {
 	    selectedIndex = [hardcodedVisiblePopup indexOfSelectedItem];
+    }
     
     NSTabView *hardcodedMethodTabView = [self hardcodedMethodTabView];
     if (selectedIndex < 2)
+    {
 	    [hardcodedMethodTabView selectTabViewItemAtIndex:selectedIndex];
+    }
 	    
     [hardcodedMethodTabView setHidden:(selectedIndex == 2)];
 
     if (sender != nil)
+    {
 	    [self setExtraOption:sender];
+    }
 }
 
 /////////////////////
@@ -847,29 +789,30 @@ static MCPresetManager *_defaultManager = nil;
 
 - (void)updatePreview
 {
-    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:[self extraOptionMappings]];
+    MCPresetDefaults *standardDefaults = [MCPresetDefaults standardDefaults];
+    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[standardDefaults extraOptionDefaultValues] forKeys:[standardDefaults extraOptionMappings]];
     [settings addEntriesFromDictionary:[self extraOptions]];
     
-    NSString *backgroundName = @"Sintel-frame";
-    if ([self darkBackground] == YES)
-	    backgroundName = @"Sintel-frame-dark";
-    
+    NSString *backgroundName = [self darkBackground] ? @"Sintel-frame-dark" : @"Sintel-frame";
     NSImageView *previewImageView = [self previewImageView];
     
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:backgroundName ofType:@"jpg"];
     NSData *imageData = [[NSData alloc] initWithContentsOfFile:imagePath];
     CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)imageData);
     CGImageRef backgroundImage = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
+    CGDataProviderRelease(imgDataProvider);
     
-    CGImageRef previewImage = [self previewBackgroundWithImage:backgroundImage forSize:[previewImageView frame].size];
+    CGImageRef previewImage = [self newPreviewBackgroundWithImage:backgroundImage forSize:[previewImageView frame].size];
     CGImageRelease(backgroundImage);
     
     size_t imageWidth = CGImageGetWidth(previewImage);
     size_t imageHeight = CGImageGetHeight(previewImage);
     NSSize imageSize = NSMakeSize(imageWidth, imageHeight);
-    CGImageRef filterImage = [[self filterDelegate] previewImageWithSize:imageSize];
+    CGImageRef filterImage = [[self filterDelegate] newPreviewImageWithSize:imageSize];
     
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, imageSize.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, imageSize.width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
     
     CGContextDrawImage(bitmapContext, CGRectMake(0.0, 0.0, imageWidth, imageHeight), previewImage);
     CGImageRelease(previewImage);
@@ -878,15 +821,15 @@ static MCPresetManager *_defaultManager = nil;
     
     if ([[settings objectForKey:@"Subtitle Type"] isEqualTo:@"hard"])
     {
-        CGImageRef subtitleImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings size:imageSize];
+        CGImageRef subtitleImage = [MCCommonMethods newOverlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings size:imageSize];
         CGContextDrawImage(bitmapContext, CGRectMake(0.0, 0.0, imageWidth, imageHeight), subtitleImage);
         CGImageRelease(subtitleImage);
     }
     
     CGImageRef finalImageRef = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
     NSImage *finalImage = [[NSImage alloc] initWithCGImage:finalImageRef size:imageSize];
     CGImageRelease(finalImageRef);
-    CGContextRelease(bitmapContext);
     
     [previewImageView setImage:finalImage];
     [previewImageView display];
@@ -896,18 +839,26 @@ static MCPresetManager *_defaultManager = nil;
 {
     NSPanel *previewPanel = [self previewPanel];
     if ([previewPanel isVisible])
+    {
 	    [previewPanel orderOut:nil];
+    }
     else
+    {
 	    [previewPanel orderFront:nil];
+    }
 }
 
 - (void)reloadHardcodedPreview
 {
-    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:[self extraOptionMappings]];
-    [settings addEntriesFromDictionary:[self extraOptions]];
-    
+//    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:[self extraOptionMappings]];
+//    [settings addEntriesFromDictionary:[self extraOptions]];
+//
+//
+//
+//
+//    CGImageRef previewImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings inputImage:[NSImage imageNamed:@"Sintel-frame"]];
+//
 //    NSImageView *previewImageView = [self previewImageView];
-//    NSImage *previewImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings inputImage:[NSImage imageNamed:@"Sintel-frame"]];
 //    [previewImageView setImage:previewImage];
 //    [previewImageView display];
 }
@@ -918,17 +869,17 @@ static MCPresetManager *_defaultManager = nil;
     [self updatePreview];
 }
 
-- (CGImageRef)previewBackgroundWithImage:(CGImageRef)image forSize:(NSSize)size
+- (CGImageRef)newPreviewBackgroundWithImage:(CGImageRef)image forSize:(NSSize)size
 {
     size_t width = CGImageGetWidth(image);
     size_t height = CGImageGetHeight(image);
     NSSize imageSize = NSMakeSize(width, height);
     CGFloat imageAspect = imageSize.width / imageSize.height;
     CGFloat outputAspect = size.width / size.height;
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
     
-    CGContextSetFillColorWithColor(bitmapContext, CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0));
-    CGContextFillRect(bitmapContext, CGRectMake(0.0, 0.0, size.width, size.height));
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
     
     // Height is smaller
     if (outputAspect > imageAspect)
@@ -942,7 +893,9 @@ static MCPresetManager *_defaultManager = nil;
         CGContextDrawImage(bitmapContext, NSMakeRect(0 - x, 0, size.width + x, size.height), image);
     }
     
-    return CGBitmapContextCreateImage(bitmapContext);
+    CGImageRef previewBackgroundImage = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+    return previewBackgroundImage;;
 }
 
 ///////////////////
@@ -1032,7 +985,7 @@ static MCPresetManager *_defaultManager = nil;
                                                             NSLocalizedString(@"SRT (External)", nil),
     nil];
     
-    NSArray *subtitleFormats = [NSArray arrayWithObjects:    @"none",
+    NSArray *subtitleFormats = [NSArray arrayWithObjects:   @"none",
                                                             @"",
                                                             @"hard",
                                                             @"dvd",
@@ -1125,12 +1078,9 @@ static MCPresetManager *_defaultManager = nil;
         
         NSMutableArray *fontDictionaries = [NSMutableArray array];
         NSArray *fonts = [defaultManager subpathsAtPath:fontPath];
-
-        NSInteger y;
-        for (y = 0; y < [fonts count]; y ++)
+        
+        for (NSString *font in fonts)
         {
-            NSString *font = [fonts objectAtIndex:y];
-            
             if ([[font pathExtension] isEqualTo:@"ttf"])
             {
                     NSString *fontName = [font stringByDeletingPathExtension];
@@ -1138,18 +1088,18 @@ static MCPresetManager *_defaultManager = nil;
                 
                     if (newFont)
                     {
-                    NSAttributedString *titleString;
-                    NSMutableDictionary *titleAttr = [NSMutableDictionary dictionary];
-                    [titleAttr setObject:newFont forKey:NSFontAttributeName];
-                    titleString = [[NSAttributedString alloc] initWithString:[newFont displayName] attributes:titleAttr];
+                        NSAttributedString *titleString;
+                        NSMutableDictionary *titleAttr = [NSMutableDictionary dictionary];
+                        [titleAttr setObject:newFont forKey:NSFontAttributeName];
+                        titleString = [[NSAttributedString alloc] initWithString:[newFont displayName] attributes:titleAttr];
 
-                    [fontDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:titleString, @"Name", fontName, @"Format", nil]];
-                    
-                    titleString = nil;
+                        [fontDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:titleString, @"Name", fontName, @"Format", nil]];
+                        
+                        titleString = nil;
                     }
                     else
                     {
-                    [fontDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"%@ (no preview)", nil), fontName], @"Name", fontName, @"Format", nil]];
+                        [fontDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"%@ (no preview)", nil), fontName], @"Name", fontName, @"Format", nil]];
                     }
             }
         }
@@ -1162,11 +1112,6 @@ static MCPresetManager *_defaultManager = nil;
             [fontPopup setEnabled:YES];
         }];
     }];
-}
-
-- (NSDictionary *)defaults
-{
-    return [NSDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:[self extraOptionMappings]];
 }
 
 @end

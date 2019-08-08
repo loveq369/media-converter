@@ -53,12 +53,12 @@
 	    return NO;
     }
 	    
-    if (([self selectedRow] == -1) && (aSelector == @selector(duplicate:) | aSelector == @selector(delete:)))
+    if (([self selectedRow] == -1) && (aSelector == @selector(duplicate:) || aSelector == @selector(delete:)))
     {
 	    return NO;
     }
     
-    return ([super respondsToSelector:aSelector] | [[self delegate] respondsToSelector:aSelector]);
+    return ([super respondsToSelector:aSelector] || [[self delegate] respondsToSelector:aSelector]);
 }
 
 - (void)reloadData
