@@ -184,7 +184,10 @@ static MCPresetManager *_defaultManager = nil;
 	    
 	    _darkBackground = NO;
 	    
-        [[NSBundle mainBundle] loadNibNamed:@"MCPresetManager" owner:self topLevelObjects:nil];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"MCPresetManager" owner:self topLevelObjects:nil];
+        }];
     }
 
     return self;

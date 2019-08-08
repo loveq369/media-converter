@@ -1424,6 +1424,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    subtitlePath = [subtitlePaths objectAtIndex:0];
 
     	    [self createSubtitleMovieAtPath:path withOptions:options subtitleFile:subtitlePath withSize:size];
+            NSLog(@"path: %@", path);
 	    }
     }
     else if ([type isEqualTo:@"mp4"])
@@ -1621,18 +1622,12 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    srtFile = [NSString stringWithFormat:@"<br>%@", srtFile];
     
     //Create a empty image used between subtitles (do some bogus drawing so it can be saved or served to pipe
-    NSImage *emptyImage = [[NSImage alloc] initWithSize:size];
-    [emptyImage lockFocus];
-    NSBezierPath *emptyPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0, 0, 0, 0)];
-    [emptyPath fill]; 
-    [emptyImage unlockFocus];
-	    
-    NSData *tiffData = [emptyImage TIFFRepresentation];
-    NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
-    NSData *emptyImageData = [bitmap representationUsingType:NSPNGFileType properties:@{}];
-    
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+    CGImageRef emptyImage = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
     NSString *emptyImagePath = [temporaryFolder stringByAppendingPathComponent:@"empty.png"];
-    [emptyImageData writeToFile:emptyImagePath atomically:YES];
+    CGImageWriteToFile(emptyImage, emptyImagePath);
+    CGImageRelease(emptyImage);
     
     //Create a filehandle to write all movie data to
     [[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil];
@@ -1704,18 +1699,15 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 
 	    while ([string length] > 4 && [[string substringWithRange:NSMakeRange([string length] - 4, 4)] isEqualTo:@"<br>"])
     	    string = [string substringWithRange:NSMakeRange(0, [string length] - 4)];
-	    
-	    NSImage *subImage = [[NSImage alloc] initWithSize:size];
-	    
+        
 	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetManager defaultManager] defaults]];
 	    [defaultSettings addEntriesFromDictionary:[convertOptions objectForKey:@"Extra Options"]];
 	    
 	    CGImageRef image = [MCCommonMethods overlayImageWithObject:string withSettings:defaultSettings size:size];
 	    
-	    subImage = nil;
-	    
 	    NSString *imagePath = [temporaryFolder stringByAppendingPathComponent:@"not-empty.png"];
         CGImageWriteToFile(image, imagePath);
+        CGImageRelease(image);
 
 	    ffmpeg = [[NSTask alloc] init];
 	    [ffmpeg setLaunchPath:[MCCommonMethods ffmpegPath]];
