@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="donate.css" title="default" type="text/css" />
+
+    <title>Doneer</title>
+</head>
+
+<body>
+    <table class="t1" border="0" cellpadding="20" cellspacing="0">
+        <tr>
+            <td>
+                <table class="t1" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><div id="kiwi-donate-icon"></td>
+
+                        <td class="c1"><b><big><big><big>Media Omzetter.</big></big></big> Simpel maar geavanceerd omzetten voor Mac OS X</b></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="c1">
+                <table class="t2" border="0" cellpadding="0" cellspacing="10">
+                    <tr>
+                        <td class="c2">
+                            <h3>Alvast bedankt voor uw donatie!</h3><br>
+                            Maak een donatie met PayPal:
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="c6">
+                            <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                                <input name="cmd" value="_xclick" type="hidden"> <input name="business" value="support@kiwifruitware.tk" type="hidden"> <input name="item_name" value="Donatie aan Media Omzetter" type="hidden"> Munteenheid:  <select name="currency_code" size="1">
+                                    <option value="AUD">
+                                        Australische Dollars
+                                    </option>
+
+                                    <option value="USD">
+                                        USD
+                                    </option>
+
+                                    <option value="GBP">
+                                        Britse Pont
+                                    </option>
+
+                                    <option value="CAD">
+                                        Canadese Dollars
+                                    </option>
+
+                                    <option value="CZK">
+                                        Tjechische Kronen
+                                    </option>
+
+                                    <option value="DKK">
+                                        Deense Kronen
+                                    </option>
+
+                                    <option selected="selected" value="EUR">
+                                        Euro
+                                    </option>
+
+                                    <option value="HKD">
+                                        Hong Kongse Dollars
+                                    </option>
+
+                                    <option value="HUF">
+                                        Hongarijse Forint
+                                    </option>
+
+                                    <option value="ILS">
+                                        Isralische Nieuwe Shekel
+                                    </option>
+
+                                    <option value="JPY">
+                                        Japanse YEN
+                                    </option>
+
+                                    <option value="MXN">
+                                        Mexicaanse Peso
+                                    </option>
+
+                                    <option value="NZD">
+                                        Nieuw-Zeelandse Dollars
+                                    </option>
+
+                                    <option value="NOK">
+                                        Norweegse Kroner
+                                    </option>
+
+                                    <option value="PLN">
+                                        Polse Zlotych
+                                    </option>
+
+                                    <option value="SGD">
+                                        Singaporse Dollars
+                                    </option>
+
+                                    <option value="SEK">
+                                        Zweedse Kronor
+                                    </option>
+
+                                    <option value="CHF">
+                                        Zwitserse Francs
+                                    </option>
+                                </select><br>
+                                <br>
+
+                                <div class="c5">
+                                    <button onclick="_xclick;">Doneer</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

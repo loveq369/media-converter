@@ -9,12 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "MCCommonMethods.h"
 
-
+/**
+ *  A progress slider that updates percentage on a text field
+ */
 @interface MCProgressSlider : NSSlider
-{
-	IBOutlet id statusText;
-}
-
-- (void)setText:(CGFloat)value;
 
 @end

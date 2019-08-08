@@ -1,0 +1,82 @@
+// Preferences Window
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "1"; */
+"1.title" = "Voorkeuren";
+
+// General
+
+/* Class = "NSButtonCell"; title = "Use Sound Effects"; ObjectID = "8"; */
+"8.title" = "Gebruik geluidseffecten";
+
+/* Class = "NSTextFieldCell"; title = "Save Folder:"; ObjectID = "12"; */
+"12.title" = "Bewaar locatie:";
+
+/* Class = "NSMenuItem"; title = "Ask Every Time"; ObjectID = "17"; */
+"17.title" = "Vraag elke keer";
+
+/* Class = "NSMenuItem"; title = "Choose…"; ObjectID = "18"; */
+"18.title" = "Kies…";
+
+/* Class = "NSTextFieldCell"; title = "Install Location:"; ObjectID = "270"; */
+"270.title" = "Installeer locatie:";
+
+/* Class = "NSMenuItem"; title = "Ask Every Time"; ObjectID = "266"; */
+"266.title" = "Vraag elke keer";
+
+/* Class = "NSMenuItem"; title = "All Users"; ObjectID = "267"; */
+"267.title" = "Alle gebruikers";
+
+/* Class = "NSMenuItem"; title = "Curent User"; ObjectID = "268"; */
+"268.title" = "Huidige gebruiker";
+
+/* Class = "NSTextFieldCell"; title = "Default Subtitle Language:"; ObjectID = "661"; */
+"661.title" = "Standaard ondertitelingstaal:";
+
+// Presets
+
+/* Class = "NSTableColumn"; headerCell.title = "Preset"; ObjectID = "47"; */
+"47.headerCell.title" = "Voorinstelling";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "1526"; */
+"1526.ibExternalAccessibilityDescription" = "Wis";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Delete selected presets"; ObjectID = "1526"; */
+"1526.ibExternalAccessibilityHelp" = "Wis geselecteerde voorinstellingen";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Add"; ObjectID = "1527"; */
+"1527.ibExternalAccessibilityDescription" = "Voeg toe";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Add new presets"; ObjectID = "1527"; */
+"1527.ibExternalAccessibilityHelp" = "Voeg nieuwe voorinstellingen toe";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Actions"; ObjectID = "1528"; */
+"1528.ibExternalAccessibilityDescription" = "Acties";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Show context menu with preset actions"; ObjectID = "1528"; */
+"1528.ibExternalAccessibilityHelp" = "Toon context menu met voorinstelling acties";
+
+/* Class = "NSButtonCell"; title = "Get More Presets"; ObjectID = "316"; */
+"316.title" = "Meer voorinstellingen…";
+
+// Advanced
+
+/* Class = "NSButtonCell"; title = "Turn on Logging"; ObjectID = "35"; */
+"35.title" = "Zet loggen aan";
+
+/* Class = "NSButtonCell"; title = "Use Custom FFmpeg Binary"; ObjectID = "37"; */
+"37.title" = "Gebruik andere FFmpeg";
+
+/* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "41"; */
+"41.title" = "Kies…";
+
+/* Class = "NSButtonCell"; title = "Rebuild Fonts…"; ObjectID = "665"; */
+"665.title" = "Stel lettertypes opnieuw in…";
+
+
+// Add Panel
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "305"; */
+"305.title" = "Annuleer";
+
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "303"; */
+"303.title" = "Voeg toe";

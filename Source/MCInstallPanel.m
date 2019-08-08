@@ -8,41 +8,74 @@
 
 #import "MCInstallPanel.h"
 #import "MCCommonMethods.h"
-#import "NSNumber_Extensions.h"
 
+@interface MCInstallPanel()
+
+@property (nonatomic, weak) IBOutlet NSPanel *installModePanel;
+@property (nonatomic, weak) IBOutlet NSPopUpButton *installModePopup;
+@property (nonatomic, weak) IBOutlet NSButton *suppressButton;
+@property (nonatomic, weak) IBOutlet NSTextField *taskField;
+
+@end
 
 @implementation MCInstallPanel
 
-- (id)init
+- (instancetype)init
 {
-	self = [super init];
-	
-	[NSBundle loadNibNamed:@"MCInstallPanel" owner:self];
+    self = [super init];
+    
+    if (self != nil)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"MCInstallPanel" owner:self topLevelObjects:nil];
+    }
 
-	return self;
+    return self;
 }
 
-- (NSString *)installLocation
++ (MCInstallPanel *)installPanel
 {
-	NSInteger installMode = [[[NSUserDefaults standardUserDefaults] objectForKey:@"MCInstallMode"] integerValue];
-		
-	if (installMode == 0)
-	{
-		[NSApp runModalForWindow:installModePanel];
-		[installModePanel orderOut:self];
-				
-		installMode = [installModePopup indexOfSelectedItem] + 1;
-	}
-			
-	if (installMode == 1)
-		return @"/Library/Application Support";
-	else
-		return [@"~/Library/Application Support" stringByExpandingTildeInPath];
+    static MCInstallPanel *installPanel = nil;
+    static dispatch_once_t onceToken = 0;
+
+    dispatch_once(&onceToken, ^
+    {
+        installPanel = [[MCInstallPanel alloc] init];
+    });
+    
+    return installPanel;
+}
+
+- (NSString *)runModalForInstallLocation
+{
+    NSInteger installMode = [[[NSUserDefaults standardUserDefaults] objectForKey:@"MCInstallMode"] integerValue];
+	    
+    if (installMode == 0)
+    {
+        NSPanel *installModePanel = [self installModePanel];
+	    [NSApp runModalForWindow:installModePanel];
+	    [installModePanel orderOut:self];
+	    	    
+	    installMode = [[self installModePopup] indexOfSelectedItem] + 1;
+    }
+    	    
+    if (installMode == 1)
+    {
+	    return @"/Library/Application Support";
+    }
+    else
+    {
+	    return [@"~/Library/Application Support" stringByExpandingTildeInPath];
+    }
+}
+
+- (NSString *)taskText
+{
+    return [[self taskField] stringValue];
 }
 
 - (void)setTaskText:(NSString *)text
 {
-	[taskField setStringValue:text];
+    [[self taskField] setStringValue:[text copy]];
 }
 
 //////////////////////////
@@ -54,15 +87,16 @@
 
 - (IBAction)endSettingMode:(id)sender
 {
-	if ([suppressButton state] == NSOnState)
-	{
-		NSInteger mode = [installModePopup indexOfSelectedItem] + 1;
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:mode] forKey:@"MCInstallMode"];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"MCInstallModeChanged" object:[NSNumber numberWithInteger:mode]];
-		[suppressButton setState:NSOffState];
-	}
+    NSButton *suppressButton = [self suppressButton];
+    if ([suppressButton state] == NSOnState)
+    {
+	    NSInteger mode = [[self installModePopup] indexOfSelectedItem] + 1;
+	    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:mode] forKey:@"MCInstallMode"];
+	    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCInstallModeChanged" object:@(mode)];
+	    [suppressButton setState:NSOffState];
+    }
 
-	[NSApp abortModal];
+    [NSApp abortModal];
 }
 
 @end

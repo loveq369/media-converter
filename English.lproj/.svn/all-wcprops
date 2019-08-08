@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/media-converter/!svn/ver/139/trunk/media-converter/English.lproj
+END
+InfoPlist.strings
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/media-converter/!svn/ver/175/trunk/media-converter/English.lproj/InfoPlist.strings
+END
+MCPresets.icns
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/media-converter/!svn/ver/220/trunk/media-converter/English.lproj/MCPresets.icns
+END
+MCPreferences.xib
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/media-converter/!svn/ver/185/trunk/media-converter/English.lproj/MCPreferences.xib
+END
+MCWatermarkFilter.xib
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/media-converter/!svn/ver/126/trunk/media-converter/English.lproj/MCWatermarkFilter.xib
+END
+Credits.rtf
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/media-converter/!svn/ver/93/trunk/media-converter/English.lproj/Credits.rtf
+END
+MCInstallPanel.xib
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/media-converter/!svn/ver/70/trunk/media-converter/English.lproj/MCInstallPanel.xib
+END
+Add Preset@2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/media-converter/!svn/ver/217/trunk/media-converter/English.lproj/Add%20Preset@2x.png
+END
+Localizable.strings
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/media-converter/!svn/ver/176/trunk/media-converter/English.lproj/Localizable.strings
+END
+MainMenu.xib
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/media-converter/!svn/ver/106/trunk/media-converter/English.lproj/MainMenu.xib
+END
+MCTextFilter.xib
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/media-converter/!svn/ver/124/trunk/media-converter/English.lproj/MCTextFilter.xib
+END
+Add Preset.png
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/media-converter/!svn/ver/219/trunk/media-converter/English.lproj/Add%20Preset.png
+END
+MCPresetManager.xib
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/media-converter/!svn/ver/183/trunk/media-converter/English.lproj/MCPresetManager.xib
+END

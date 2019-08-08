@@ -1,0 +1,20 @@
+/* Class = "NSWindow"; title = "Choose FFmpeg"; ObjectID = "NTK-Ul-SO0"; */
+"NTK-Ul-SO0.title" = "Kies FFmpeg";
+
+/* Class = "NSMenuItem"; title = "All"; ObjectID = "UIm-Ax-hfG"; */
+"UIm-Ax-hfG.title" = "Alles";
+
+/* Class = "NSButtonCell"; title = "Browse…"; ObjectID = "RwA-un-ILA"; */
+"RwA-un-ILA.title" = "Open…";
+
+/* Class = "NSTableColumn"; headerCell.title = "Command"; ObjectID = "IhI-HL-UX5"; */
+"IhI-HL-UX5.headerCell.title" = "Commando";
+
+/* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "6dh-Mw-AHh"; */
+"6dh-Mw-AHh.headerCell.title" = "Pad";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "gdE-7i-7iU"; */
+"gdE-7i-7iU.title" = "Annuleer";
+
+/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "yCb-I8-0C2"; */
+"yCb-I8-0C2.title" = "Kies";

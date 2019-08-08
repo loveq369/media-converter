@@ -9,102 +9,65 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MCCommonMethods.h"
 
-
+/**
+ *  A manager for the Media Converter presets
+ */
 @interface MCPresetManager : NSWindowController
-{
-	/* Preset panel */
-	IBOutlet id presetsPanel;
-	IBOutlet id completeButton;
-	// General
-	IBOutlet id nameField;
-	IBOutlet id containerPopUp;
-	IBOutlet id extensionField;
-	// Video
-	IBOutlet id videoFormatPopUp;
-	IBOutlet id aspectRatioButton;
-	IBOutlet id aspectRatioField;
-	// Audio
-	IBOutlet id audioFormatPopUp;
-	IBOutlet id modePopup;
-	// Subtitles
-	IBOutlet id subtitleFormatPopUp;
-	IBOutlet id subtitleSettingsView;
-	// -> Hardcoded
-	IBOutlet id hardcodedSettingsView;
-	IBOutlet id hardcodedFontPopup;
-	IBOutlet id hardcodedHAlignPopup;
-	IBOutlet id hardcodedVAlignPopup;
-	IBOutlet id hardcodedVisiblePopup;
-	IBOutlet id hardcodedMethodTabView;
-	// -> DVD
-	IBOutlet id DVDSettingsView;
-	IBOutlet id fontPopup;
-	IBOutlet id hAlignFormatPopUp;
-	IBOutlet id vAlignFormatPopUp;
-	// -> Other
-	// No settings (yet)
-	// Filters
-	IBOutlet id filterTableView;
-	IBOutlet id filterDelegate;
-	// Advanced FFmpeg settings
-	IBOutlet id advancedTableView;
-	IBOutlet id advancedAddButton;
-	IBOutlet id advancedDeleteButton;
-	IBOutlet id advancedBarButton;
-	
-	/* Preview panel */
-	IBOutlet id previewImageView;
-	IBOutlet id previewPanel;
-	
-	/* Variables */
-	NSArray *viewMappings;
-	NSArray *preferenceMappings;
-	NSArray *extraOptionMappings;
-	NSArray *extraOptionDefaultValues;
-	NSString *currentPresetPath;
-	NSMutableDictionary *extraOptions;
-	NSModalSession session;
-	BOOL previewOpened;
-	BOOL darkBackground;
-	id delegate;
-	SEL didEndSelector;
-}
 
-/* Main actions */
-+ (MCPresetManager *)defaultManager;
-- (void)editPresetForWindow:(NSWindow *)window withPresetPath:(NSString *)path didEndSelector:(SEL)selector;
-- (void)savePresetForWindow:(NSWindow *)window withPresetPath:(NSString *)path;
-- (NSInteger)openPresetFiles:(NSArray *)paths;
-- (NSInteger)installPresetsWithNames:(NSArray *)names presetDictionaries:(NSArray *)dictionaries;
-- (void)setDelegate:(id)del;
-- (NSMutableDictionary *)presetDictionary;
+/**
+ *  Get the default manager
+ *
+ *  @return A default manager object
+ */
++ (MCPresetManager * _Nonnull)defaultManager;
 
-/* Preset panel actions */
-- (IBAction)toggleAdvancedView:(id)sender;
-- (IBAction)setOption:(id)sender;
-- (IBAction)setExtraOption:(id)sender;
-- (IBAction)endSheet:(id)sender;
-// Video
-- (IBAction)setAspect:(id)sender;
-//Audio
-- (IBAction)setMode:(id)sender;
-// Subtitles
-- (IBAction)setSubtitleKind:(id)sender;
-// -> Hardcoded
-- (IBAction)setHarcodedVisibility:(id)sender;
+/**
+ *  Start a preset edit sheet
+ *
+ *  @param window Modal window
+ *  @param path Path of the preset file
+ *  @param handler A completion handler which returns a return code
+ */
+- (void)editPresetForWindow:(NSWindow * _Nonnull)window withPresetPath:(NSString * _Nullable)path completionHandler:(nullable void (^)(NSModalResponse returnCode))handler;
 
-/* Preview actions */
-- (void)updatePreview:(NSNotification *)notif;
-- (IBAction)showPreview:(id)sender;
-- (void)reloadHardcodedPreview;
-- (IBAction)toggleDarkBackground:(id)sender;
-- (NSImage *)previewBackgroundWithImage:(NSImage *)image forSize:(NSSize)size;
+/**
+ *  Start a preset save sheeet
+ *
+ *  @param window Modal window
+ *  @param path Path to save the preset file
+ */
+- (void)savePresetForWindow:(NSWindow * _Nonnull)window withPresetPath:(NSString * _Nullable)path;
 
-/* Other actions */
-- (BOOL)updateForKey:(NSString *)key withProperty:(id)property;
-- (void)setupPopups;
-- (NSDictionary *)defaults;
+/**
+ *  Open and add preset files
+ *
+ *  @param An array of file paths
+ *
+ *  @return Number of installed dictionaries
+ */
+- (NSInteger)openPresetFiles:(NSArray * _Nonnull)paths;
+
+/**
+ *  Update object in the current preset dictionary
+ *
+ *  @param key A key
+ *  @param property An object
+ *
+ *  @return If succeeded or not
+ */
+- (BOOL)updateForKey:(NSString * _Nonnull)key withProperty:(id _Nullable)property;
+
+/**
+ *  Update preview
+ */
+- (void)updatePreview;
+
+/**
+ *  Get defaults
+ *
+ *  @return The default preset dictionary
+ */
+- (NSDictionary * _Nonnull)defaults;
 
 @end

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5495CA9A-5BF4-4CEF-98EB-7A5273AA39AB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Media Converter</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CDEFCE18-15E7-4B70-B38B-7413DCB9E5A9</key>
+		<string>https://media-converter.svn.sourceforge.net/svnroot/media-converter/trunk/media-converter/Images/icns-10.4</string>
+		<key>ECBA494D-E318-474F-8ABE-12996A19C0E8</key>
+		<string>https://media-converter.svn.sourceforge.net/svnroot/media-converter/trunk/media-converter</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Media Converter.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CDEFCE18-15E7-4B70-B38B-7413DCB9E5A9</key>
+		<string>../../Images/icns-10.4</string>
+		<key>ECBA494D-E318-474F-8ABE-12996A19C0E8</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>CDEFCE18-15E7-4B70-B38B-7413DCB9E5A9</key>
+		<string>https://media-converter.svn.sourceforge.net/svnroot/media-converter</string>
+		<key>ECBA494D-E318-474F-8ABE-12996A19C0E8</key>
+		<string>https://media-converter.svn.sourceforge.net/svnroot/media-converter</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://media-converter.svn.sourceforge.net/svnroot/media-converter/trunk/media-converter/Media%20Converter.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>ECBA494D-E318-474F-8ABE-12996A19C0E8</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CDEFCE18-15E7-4B70-B38B-7413DCB9E5A9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>icns-10</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>ECBA494D-E318-474F-8ABE-12996A19C0E8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>media-converter</string>
+		</dict>
+	</array>
+</dict>
+</plist>

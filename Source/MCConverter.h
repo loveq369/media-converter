@@ -10,55 +10,49 @@
 
 @interface MCConverter : NSObject
 {
-	//ffmpeg the main encoder
-	NSTask *ffmpeg;
-	//movtoy4m, passes the decoded quicktime movie to FFmpeg
-	NSTask *movtoy4m;
-	//movtowav, encodes the movie to wav, after that FFmpeg can encode it
-	NSTask *movtowav;
-	//qt-faststart, place moov atom at start of movie
-	NSTask *qtfaststart;
-	//Status: 0=idle, 1=encoding audio, 2=encoding video
-	NSInteger status;
-	//Number of file encoding
-	NSInteger number;
-	//aspect ratio for current movie
-	NSInteger aspectValue;
-	//Last encoded file
-	NSString *encodedOutputFile;
-	//Needed for the one who speaks to the class
-	NSMutableArray *convertedFiles;
-	//To differ if it must be reported to be a problem (when canceling)
-	BOOL userCanceled;
-	//Some old ISO 639 codes used in mkv files as language
-	NSDictionary *oldToNewLanguageCodes;
-	
-	//Input file values
-	NSInteger inputWidth;
-	NSInteger inputHeight;
-	CGFloat inputFps;
-	CGFloat inputTotalTime;
-	CGFloat inputAspect;
-	//inputFormat: 0 = normal; 1 = dv; 2 = mpeg2
-	NSInteger inputFormat;
-	BOOL hasInputDARValue;
+    //ffmpeg the main encoder
+    NSTask *ffmpeg;
+    //qt-faststart, place moov atom at start of movie
+    NSTask *qtfaststart;
+    //Status: 0=idle, 1=encoding audio, 2=encoding video
+    NSInteger status;
+    //Number of file encoding
+    NSInteger number;
+    //aspect ratio for current movie
+    NSInteger aspectValue;
+    //Last encoded file
+    NSString *encodedOutputFile;
+    //Needed for the one who speaks to the class
+    NSMutableArray *convertedFiles;
+    //To differ if it must be reported to be a problem (when canceling)
+    BOOL userCanceled;
+    //Some old ISO 639 codes used in mkv files as language
+    NSDictionary *oldToNewLanguageCodes;
+    
+    //Input file values
+    NSInteger inputWidth;
+    NSInteger inputHeight;
+    CGFloat inputFps;
+    CGFloat inputTotalTime;
+    CGFloat inputAspect;
+    //inputFormat: 0 = normal; 1 = dv; 2 = mpeg2
+    NSInteger inputFormat;
+    BOOL hasInputDARValue;
 
-	NSDictionary *convertOptions;
-	NSString *errorString;
-	NSString *detailedErrorString;
-	NSString *convertDestination;
-	NSString *convertExtension;
-	NSString *temporaryFolder;
-	NSFileHandle *currentFileHandle;
-	
-	//Encodings
-	NSArray *cyrillicLanguages;
-	
-	BOOL useWav;
-	BOOL useQuickTime;
-	BOOL copyAudio;
-	
-	BOOL subtitleProblem;
+    NSDictionary *convertOptions;
+    NSString *errorString;
+    NSString *detailedErrorString;
+    NSString *convertDestination;
+    NSString *convertExtension;
+    NSString *temporaryFolder;
+    NSFileHandle *currentFileHandle;
+    
+    //Encodings
+    NSArray *cyrillicLanguages;
+    
+    BOOL copyAudio;
+    
+    BOOL subtitleProblem;
 }
 
 //Encode actions
@@ -67,8 +61,6 @@
 - (NSInteger)batchConvert:(NSArray *)files toDestination:(NSString *)destination withOptions:(NSDictionary *)options errorString:(NSString **)error;
 //Encode the file, use wav file if quicktime created it, use pipe (from movtoy4m)
 - (NSInteger)encodeFileAtPath:(NSString *)path errorString:(NSString **)error;
-//Encode sound to wav
-- (NSInteger)encodeAudioAtPath:(NSString *)path errorString:(NSString **)error;
 //Stop encoding (stop ffmpeg, movtowav and movtoy4m if they're running
 - (void)cancelEncoding;
 
@@ -146,7 +138,5 @@
 - (NSArray *)getFormats;
 - (NSArray *)getCodecsOfType:(NSString *)type;
 - (void)extractImportantFontsToPath:(NSString *)path statusStart:(NSInteger)start;
-- (void)downloadYouTubeURL:(NSString *)urlString toTask:(NSTask *)inTask outPipe:(NSPipe **)pipe;
-- (NSString *)getYouTubeName:(NSString *)urlString;
 
 @end

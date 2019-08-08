@@ -1,0 +1,14 @@
+/* Class = "NSTextFieldCell"; title = "Install for:"; ObjectID = "7"; */
+"7.title" = "Install for:";
+
+/* Class = "NSMenuItem"; title = "All Users"; ObjectID = "11"; */
+"11.title" = "All Users";
+
+/* Class = "NSMenuItem"; title = "Current User"; ObjectID = "10"; */
+"10.title" = "Current User";
+
+/* Class = "NSButtonCell"; title = "Don't ask again"; ObjectID = "12"; */
+"12.title" = "Don't ask again";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "13"; */
+"13.title" = "OK";

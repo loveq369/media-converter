@@ -9,12 +9,40 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MCCommonMethods.h"
 
+@class MCDropView;
+
+/**
+ *  A drop view delegate gets notified about items dropped on it
+ */
+@protocol MCDropViewDelegate <NSObject>
+
+/**
+ *  Dropped files
+ *
+ *  @param dropView The drop view
+ *  @param file An array of file paths
+ */
+- (void)dropView:(MCDropView *)dropView didDropFiles:(NSArray *)files;
+
+/**
+ *  Dropped a URL
+ *
+ *  @param dropView The drop view
+ *  @param url The url (based on a dropped string)
+ */
+- (void)dropView:(MCDropView *)dropView didDropURL:(NSURL *)url;
+
+@end
+
+/**
+ *  A drop view handle items that are dropped on it from other applications (like the Finder)
+ */
 @interface MCDropView : NSView
-{
-	//MCMainController
-	IBOutlet id mainController;
-}
+
+/**
+ *  A drop view delegate
+ */
+@property (nonatomic, weak) IBOutlet id <MCDropViewDelegate> delegate;
 
 @end

@@ -9,12 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import "MCCommonMethods.h"
 
-
+/**
+ *  An alert with expandable details section
+ */
 @interface MCAlert : NSAlert
-{
-	BOOL expanded;
-}
-- (void)setDetails:(NSString *)details;
-- (void)showDetails;
+
+/**
+ *  Details
+ */
+ @property (nonatomic, copy) NSString *details;
 
 @end

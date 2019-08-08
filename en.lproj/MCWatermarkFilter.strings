@@ -1,0 +1,41 @@
+/* Class = "NSTextFieldCell"; title = "Picture:"; ObjectID = "59"; */
+"59.title" = "Picture:";
+
+/* Class = "NSTextFieldCell"; title = "No image selected"; ObjectID = "61"; */
+"61.title" = "No image selected";
+
+/* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "102"; */
+"102.title" = "Choose…";
+
+/* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
+"55.title" = "Settings";
+
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "99"; */
+"99.title" = "Size:";
+
+/* Class = "NSButtonCell"; title = "Keep Aspect Ratio"; ObjectID = "101"; */
+"101.title" = "Keep Aspect Ratio";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "80"; */
+"80.title" = "Horizontal Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "83"; */
+"83.title" = "Vertical Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "86"; */
+"86.title" = "Margins:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "87"; */
+"87.title" = "Left:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "93"; */
+"93.title" = "Right:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "90"; */
+"90.title" = "Top:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "92"; */
+"92.title" = "Bottom:";
+
+/* Class = "NSTextFieldCell"; title = "Visibility: "; ObjectID = "126"; */
+"126.title" = "Visibility: ";

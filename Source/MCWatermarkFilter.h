@@ -9,21 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "MCFilter.h"
 
-
+/**
+ *  A watermark filter, put an image on top of the video
+ */
 @interface MCWatermarkFilter : MCFilter
-{
-	IBOutlet id watermarkImage;
-	IBOutlet id watermarkImageName;
-	IBOutlet id watermarkWidthField;
-	IBOutlet id watermarkHeightField;
-	IBOutlet id watermarkAspectCheckBox;
-	IBOutlet id watermarkHorizontalPopup;
-	IBOutlet id watermarkVerticalPopup;
-	
-	CGFloat aspectRatio;
-}
-
-- (IBAction)chooseWatermarkImage:(id)sender;
-- (void)setImage:(NSImage *)image withIdentifyer:(NSString *)identifyer;
 
 @end

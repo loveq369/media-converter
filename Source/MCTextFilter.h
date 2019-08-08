@@ -9,16 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "MCFilter.h"
 
-
+/**
+ * A text filter, put text on top of a video
+ */
 @interface MCTextFilter : MCFilter
-{
-	IBOutlet id textView;
-	IBOutlet id textHorizontalPopup;
-	IBOutlet id textVerticalPopup;
-	IBOutlet id textVisiblePopup;
-	IBOutlet id textMethodTabView;
-}
-
-- (IBAction)setTextVisibility:(id)sender;
 
 @end

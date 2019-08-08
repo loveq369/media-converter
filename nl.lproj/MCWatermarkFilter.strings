@@ -1,0 +1,41 @@
+/* Class = "NSTextFieldCell"; title = "Picture:"; ObjectID = "59"; */
+"59.title" = "Afbeelding:";
+
+/* Class = "NSTextFieldCell"; title = "No image selected"; ObjectID = "61"; */
+"61.title" = "Geen afbeelding geselecteerd";
+
+/* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "102"; */
+"102.title" = "Kies…";
+
+/* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
+"55.title" = "Instellingen";
+
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "99"; */
+"99.title" = "Grootte:";
+
+/* Class = "NSButtonCell"; title = "Keep Aspect Ratio"; ObjectID = "101"; */
+"101.title" = "Behoud beeldverhoudingen";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "80"; */
+"80.title" = "Horizontale uitlijning:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "83"; */
+"83.title" = "Verticale uitlijning:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "86"; */
+"86.title" = "Marges:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "87"; */
+"87.title" = "Links:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "93"; */
+"93.title" = "Rechts:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "90"; */
+"90.title" = "Boven:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "92"; */
+"92.title" = "Onder:";
+
+/* Class = "NSTextFieldCell"; title = "Visibility: "; ObjectID = "126"; */
+"126.title" = "Zichtbaarheid: ";

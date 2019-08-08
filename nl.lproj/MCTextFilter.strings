@@ -1,0 +1,51 @@
+/* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "59"; */
+"59.title" = "Tekst:";
+
+/* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
+"55.title" = "Instellingen";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "80"; */
+"80.title" = "Horizontale uitlijning:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "83"; */
+"83.title" = "Verticale uitlijning:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "86"; */
+"86.title" = "Marges:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "87"; */
+"87.title" = "Links:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "93"; */
+"93.title" = "Rechts:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "90"; */
+"90.title" = "Boven:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "92"; */
+"92.title" = "Onder:";
+
+/* Class = "NSTextFieldCell"; title = "Visibility: "; ObjectID = "240"; */
+"240.title" = "Zichtbaarheid:";
+
+/* Class = "NSTextFieldCell"; title = "Text Visibility Method:"; ObjectID = "223"; */
+"223.title" = "Tekst zichtbaarheidsmethode:";
+
+// Method: Border
+
+/* Class = "NSTextFieldCell"; title = "Border Colour:"; ObjectID = "204"; */
+"204.title" = "Randkleur:";
+
+/* Class = "NSTextFieldCell"; title = "Border Thickness:"; ObjectID = "205"; */
+"205.title" = "Randdikte:";
+
+// Method: Box
+
+/* Class = "NSTextFieldCell"; title = "Box Colour:"; ObjectID = "217"; */
+"217.title" = "Box kleur:";
+
+/* Class = "NSTextFieldCell"; title = "Box Marge:"; ObjectID = "216"; */
+"216.title" = "Box Marge:";
+
+/* Class = "NSTextFieldCell"; title = "Box Visibility:"; ObjectID = "220"; */
+"220.title" = "Box zichtbaarheid:";

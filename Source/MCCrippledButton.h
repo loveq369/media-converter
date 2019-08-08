@@ -6,17 +6,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MCPantherCompatibleButton.h"
 
-@interface MCCrippledButton : MCPantherCompatibleButton {
-
-}
+/**
+ *  A button that ignores interaction
+ */
+@interface MCCrippledButton : NSButton
 
 @end
 
+/**
+ *  A button cell that ignores interaction
+ */
 @interface MCCrippledButtonCell : NSButtonCell
-{
-
-}
 
 @end

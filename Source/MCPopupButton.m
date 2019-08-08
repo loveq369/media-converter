@@ -8,108 +8,112 @@
 
 #import "MCPopupButton.h"
 
+@interface MCPopupButton()
+
+@property (nonatomic, strong) NSMutableArray *popUpArray;
+@property (nonatomic) NSInteger startIndex;
+@property (nonatomic, getter = isDelayed) BOOL delayed;
+@property (nonatomic, weak) id delayedObject;
+
+@end
+
 
 @implementation MCPopupButton
 
-- (id)init
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
-	if ([super init])
-	{
-		startIndex = 0;
-		delayed = NO;
-		delayedObject = nil;
-	}
-		
-	return self;
+    self = [super initWithCoder:coder];
+
+    if (self != nil)
+    {
+	    _startIndex = 0;
+	    _delayed = NO;
+	    _delayedObject = nil;
+        _popUpArray = [NSMutableArray array];
+    }
+	    
+    return self;
 }
 
-- (void)dealloc
+- (void)setArray:(NSMutableArray *)array
 {
-	if (array)
-		[array release];
-	
-	[super dealloc];
-}
+    NSMutableArray *popUpArray = [self popUpArray];
+    [popUpArray removeAllObjects];
+    
+    [self removeAllItems];
+    
+    //Get the containers from ffmpeg
+    NSInteger i;
+    for (i = 0; i < [array count]; i ++)
+    {
+	    NSDictionary *itemDictionary = [array objectAtIndex:i];
+    
+	    id name = [itemDictionary objectForKey:@"Name"];
+	    
+	    if ([name isEqualTo:@""])
+	    {
+    	    [[self menu] addItem:[NSMenuItem separatorItem]];
+	    }
+	    else
+	    {
+    	    if ([name isKindOfClass:[NSAttributedString class]])
+    	    {
+	    	    [self addItemWithTitle:[(NSAttributedString *)name string]];
+	    	    [[self lastItem] setAttributedTitle:(NSAttributedString *)name];
+    	    }
+    	    else
+    	    {
+	    	    if ([self indexOfItemWithTitle:(NSString *)name] > -1)
+    	    	    name = [NSString stringWithFormat:@"%@ (2)", (NSString *)name];
+	    
+	    	    [self addItemWithTitle:(NSString *)name];
+    	    }
+	    }
+	    
+	    NSString *rawName = [itemDictionary objectForKey:@"Format"];
 
-- (void)setArray:(NSArray *)ar
-{
-	if (!array)
-		array = [[NSMutableArray alloc] init];
-	else
-		[array removeAllObjects];
-	
-	[self removeAllItems];
-	
-	//Get the containers from ffmpeg
-	NSInteger i;
-	for (i = 0; i < [ar count]; i ++)
-	{
-		NSDictionary *itemDictionary = [ar objectAtIndex:i];
-	
-		id name = [itemDictionary objectForKey:@"Name"];
-		
-		if ([name isEqualTo:@""])
-		{
-			[[self menu] addItem:[NSMenuItem separatorItem]];
-		}
-		else
-		{
-			if ([name isKindOfClass:[NSAttributedString class]])
-			{
-				[self addItemWithTitle:[(NSAttributedString *)name string]];
-				[[self lastItem] setAttributedTitle:(NSAttributedString *)name];
-			}
-			else
-			{
-				if ([self indexOfItemWithTitle:(NSString *)name] > -1)
-					name = [NSString stringWithFormat:@"%@ (2)", (NSString *)name];
-		
-				[self addItemWithTitle:(NSString *)name];
-			}
-		}
-		
-		NSString *rawName = [itemDictionary objectForKey:@"Format"];
-
-		[array addObject:rawName];
-	}
+	    [popUpArray addObject:rawName];
+    }
 }
 
 - (id)objectValue
-{		
-	return [array objectAtIndex:[self indexOfSelectedItem]];
+{	    
+    return [[self popUpArray] objectAtIndex:[self indexOfSelectedItem]];
 }
 
 - (void)setObjectValue:(id)obj
 {
-	if (delayed == YES)
-	{
-		delayedObject = obj;
-	}
-	else
-	{
-		if (obj == nil | [array indexOfObject:obj] == NSNotFound)
-			[self selectItemAtIndex:0];
-		else
-			[self selectItemAtIndex:[array indexOfObject:obj]];
-	}
+    if ([self isDelayed] == YES)
+    {
+	    [self setDelayedObject:obj];
+    }
+    else
+    {
+        NSMutableArray *popUpArray = [self popUpArray];
+	    if (obj == nil | [popUpArray indexOfObject:obj] == NSNotFound)
+    	    [self selectItemAtIndex:0];
+	    else
+    	    [self selectItemAtIndex:[popUpArray indexOfObject:obj]];
+    }
 }
 
 - (NSInteger)indexOfObjectValue:(id)obj
 {
-	return [array indexOfObject:obj];
+    return [[self popUpArray] indexOfObject:obj];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
-	[super controlTextDidChange:aNotification];
+    [super controlTextDidChange:aNotification];
 }
 
 - (void)setDelayed:(BOOL)del
 {
-	delayed = del;
-	
-	if (del == NO && delayedObject != nil)
-		[self setObjectValue:delayedObject];
+    _delayed = del;
+    
+    id delayedObject = [self delayedObject];
+    if (del == NO && delayedObject != nil)
+	    [self setObjectValue:delayedObject];
 }
 
 @end

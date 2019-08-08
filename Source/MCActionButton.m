@@ -8,52 +8,57 @@
 
 #import "MCActionButton.h"
 
+@interface MCActionButton()
+
+@property (nonatomic, strong) NSPopUpButton *menuPopup;
+
+@end
+
 
 @implementation MCActionButton
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
-	[super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-	NSRect buttonFrame = [self frame];
-	NSRect newFrame = NSMakeRect(buttonFrame.origin.x - 3, buttonFrame.origin.y - (buttonFrame.size.height - 23) , buttonFrame.size.width, buttonFrame.size.height);
-	menuPopup = [[NSPopUpButton alloc] initWithFrame:newFrame pullsDown:YES];
-	[menuPopup addItemWithTitle:@""];
-	[menuPopup setHidden:YES];
-	
-	return self;
+    if (self != nil)
+    {
+        NSRect buttonFrame = [self frame];
+        NSRect newFrame = NSMakeRect(buttonFrame.origin.x - 3, buttonFrame.origin.y - (buttonFrame.size.height - 23) , buttonFrame.size.width, buttonFrame.size.height);
+        _menuPopup = [[NSPopUpButton alloc] initWithFrame:newFrame pullsDown:YES];
+        [_menuPopup addItemWithTitle:@""];
+        [_menuPopup setHidden:YES];
+    }
+    
+    return self;
 }
 
 - (void)awakeFromNib
 {
-	[[self superview] addSubview:menuPopup];
+    [[self superview] addSubview:[self menuPopup]];
 }
 
-- (void)setDelegate:(id)del
+- (void)addMenuItemWithTitle:(NSString *)title withSelector:(SEL)sel
 {
-	delegate = del;
-}
-
-- (void)addMenuWithTitle:(NSString *)title withSelector:(SEL)sel
-{
-	[menuPopup addItemWithTitle:title];
-	NSMenuItem *editMenuItem = [menuPopup lastItem];
-	[editMenuItem setAction:sel];
-	[editMenuItem setTarget:delegate];
+    NSPopUpButton *menuPopup = [self menuPopup];
+    [menuPopup addItemWithTitle:title];
+    NSMenuItem *editMenuItem = [menuPopup lastItem];
+    [editMenuItem setAction:sel];
+    [editMenuItem setTarget:[self menuTarget]];
 }
 
 - (void)setTitle:(NSString *)title atIndex:(NSInteger)index
 {
-	NSArray *menuItems = [menuPopup itemArray];
-	NSMenuItem *menuItem = [menuItems objectAtIndex:index + 1];
-	[menuItem setTitle:title];
+    NSArray *menuItems = [[self menuPopup] itemArray];
+    NSMenuItem *menuItem = [menuItems objectAtIndex:index + 1];
+    [menuItem setTitle:title];
 }
 
 - (BOOL)sendAction:(SEL)theAction to:(id)theTarget
 {
-	[menuPopup performClick:theTarget];
+    [[self menuPopup] performClick:theTarget];
 
-	return YES;
+    return YES;
 }
 
 @end

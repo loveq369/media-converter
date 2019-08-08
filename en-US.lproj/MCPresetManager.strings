@@ -1,0 +1,9 @@
+// --> Method: border
+
+/* Class = "NSTextFieldCell"; title = "Border Colour:"; ObjectID = "1292"; */
+"1292.title" = "Border Color:";
+
+// --> Method: box
+
+/* Class = "NSTextFieldCell"; title = "Box Colour:"; ObjectID = "1282"; */
+"1282.title" = "Box Color:";

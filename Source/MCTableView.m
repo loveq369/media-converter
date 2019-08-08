@@ -12,63 +12,63 @@
 
 @implementation MCTableView
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
-	[super initWithCoder:decoder];
-
-	notificationName = nil;
-	
-	return self;
-}
-
 - (BOOL)becomeFirstResponder 
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MCListSelected" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCListSelected" object:self];
 
-	return [super becomeFirstResponder];
+    return [super becomeFirstResponder];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
     SEL aSelector = [invocation selector];
-	id delegate = [self delegate];
+    id delegate = [self delegate];
  
     if ([delegate respondsToSelector:aSelector])
+    {
         [invocation invokeWithTarget:delegate];
+    }
     else
+    {
         [self doesNotRecognizeSelector:aSelector];
+    }
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
-	if ([super respondsToSelector:aSelector])
-		return [super methodSignatureForSelector:aSelector];
-	else
-		return [(NSObject *)[self delegate] methodSignatureForSelector:aSelector];
+    if ([super respondsToSelector:aSelector])
+    {
+	    return [super methodSignatureForSelector:aSelector];
+    }
+    else
+    {
+	    return [(NSObject *)[self delegate] methodSignatureForSelector:aSelector];
+    }
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	if (([self selectedRow] == -1 | [self numberOfSelectedRows] > 1) && (aSelector == @selector(edit:) | (aSelector == @selector(saveDocumentAs:))))
-		return NO;
-		
-	if (([self selectedRow] == -1) && (aSelector == @selector(duplicate:) | aSelector == @selector(delete:)))
-		return NO;
-	
-	return ([super respondsToSelector:aSelector] | [[self delegate] respondsToSelector:aSelector]);
-}
-
-- (void)setReloadNotificationName:(NSString *)name
-{
-	notificationName = name;
+    if (([self selectedRow] == -1 || [self numberOfSelectedRows] > 1) && (aSelector == @selector(edit:) || (aSelector == @selector(saveDocumentAs:))))
+    {
+	    return NO;
+    }
+	    
+    if (([self selectedRow] == -1) && (aSelector == @selector(duplicate:) | aSelector == @selector(delete:)))
+    {
+	    return NO;
+    }
+    
+    return ([super respondsToSelector:aSelector] | [[self delegate] respondsToSelector:aSelector]);
 }
 
 - (void)reloadData
 {
-	[super reloadData];
-	
-	if (notificationName != nil)
-		[[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil];
+    [super reloadData];
+    
+    if ([self reloadHandler])
+    {
+        [self reloadHandler]();
+    }
 }
 
 @end

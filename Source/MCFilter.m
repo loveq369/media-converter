@@ -7,97 +7,98 @@
 //
 
 #import "MCFilter.h"
+#import "MCPresetManager.h"
+#import "MCCommonMethods.h"
 
+@interface MCFilter()
+
+@property (nonatomic, strong) IBOutlet NSView *filterView;
+
+@end
 
 @implementation MCFilter
 
-- (id)initView
+- (instancetype)init
 {
-	if (self = [self init])
-		[NSBundle loadNibNamed:[self name] owner:self];
-	
-	return self;
-}
-
-- (void)dealloc
-{
-	[filterOptions release];
-	
-	[super dealloc];
+    self = [super init];
+    
+    if (self != nil)
+    {
+        [[NSBundle mainBundle] loadNibNamed:[self name] owner:self topLevelObjects:nil];
+    }
+    
+    return self;
 }
 
 - (void)setOptions:(NSDictionary *)options
 {
-	[filterOptions release];
-	filterOptions = nil;
-	
-	NSDictionary *fallBackDictionary = [NSMutableDictionary dictionaryWithObjects:filterDefaultValues forKeys:filterMappings];
-	filterOptions = [[NSMutableDictionary alloc] initWithDictionary:fallBackDictionary];
-	[filterOptions addEntriesFromDictionary:options];
+    NSDictionary *fallBackDictionary = [NSMutableDictionary dictionaryWithObjects:[self filterDefaultValues] forKeys:[self filterMappings]];
+    NSMutableDictionary *filterOptions = [self filterOptions];
+    [filterOptions removeAllObjects];
+    [filterOptions addEntriesFromDictionary:fallBackDictionary];
+    [filterOptions addEntriesFromDictionary:options];
+    
 }
 
 - (void)setupView
 {
-	NSDictionary *fallBackDictionary = [NSMutableDictionary dictionaryWithObjects:filterDefaultValues forKeys:filterMappings];
-	[MCCommonMethods setViewOptions:[NSArray arrayWithObject:filterView] infoObject:filterOptions fallbackInfo:fallBackDictionary mappingsObject:filterMappings startCount:0];
+    NSArray *filterMappings = [self filterMappings];
+    NSDictionary *fallBackDictionary = [NSMutableDictionary dictionaryWithObjects:[self filterDefaultValues] forKeys:filterMappings];
+    [MCCommonMethods setViewOptions:@[[self filterView]] infoObject:[self filterOptions] fallbackInfo:fallBackDictionary mappingsObject:filterMappings startCount:0];
 }
 
 - (void)resetView
 {
-	[filterOptions release];
-	filterOptions = nil;
-
-	filterOptions = [[NSMutableDictionary alloc] initWithObjects:filterDefaultValues forKeys:filterMappings];
+    NSMutableDictionary *filterOptions = [self filterOptions];
+    [filterOptions removeAllObjects];
+    [filterOptions addEntriesFromDictionary:[[NSMutableDictionary alloc] initWithObjects:[self filterDefaultValues] forKeys:[self filterMappings]]];
 }
 
 - (NSString *)name
 {
-	return NSStringFromClass([self class]);
+    return NSStringFromClass([self class]);
 }
 
-- (NSString *)identifyer
+- (NSString *)filterIdentifier
 {
-	return @"";
+    return @"";
 }
 
 + (NSString *)localizedName
 {
-	return @"";
+    return @"";
 }
 
-- (NSView *)filterView
-{
-	return filterView;
-}
+
 
 - (NSArray *)filterMappings
 {
-	return filterMappings;
+    return @[];
 }
 
 - (NSArray *)filterDefaultValues
 {
-	return filterDefaultValues;
+    return @[];
 }
 
-- (NSDictionary *)filterOptions
+- (NSMutableDictionary *)filterOptions
 {
-	return filterOptions;
+    return [NSMutableDictionary dictionary];
 }
 
-- (NSImage *)imageWithSize:(NSSize)size
+- (CGImageRef)imageWithSize:(NSSize)size
 {
-	return nil;
+    return nil;
 }
 
 - (IBAction)setFilterOption:(id)sender
 {
-	NSInteger index = [sender tag] - 1;
-	NSString *option = [filterMappings objectAtIndex:index];
+    NSInteger index = [sender tag] - 1;
+    NSString *option = [self filterMappings][index];
+    
+    [self filterOptions][option] = [sender objectValue];
 
-	[filterOptions setObject:[sender objectValue] forKey:option];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MCUpdatePreview" object:nil];
+    [[MCPresetManager defaultManager] updatePreview];
 }
 
 @end

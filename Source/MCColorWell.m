@@ -13,12 +13,12 @@
 
 - (id)objectValue
 {
-	return [NSArchiver archivedDataWithRootObject:[self color]];
+    return [NSArchiver archivedDataWithRootObject:[self color]];
 }
 
 - (void)setObjectValue:(id)obj
 {
-	[self setColor:[NSUnarchiver unarchiveObjectWithData:obj]];
+    [self setColor:[NSUnarchiver unarchiveObjectWithData:obj]];
 }
 
 @end

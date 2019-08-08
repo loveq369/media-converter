@@ -1,0 +1,267 @@
+// Preset Panel
+
+/* Class = "NSTextFieldCell"; title = "Name:"; ObjectID = "221"; */
+"221.title" = "Name:";
+
+/* Class = "NSTextFieldCell"; title = "Container:"; ObjectID = "181"; */
+"181.title" = "Container:";
+
+/* Class = "NSTextFieldCell"; title = "Extension:"; ObjectID = "369"; */
+"369.title" = "Extension:";
+
+// Video
+
+/* Class = "NSTabViewItem"; label = "Video"; ObjectID = "91"; */
+"91.label" = "Video";
+
+/* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "113"; */
+"113.title" = "Format:";
+
+/* Class = "NSButtonCell"; title = "Bitrate"; ObjectID = "127"; */
+"127.title" = "Bitrate";
+
+/* Class = "NSTextFieldCell"; title = "bit/s"; ObjectID = "121"; */
+"121.title" = "bit/s";
+
+/* Class = "NSButtonCell"; title = "Size"; ObjectID = "144"; */
+"144.title" = "Size";
+
+/* Class = "NSTextFieldCell"; title = "pixels"; ObjectID = "138"; */
+"138.title" = "pixels";
+
+/* Class = "NSButtonCell"; title = "Framerate"; ObjectID = "141"; */
+"141.title" = "Framerate";
+
+/* Class = "NSButtonCell"; title = "Aspect ratio"; ObjectID = "375"; */
+"375.title" = "Aspect ratio";
+
+/* Class = "NSButtonCell"; title = "Automaticly set aspect ratio based on the input file (4:3 or 16:9)"; ObjectID = "383"; */
+"383.title" = "Automaticly set aspect ratio based on the input file (4:3 or 16:9)";
+
+/* Class = "NSButtonCell"; title = "Automaticly set size based on the input file (4:3 or 16:9)"; ObjectID = "388"; */
+"388.title" = "Automaticly set size based on the input file (4:3 or 16:9)";
+
+/* Class = "NSTextFieldCell"; title = "Preserve aspect ratio method:"; ObjectID = "1576"; */
+"1576.title" = "Preserve aspect ratio method:";
+
+/* Class = "NSMenuItem"; title = "None"; ObjectID = "1574"; */
+"1574.title" = "None";
+
+/* Class = "NSMenuItem"; title = "Letterbox"; ObjectID = "1572"; */
+"1572.title" = "Letterbox";
+
+/* Class = "NSMenuItem"; title = "Crop"; ObjectID = "1573"; */
+"1573.title" = "Crop";
+
+// Audio
+
+/* Class = "NSTabViewItem"; label = "Audio"; ObjectID = "92"; */
+"92.label" = "Audio";
+
+/* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "156"; */
+"156.title" = "Format:";
+
+/* Class = "NSButtonCell"; title = "Bitrate"; ObjectID = "155"; */
+"155.title" = "Bitrate";
+
+/* Class = "NSTextFieldCell"; title = "bit/s"; ObjectID = "152"; */
+"152.title" = "bit/s";
+
+/* Class = "NSButtonCell"; title = "Sample rate"; ObjectID = "239"; */
+"239.title" = "Sample rate";
+
+/* Class = "NSTextFieldCell"; title = "Hz"; ObjectID = "236"; */
+"236.title" = "Hz";
+
+/* Class = "NSTextFieldCell"; title = "Mode:"; ObjectID = "168"; */
+"168.title" = "Mode:";
+
+/* Class = "NSMenuItem"; title = "Mono"; ObjectID = "167"; */
+"167.title" = "Mono";
+
+/* Class = "NSMenuItem"; title = "Stereo"; ObjectID = "166"; */
+"166.title" = "Stereo";
+
+/* Class = "NSMenuItem"; title = "Same as Original"; ObjectID = "173"; */
+"173.title" = "Same as Original";
+
+// Subtitels
+
+/* Class = "NSTabViewItem"; label = "Subtitles"; ObjectID = "490"; */
+"490.label" = "Subtitles";
+
+/* Class = "NSTextFieldCell"; title = "Kind:"; ObjectID = "499"; */
+"499.title" = "Kind:";
+
+// Filters
+
+/* Class = "NSTabViewItem"; label = "Filters"; ObjectID = "668"; */
+"668.label" = "Filters";
+
+// Advanced
+
+/* Class = "NSTabViewItem"; label = "Advanced"; ObjectID = "397"; */
+"397.label" = "Advanced";
+
+/* Class = "NSButtonCell"; title = "Use 2-pass encoding"; ObjectID = "400"; */
+"400.title" = "Use 2-pass encoding";
+
+/* Class = "NSButtonCell"; title = "Place moov atom in front of file (qt-faststart)"; ObjectID = "404"; */
+"404.title" = "Place moov atom in front of file (qt-faststart)";
+
+// Advanced FFMpeg options
+
+/* Class = "NSTextFieldCell"; title = "Advanced ffmpeg options:"; ObjectID = "105"; */
+"105.title" = "Advanced ffmpeg options:";
+
+/* Class = "NSTableColumn"; headerCell.title = "Option"; ObjectID = "100"; */
+"100.headerCell.title" = "Option";
+
+/* Class = "NSTableColumn"; headerCell.title = "Settings"; ObjectID = "101"; */
+"101.headerCell.title" = "Settings";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "190"; */
+"190.ibExternalAccessibilityDescription" = "Delete";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Delete selected option from the list"; ObjectID = "190"; */
+"190.ibExternalAccessibilityHelp" = "Delete selected option from the list";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Add"; ObjectID = "197"; */
+"197.ibExternalAccessibilityDescription" = "Add";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Add option to the list"; ObjectID = "197"; */
+"197.ibExternalAccessibilityHelp" = "Add option to the list";
+
+// Bottom preset panel
+
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "85"; */
+"85.title" = "Add";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "87"; */
+"87.title" = "Cancel";
+
+
+// Preview Panel
+
+/* Class = "NSWindow"; title = "Preview"; ObjectID = "951"; */
+"951.title" = "Preview";
+
+/* Class = "NSTextFieldCell"; title = "Scene from Sintel - www.sintel.org"; ObjectID = "1548"; */
+"1548.title" = "Scene from Sintel - www.sintel.org";
+
+/* Class = "NSButtonCell"; title = "Toggle Background"; ObjectID = "1543"; */
+"1543.title" = "Toggle Background";
+
+
+
+// DVD Subtitle View
+
+/* Class = "NSTextFieldCell"; title = "Font:"; ObjectID = "1204"; */
+"1204.title" = "Font:";
+
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "1207"; */
+"1207.title" = "Size:";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "1209"; */
+"1209.title" = "Horizontal Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "1212"; */
+"1212.title" = "Vertical Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "1215"; */
+"1215.title" = "Margins:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "1216"; */
+"1216.title" = "Left:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "1222"; */
+"1222.title" = "Right:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "1218"; */
+"1218.title" = "Top:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "1220"; */
+"1220.title" = "Bottom:";
+
+
+// Hardcoded Sutitle View
+
+/* Class = "NSTextFieldCell"; title = "Font:"; ObjectID = "1246"; */
+"1246.title" = "Font:";
+
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "1249"; */
+"1249.title" = "Size:";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "1251"; */
+"1251.title" = "Horizontal Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "1254"; */
+"1254.title" = "Vertical Alignment:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "1257"; */
+"1257.title" = "Margins:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "1258"; */
+"1258.title" = "Left:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "1264"; */
+"1264.title" = "Right:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "1261"; */
+"1261.title" = "Top:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "1263"; */
+"1263.title" = "Bottom:";
+
+/* Class = "NSTextFieldCell"; title = "Visibility: "; ObjectID = "1554"; */
+"1554.title" = "Visibility: ";
+
+/* Class = "NSTextFieldCell"; title = "Text Visibility Method:"; ObjectID = "1266"; */
+"1266.title" = "Text Visibility Method:";
+
+// --> Method: border
+
+/* Class = "NSTextFieldCell"; title = "Border Colour:"; ObjectID = "1292"; */
+"1292.title" = "Border Colour:";
+
+/* Class = "NSTextFieldCell"; title = "Border Thickness:"; ObjectID = "1291"; */
+"1291.title" = "Border Thickness:";
+
+// --> Method: box
+
+/* Class = "NSTextFieldCell"; title = "Box Colour:"; ObjectID = "1282"; */
+"1282.title" = "Box Colour:";
+
+/* Class = "NSTextFieldCell"; title = "Box Marge:"; ObjectID = "1283"; */
+"1283.title" = "Box Marge:";
+
+/* Class = "NSTextFieldCell"; title = "Box Visibility:"; ObjectID = "1279"; */
+"1279.title" = "Box Visibility:";
+
+/* Class = "NSButtonCell"; title = "Preview"; ObjectID = "1293"; */
+"1293.title" = "Preview";
+
+
+// Add Filter Window
+
+/* Class = "NSWindow"; title = "Add Filter"; ObjectID = "1334"; */
+"1334.title" = "Add Filter";
+
+/* Class = "NSTextFieldCell"; title = "Filter Type:"; ObjectID = "1390"; */
+"1390.title" = "Filter Type:";
+
+/* Class = "NSButtonCell"; title = "Preview"; ObjectID = "1510"; */
+"1510.title" = "Preview";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "1392"; */
+"1392.title" = "Cancel";
+
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "1391"; */
+"1391.title" = "Add";
+
+
+
+
+
+
+

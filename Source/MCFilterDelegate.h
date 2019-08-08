@@ -9,40 +9,23 @@
 #import <Cocoa/Cocoa.h>
 #import "MCFilter.h"
 
-
+/**
+ *  Manages filters in table view
+ */
 @interface MCFilterDelegate : NSObject
-{
-	IBOutlet id modalWindow;
-	NSMutableArray *tableData;
-	IBOutlet id tableView;
-	IBOutlet id filterWindow;
-	IBOutlet id filterPopup;
-	IBOutlet id previewPanel;
-	IBOutlet id previewImageView;
-	IBOutlet id actionButton;
-	IBOutlet id filterCloseButton;
-	
-	//Filters
-	NSMutableArray *filters;
-	id openFilterOptions;
-	MCFilter *openFilter;
-}
 
-- (IBAction)addFilter:(id)sender;
-- (IBAction)delete:(id)sender;
-- (IBAction)add:(id)sender;
-- (IBAction)cancel:(id)sender;
+/**
+ *  Get a preview image
+ *
+ *  @param size The size to make the image
+ *
+ *  @return An image
+ */
+- (CGImageRef _Nonnull)previewImageWithSize:(NSSize)size;
 
-- (IBAction)selectFilter:(id)sender;
-
-- (IBAction)showPreview:(id)sender;
-
-- (NSImage *)previewImageWithSize:(NSSize)size;
-
-- (NSArray *)allSelectedItemsInTableView:(NSTableView *)table fromArray:(NSArray *)array;
-
-- (void)setFilterOptions:(id)options;
-
-- (void)moveRowAtIndex:(NSInteger)index toIndex:(NSInteger)destIndex;
+/**
+ *  The current filter options
+ */
+@property (nonatomic, copy, nonnull) NSMutableArray *filterOptions;
 
 @end

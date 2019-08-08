@@ -9,20 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-typedef int NSInteger;
-typedef unsigned int NSUInteger;
-typedef float CGFloat;
-#endif
-
-@interface MCCommonMethods : NSObject 
-{
-
-}
+@interface MCCommonMethods : NSObject
 
 //OS actions
-//Check for Snow Leopard (used to show new sizes divided by 1000 instead of 1024)
-+ (NSInteger)OSVersion;
 
 //File actions
 //Get a non existing file name (example Folder 1, Folder 2 etc.)
@@ -44,7 +33,6 @@ typedef float CGFloat;
 //Compatible methods
 + (id)stringWithContentsOfFile:(NSString *)path;
 + (id)stringWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
-+ (NSFileManager *)defaultManager;
 
 //Other actions
 //Get used ffmpeg
@@ -57,17 +45,15 @@ typedef float CGFloat;
 + (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent withDetails:(NSString *)details;
 //Get the selected items in the tableview
 + (NSArray *)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array;
-//Check if the given path is a YouTube url
-+ (BOOL)isYouTubeURLAtPath:(NSString *)path;
-//Check for a version 2.5... or higher Python
-+ (BOOL)isPythonUpgradeInstalled;
 //Create a image with text
-+ (NSImage *)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings inputImage:(NSImage *)image;
++ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings inputImage:(CGImageRef)inputImage size:(NSSize)size;
 //Calculate height for a string (used by subs)
 + (NSRect)frameForStringDrawing:(NSAttributedString *)myString forWidth:(float)myWidth;
+//Get the application icon (needed since using Retina images messed things up)
++ (NSImage *)applicationImage;
 
-+ (NSMutableAttributedString *)initOnMainThreadWithHTML:(NSString *)html;
-- (NSMutableAttributedString *)initWithHTML:(NSString *)html;
++ (NSMutableAttributedString *)stringOnMainThreadWithHTML:(NSString *)html;
+- (NSMutableAttributedString *)stringWithHTML:(NSString *)html;
 
 + (void)setViewOptions:(NSArray *)views infoObject:(id)info fallbackInfo:(id)fallback mappingsObject:(NSArray *)mappings startCount:(NSInteger)start;
 + (void)setProperty:(id)property forControl:(id)control;
@@ -76,7 +62,5 @@ typedef float CGFloat;
 + (NSArray *)defaultVerticalPopupArray;
 
 + (NSMutableArray *)popupArrayWithNames:(NSArray *)names forFormats:(NSArray *)formats;
-
-+ (void)sendEndSelector:(SEL)sel toObject:(id)receiver withObject:(id)object withReturnCode:(NSInteger)code;
 
 @end

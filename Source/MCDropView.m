@@ -8,24 +8,27 @@
 
 #import "MCDropView.h"
 #import "MCMainController.h"
+#import "MCCommonMethods.h"
 
 @implementation MCDropView
 
-- (id)initWithFrame:(NSRect)frameRect
+- (instancetype)initWithFrame:(NSRect)frameRect
 {
-	// register for file paths and strings (urls e.g. http:xxx)
-	if ((self = [super initWithFrame:frameRect]) != nil)
-		[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSStringPboardType, nil]];
-	
-	return self;
+    self = [super initWithFrame:frameRect];
+    
+    if (self)
+    {
+        // register for file paths and strings (urls e.g. http:xxx)
+	    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSStringPboardType, nil]];
+    }
+    
+    return self;
 }
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self unregisterDraggedTypes];
-	
-    [super dealloc];
 }
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
@@ -64,11 +67,11 @@
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
 {
-	// Check for attached sheet, can't drag and drop then
-	if (![[self window] attachedSheet])
-		return YES;
-		
-	return NO;
+    // Check for attached sheet, can't drag and drop then
+    if (![[self window] attachedSheet])
+	    return YES;
+	    
+    return NO;
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
@@ -91,20 +94,21 @@
         {
             //we have a list of file names in an NSData object
             NSArray *fileArray = [paste propertyListForType:@"NSFilenamesPboardType"];
-			[mainController checkFiles:fileArray];
+    	    [[self delegate] dropView:self didDropFiles:fileArray];
         }
-		else if ([desiredType isEqualToString:NSStringPboardType]) // url string
-		{
-			NSString *urlString = [paste stringForType:NSStringPboardType];
-			[mainController checkFiles:[NSArray arrayWithObject:urlString]];
-		}
+	    else if ([desiredType isEqualToString:NSStringPboardType]) // url string
+	    {
+    	    NSString *urlString = [paste stringForType:NSStringPboardType];
+            NSURL *url = [NSURL URLWithString:urlString];
+            [[self delegate] dropView:self didDropURL:url];
+	    }
         else
         {
             //this can't happen
             return NO;
         }
     }
-	
+    
     return YES;
 }
 

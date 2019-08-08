@@ -7,17 +7,31 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MCCommonMethods.h"
 
-
+/**
+ *  An action menu button, show a menu when clicking it
+ */
 @interface MCActionButton : NSButton
-{
-	NSPopUpButton *menuPopup;
-	id delegate;
-}
 
-- (void)setDelegate:(id)del;
-- (void)addMenuWithTitle:(NSString *)title withSelector:(SEL)sel;
+/**
+ *  Menu target
+ */
+ @property (nonatomic, assign) id menuTarget;
+
+/**
+ *  Add menu item
+ *
+ *  @param title Title of menu item
+ *  @param selector A selector
+ */
+- (void)addMenuItemWithTitle:(NSString *)title withSelector:(SEL)selector;
+
+/**
+ *  Set the title of a menu item
+ *
+ *  @param title A title
+ *  @param index Index of menu item
+ */
 - (void)setTitle:(NSString *)title atIndex:(NSInteger)index;
 
 @end

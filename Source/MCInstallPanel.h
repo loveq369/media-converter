@@ -10,19 +10,30 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+/**
+ *  A panel that offers the chose to install at a user or all users application support path
+ */
 @interface MCInstallPanel : NSObject
-{
-	IBOutlet id installModePanel;
-	IBOutlet id installModePopup;
-	IBOutlet id suppressButton;
-	IBOutlet id taskField;
-}
 
-- (NSString *)installLocation;
-- (void)setTaskText:(NSString *)text;
+/**
+ *  Shared install panel
+ *
+ *  @return A shared install panel instance
+ */
++ (nonnull MCInstallPanel *)installPanel;
 
-/* Install Mode actions */
-- (IBAction)endSettingMode:(id)sender;
+/**
+ *  Run modal for install location
+ *
+ *  @discussion Runs a modal if needed, the user can choose to suppress it
+ *
+ *  @return A folder path
+ */
+- (nonnull NSString *)runModalForInstallLocation;
+
+/**
+ *  The task text
+ */
+@property (nonatomic, copy, nonnull) NSString *taskText;
 
 @end

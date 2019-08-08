@@ -13,30 +13,30 @@
 
 - initWithCoder:(NSCoder *)origCoder
 {
-	NSKeyedUnarchiver *coder = (id)origCoder;
-		
-	// gather info about the superclass's cell and save the archiver's old mapping
-	Class superCell = [[self superclass] cellClass];
-	NSString *oldClassName = NSStringFromClass(superCell);
-	Class oldClass = [coder classForClassName:oldClassName];
-	if(!oldClass)
-		oldClass = superCell;
-		
-	// override what comes out of the unarchiver
-	[coder setClass: [[self class] cellClass] forClassName:oldClassName];
-		
-	// unarchive
-	self = [super initWithCoder:coder];
-		
-	// set it back
-	[coder setClass: oldClass forClassName:oldClassName];
-	
-	return self;
+    NSKeyedUnarchiver *coder = (id)origCoder;
+	    
+    // gather info about the superclass's cell and save the archiver's old mapping
+    Class superCell = [[self superclass] cellClass];
+    NSString *oldClassName = NSStringFromClass(superCell);
+    Class oldClass = [coder classForClassName:oldClassName];
+    if(!oldClass)
+	    oldClass = superCell;
+	    
+    // override what comes out of the unarchiver
+    [coder setClass: [[self class] cellClass] forClassName:oldClassName];
+	    
+    // unarchive
+    self = [super initWithCoder:coder];
+	    
+    // set it back
+    [coder setClass: oldClass forClassName:oldClassName];
+    
+    return self;
 }
 
 - (BOOL)acceptsFirstResponder
 {
-	return NO;
+    return NO;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
@@ -44,7 +44,7 @@
 
 + (Class)cellClass
 {
-	return [MCCrippledButtonCell class];
+    return [MCCrippledButtonCell class];
 }
 
 @end
@@ -53,7 +53,7 @@
 
 - (BOOL)accessibilityIsIgnored
 {
-	return YES;
+    return YES;
 }
 
 @end

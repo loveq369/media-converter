@@ -8,13 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+/**
+ *  A colour well that (un)archives its object value, so we can store it to and from the disc (like in presets)
+ */
 @interface MCColorWell : NSColorWell
-{
-
-}
-
-- (id)objectValue;
-- (void)setObjectValue:(id)obj;
 
 @end
