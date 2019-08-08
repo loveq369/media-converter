@@ -873,13 +873,17 @@ static MCPresetManager *_defaultManager = nil;
     CGContextDrawImage(bitmapContext, CGRectMake(0.0, 0.0, imageWidth, imageHeight), filterImage);
     CGImageRelease(filterImage);
     
+    if ([[settings objectForKey:@"Subtitle Type"] isEqualTo:@"hard"])
+    {
+        CGImageRef subtitleImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings size:imageSize];
+        CGContextDrawImage(bitmapContext, CGRectMake(0.0, 0.0, imageWidth, imageHeight), subtitleImage);
+        CGImageRelease(subtitleImage);
+    }
+    
     CGImageRef finalImageRef = CGBitmapContextCreateImage(bitmapContext);
     NSImage *finalImage = [[NSImage alloc] initWithCGImage:finalImageRef size:imageSize];
     CGImageRelease(finalImageRef);
     CGContextRelease(bitmapContext);
-    
-//    if ([[settings objectForKey:@"Subtitle Type"] isEqualTo:@"hard"])
-//        previewImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings inputImage:previewImage];
     
     [previewImageView setImage:finalImage];
     [previewImageView display];

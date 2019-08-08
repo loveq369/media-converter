@@ -468,7 +468,7 @@
     return items;
 }
 
-+ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings inputImage:(CGImageRef)inputImage size:(NSSize)size
++ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings size:(NSSize)size
 {
     BOOL isString = ([object isKindOfClass:[NSString class]]);
     BOOL isAttributedString = ([object isKindOfClass:[NSAttributedString class]]);
@@ -552,10 +552,6 @@
     	    strokeAttrStr = [attrStr mutableCopy];
     }
     
-//    NSImage *subImage = [image copy];
-//    size_t imageWidth = CGImageGetWidth(inputImage);
-//    size_t imageHeight = CGImageGetHeight(inputImage);
-//    NSSize imageSize = NSMakeSize(imageWidth, imageHeight);
     NSSize imageSize = size;
 
     NSRect objectFrame;
@@ -630,14 +626,7 @@
     	    x = (imageSize.width - width - rightMargin);
     }
     
-    
-    
-//    CGImageRef subImageRef = [subImage CGImageForProposedRect:nil context:nil hints:nil];
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height,
-                                                               8, imageSize.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
-    
-	    
-//    [subImage lockFocus];
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, imageSize.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
     
     if (isString | isAttributedString)
     {
@@ -652,11 +641,9 @@
 	    	    boxX = (imageSize.width - attrSize.width - rightMargin - boxMarge);
     	    else
 	    	    boxX = x;
-	    
-    	    [[boxColor colorWithAlphaComponent:boxAlpha] set];
-    	    
-    	    NSBezierPath *path = [NSBezierPath bezierPathWithRect:NSMakeRect(boxX, y, attrSize.width + boxMarge * 2, height + boxMarge * 2)];
-    	    [path fill];
+	        
+            CGContextSetFillColorWithColor(bitmapContext, [[boxColor colorWithAlphaComponent:boxAlpha] CGColor]);
+            CGContextFillRect(bitmapContext, NSMakeRect(boxX, y, attrSize.width + boxMarge * 2, height + boxMarge * 2));
 	    }
 	    
 	    if (!box)
@@ -668,16 +655,18 @@
 //        [currentContent saveGraphicsState];
 //        [currentContent setCompositingOperation:NSCompositeSourceOver];
 	    
-//        CGContextSetAlpha(bitmapContext, alphaValue);
-//
-//        CGContextDrawPath(bitmapContext, nil);
-    
+        CGContextSetAlpha(bitmapContext, alphaValue);
         
-    
+        [NSGraphicsContext saveGraphicsState];
+        NSGraphicsContext *graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:bitmapContext flipped:NO];
+        [NSGraphicsContext setCurrentContext:graphicsContext];
+        
 	    [attrStr drawInRect:NSMakeRect(x + boxMarge, y + boxMarge, width - (boxMarge * 2), height)];
 	    
 	    if (border)
     	    [strokeAttrStr drawInRect:NSMakeRect(x, y, width, height)];
+        
+        [NSGraphicsContext restoreGraphicsState];
 
 	    attrStr = nil;
 	    

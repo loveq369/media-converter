@@ -46,7 +46,7 @@
 //Get the selected items in the tableview
 + (NSArray *)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array;
 //Create a image with text
-+ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings inputImage:(CGImageRef)inputImage size:(NSSize)size;
++ (CGImageRef)overlayImageWithObject:(id)object withSettings:(NSDictionary *)settings size:(NSSize)size;
 //Calculate height for a string (used by subs)
 + (NSRect)frameForStringDrawing:(NSAttributedString *)myString forWidth:(float)myWidth;
 //Get the application icon (needed since using Retina images messed things up)

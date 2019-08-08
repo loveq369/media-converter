@@ -1710,16 +1710,12 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetManager defaultManager] defaults]];
 	    [defaultSettings addEntriesFromDictionary:[convertOptions objectForKey:@"Extra Options"]];
 	    
-	    NSImage *image = [MCCommonMethods overlayImageWithObject:string withSettings:defaultSettings inputImage:NULL size:NSMakeSize(0, 0)];
+	    CGImageRef image = [MCCommonMethods overlayImageWithObject:string withSettings:defaultSettings size:size];
 	    
 	    subImage = nil;
 	    
-	    tiffData = [image TIFFRepresentation];
-	    bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
-	    NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:@{}];
-	    
 	    NSString *imagePath = [temporaryFolder stringByAppendingPathComponent:@"not-empty.png"];
-	    [imageData writeToFile:imagePath atomically:YES];
+        CGImageWriteToFile(image, imagePath);
 
 	    ffmpeg = [[NSTask alloc] init];
 	    [ffmpeg setLaunchPath:[MCCommonMethods ffmpegPath]];

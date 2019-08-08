@@ -203,11 +203,9 @@
 - (CGImageRef)imageWithSize:(NSSize)size
 {
     NSMutableDictionary *filterOptions = [self filterOptions];
-    //NSAttributedString *attrString = [[[NSAttributedString alloc] initWithAttributedString:[textView textStorage]] autorelease];
-    NSImage *emptyImage = [[NSImage alloc] initWithSize:size];
     NSData *imageData = [filterOptions objectForKey:@"Overlay Image"];
 
-    return [MCCommonMethods overlayImageWithObject:imageData withSettings:filterOptions inputImage:[emptyImage CGImageForProposedRect:nil context:NULL hints:nil] size:size];
+    return [MCCommonMethods overlayImageWithObject:imageData withSettings:filterOptions size:size];
 }
 
 @end
