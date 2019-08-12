@@ -428,13 +428,13 @@
                         <rect key="frame" x="20" y="61" width="481" height="134"/>
                         <clipView key="contentView" id="nnR-Kb-0gt">
                             <rect key="frame" x="1" y="1" width="479" height="132"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView focusRingType="none" verticalHuggingPriority="750" tag="1" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="64" rowSizeStyle="automatic" viewBased="YES" id="296">
                                     <rect key="frame" x="0.0" y="0.0" width="479" height="132"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn identifier="Main" editable="NO" width="476" minWidth="40" maxWidth="1000" id="298">

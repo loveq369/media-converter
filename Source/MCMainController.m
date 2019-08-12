@@ -298,7 +298,7 @@
         for (NSString *path in presets)
         {
             NSDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-            if ([preset[@"Version"] doubleValue] < 2.0)
+            if ([preset[@"Version"] doubleValue] < 1.2)
             {
                 hasOldPresets = YES;
             }
@@ -374,10 +374,35 @@
         }
         else
         {
+            NSString *userSupportFolder = [@"~/Library/Application Support/Media Converter" stringByExpandingTildeInPath];
+            NSString *fontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:fontPath])
+            {
+                if (completion != nil)
+                {
+                    completion();
+                }
+            }
+            else
+            {
+                [MCMainController updateFontListForWindow:[self mainWindow] withCompletion:completion];
+            }
+        }
+    }
+    else
+    {
+        NSString *userSupportFolder = [@"~/Library/Application Support/Media Converter" stringByExpandingTildeInPath];
+        NSString *fontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:fontPath])
+        {
             if (completion != nil)
             {
                 completion();
             }
+        }
+        else
+        {
+            [MCMainController updateFontListForWindow:[self mainWindow] withCompletion:completion];
         }
     }
     
@@ -444,20 +469,6 @@
         
         //Update "MCLastCheck" so we'll won't check again
         [standardDefaults setObject:@(2.0) forKey:@"MCLastCheck"];
-    }
-    
-    NSString *userSupportFolder = [@"~/Library/Application Support/Media Converter" stringByExpandingTildeInPath];
-    NSString *fontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:fontPath])
-    {
-        if (completion != nil)
-        {
-            completion();
-        }
-    }
-    else
-    {
-        [MCMainController updateFontListForWindow:[self mainWindow] withCompletion:completion];
     }
 }
 
