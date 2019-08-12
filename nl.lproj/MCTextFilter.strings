@@ -1,6 +1,9 @@
 /* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "59"; */
 "59.title" = "Tekst:";
 
+/* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "bvn-lG-y7B"; */
+"bvn-lG-y7B.title" = "Gebruikt het 'Lettertype' menu om de tekstweergave aan te passen";
+
 /* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
 "55.title" = "Instellingen";
 

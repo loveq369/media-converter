@@ -40,11 +40,4 @@
  */
 - (void)showPreferences;
 
-/**
- *  Update font list
- *
- *  @param window Modal window
- */
-- (void)updateFontListForWindow:(NSWindow * _Nullable)window;
-
 @end

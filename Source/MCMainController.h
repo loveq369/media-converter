@@ -15,4 +15,12 @@
  */
 @interface MCMainController : NSObject
 
+/**
+ *  Update font list
+ *
+ *  @param window The modal window
+ *  @param completion Called when done
+ */
++ (void)updateFontListForWindow:(NSWindow *)window withCompletion:(void (^)(void))completion;
+
 @end

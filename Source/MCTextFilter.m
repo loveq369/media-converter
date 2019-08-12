@@ -29,52 +29,64 @@
 
 - (instancetype)init
 {
-    self = [super init];
-
-    if (self != nil)
+    if (self = [super init])
     {
-	    _filterMappings = [[NSArray alloc] initWithObjects:	    //Text
-	    	    	    	    	    	    	    	    @"Horizontal Alignment",	    	    //1
-	    	    	    	    	    	    	    	    @"Vertical Alignment",    	    	    //2
-	    	    	    	    	    	    	    	    @"Left Margin",    	    	    	    //3
-	    	    	    	    	    	    	    	    @"Right Margin",	    	    	    //4
-	    	    	    	    	    	    	    	    @"Top Margin",    	    	    	    //5
-	    	    	    	    	    	    	    	    @"Bottom Margin",	    	    	    //6
-	    	    	    	    	    	    	    	    @"Method",	    	    	    	    //7
-	    	    	    	    	    	    	    	    @"Border Color",	    	    	    //8
-	    	    	    	    	    	    	    	    @"Border Size",    	    	    	    //9
-	    	    	    	    	    	    	    	    @"Box Color",    	    	    	    //10
-	    	    	    	    	    	    	    	    @"Box Marge",    	    	    	    //11
-	    	    	    	    	    	    	    	    @"Box Alpha Value",	    	    	    //12
-	    	    	    	    	    	    	    	    @"Alpha Value",    	    	    	    //13
-	    nil];
-	    
-	    _filterDefaultValues = [[NSArray alloc] initWithObjects:	    //Text
-    	    	    	    	    	    	    	    	    @"left",    	    	    	    	    	    	    	    // Horizontal Alignment
-    	    	    	    	    	    	    	    	    @"top",	    	    	    	    	    	    	    	    // Vertical Alignment
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],    	    	    	    	    // Left Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],    	    	    	    	    // Right Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],    	    	    	    	    // Top Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],	    	    	    	    	    // Bottom Margin
-    	    	    	    	    	    	    	    	    @"border",    	    	    	    	    	    	    	    // Subtitle Method
-    	    	    	    	    	    	    	    	    [NSArchiver archivedDataWithRootObject:[NSColor blackColor]],	    // Subtitle Border Color
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:4],	    	    	    	    	    // Subtitle Border Size
-    	    	    	    	    	    	    	    	    [NSArchiver archivedDataWithRootObject:[NSColor darkGrayColor]],    // Subtitle Box Color
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:10],    	    	    	    	    // Subtitle Box Marge
-    	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:0.50],    	    	    	    	    // Subtitle Box Alpha Value
-    	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:1.00],    	    	    	    	    // Alpha Value
-	    nil];
-	    
-	    _filterOptions = [[NSMutableDictionary alloc] initWithObjects:_filterDefaultValues forKeys:_filterMappings];
-        
+        [self setup];
         [[NSBundle mainBundle] loadNibNamed:@"MCTextFilter" owner:self topLevelObjects:nil];
     }
 
     return self;
 }
 
+- (instancetype)initForPreview
+{
+    if (self = [super initForPreview])
+    {
+        [self setup];
+    }
+
+    return self;
+}
+
+- (void)setup
+{
+     _filterMappings = @[   @"Horizontal Alignment",                                                //1
+                            @"Vertical Alignment",                                                  //2
+                            @"Left Margin",                                                         //3
+                            @"Right Margin",                                                        //4
+                            @"Top Margin",                                                          //5
+                            @"Bottom Margin",                                                       //6
+                            @"Method",                                                              //7
+                            @"Border Color",                                                        //8
+                            @"Border Size",                                                         //9
+                            @"Box Color",                                                           //10
+                            @"Box Marge",                                                           //11
+                            @"Box Alpha Value",                                                     //12
+                            @"Alpha Value",                                                         //13
+                       ];
+    
+    _filterDefaultValues = @[   @"left",                                                            // Horizontal Alignment
+                                @"top",                                                             // Vertical Alignment
+                                @(30),                                                              // Left Margin
+                                @(30),                                                              // Right Margin
+                                @(30),                                                              // Top Margin
+                                @(0),                                                               // Bottom Margin
+                                @"none",                                                            // Method
+                                [NSArchiver archivedDataWithRootObject:[NSColor blackColor]],       // Border Color
+                                @(4),                                                               // Border Size
+                                [NSArchiver archivedDataWithRootObject:[NSColor darkGrayColor]],    // Box Color
+                                @(10),                                                              // Box Marge
+                                @(0.50),                                                            // Box Alpha Value
+                                @(1.00),                                                            // Alpha Value
+                           ];
+    
+    _filterOptions = [[NSMutableDictionary alloc] initWithObjects:_filterDefaultValues forKeys:_filterMappings];
+}
+
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(textChanged) name:@"NSTextDidChangeNotification" object:[self textView]];
 
@@ -82,10 +94,12 @@
     [[self textVerticalPopup] setArray:[MCCommonMethods defaultVerticalPopupArray]];
     
     NSMutableArray *textVisibilities = [NSMutableArray array];
-    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Text Border", nil), @"Name", @"border", @"Format", nil] atIndex:0];
-    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Surounding Box", nil), @"Name", @"box", @"Format", nil] atIndex:1];
-    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"None", nil), @"Name", @"none", @"Format", nil] atIndex:2];
+    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"None", nil), @"Name", @"none", @"Format", nil] atIndex:0];
+    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Text Border", nil), @"Name", @"border", @"Format", nil] atIndex:1];
+    [textVisibilities insertObject:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Surounding Box", nil), @"Name", @"box", @"Format", nil] atIndex:2];
     [[self textVisiblePopup] setArray:textVisibilities];
+    
+    [self setTextVisibility:nil];
 }
 
 + (NSString *)localizedName
@@ -95,7 +109,7 @@
 
 - (void)resetView
 {
-    [[self textView] setString:@""];
+    [[[self textView] textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:@""]];
     
     [super resetView];
 }
@@ -107,7 +121,7 @@
     if (textData != nil)
     {
 	    NSAttributedString *attrString = [NSUnarchiver unarchiveObjectWithData:textData];
-	    [[self textView] insertText:attrString];
+        [[[self textView] textStorage] setAttributedString:attrString];
     }
     
     [super setupView];
@@ -153,10 +167,10 @@
 	    selectedIndex = [textVisiblePopup indexOfSelectedItem];
     
     NSTabView *textMethodTabView = [self textMethodTabView];
-    if (selectedIndex < 2)
-	    [textMethodTabView selectTabViewItemAtIndex:selectedIndex];
+    if (selectedIndex > 0)
+	    [textMethodTabView selectTabViewItemAtIndex:selectedIndex - 1];
 	    
-    [textMethodTabView setHidden:(selectedIndex == 2)];
+    [textMethodTabView setHidden:(selectedIndex == 0)];
 
     if (sender != nil)
 	    [self setFilterOption:sender];
@@ -164,11 +178,17 @@
 
 - (CGImageRef)newImageWithSize:(NSSize)size
 {
-   NSMutableDictionary *filterOptions = [self filterOptions];
+    NSMutableDictionary *filterOptions = [self filterOptions];
     NSData *textData = [filterOptions objectForKey:@"Text"];
-    NSAttributedString *attrString = [NSUnarchiver unarchiveObjectWithData:textData];
+    
+    if (textData != nil)
+    {
+        NSAttributedString *attrString = [NSUnarchiver unarchiveObjectWithData:textData];
 
-    return [MCCommonMethods newOverlayImageWithObject:attrString withSettings:filterOptions size:size];
+        return [MCCommonMethods newOverlayImageWithObject:attrString withSettings:filterOptions size:size];
+    }
+    
+    return NULL;
 }
 
 @end

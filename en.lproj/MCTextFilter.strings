@@ -1,6 +1,9 @@
 /* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "59"; */
 "59.title" = "Text:";
 
+/* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "bvn-lG-y7B"; */
+"bvn-lG-y7B.title" = "Use the 'Font' menu to edit the text appearance";
+
 /* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
 "55.title" = "Settings";
 

@@ -25,7 +25,7 @@
     	    <string>31</string>
 	    </dict>
 	    <dict>
-    	    <key>-b</key>
+    	    <key>-b:v</key>
     	    <string>6000000</string>
 	    </dict>
 	    <dict>
@@ -41,7 +41,7 @@
     	    <string>48000</string>
 	    </dict>
 	    <dict>
-    	    <key>-ab</key>
+    	    <key>-b:a</key>
     	    <string>448000</string>
 	    </dict>
 	    <dict>

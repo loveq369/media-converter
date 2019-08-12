@@ -59,11 +59,6 @@
 @property (nonatomic, copy, nullable) NSString *status;
 
 /**
- * The icon image show in the left of the progress dialog
- */
-@property (nonatomic, copy, nullable) NSImage *iconImage;
-
-/**
  *  The maximum value of the progress indicator
  */
 @property (nonatomic) CGFloat maximumValue;

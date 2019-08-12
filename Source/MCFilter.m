@@ -30,6 +30,17 @@
     return self;
 }
 
+- (instancetype)initForPreview
+{
+    self = [super init];
+    
+    if (self != nil)
+    {
+    }
+    
+    return self;
+}
+
 - (void)setOptions:(NSDictionary *)options
 {
     NSDictionary *fallBackDictionary = [NSMutableDictionary dictionaryWithObjects:[self filterDefaultValues] forKeys:[self filterMappings]];
@@ -52,6 +63,14 @@
     NSMutableDictionary *filterOptions = [self filterOptions];
     [filterOptions removeAllObjects];
     [filterOptions addEntriesFromDictionary:[[NSMutableDictionary alloc] initWithObjects:[self filterDefaultValues] forKeys:[self filterMappings]]];
+}
+
+- (NSDictionary *)filterDictionary
+{
+    return  @{  @"Type": [[self name] copy],
+                @"Options": [[self filterOptions] copy],
+                @"Identifier": [[self filterIdentifier] copy]
+             };
 }
 
 - (NSString *)name

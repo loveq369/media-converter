@@ -17,7 +17,7 @@
     	    <string>libmp3lame</string>
 	    </dict>
 	    <dict>
-    	    <key>-ab</key>
+    	    <key>-b:a</key>
     	    <string>320000</string>
 	    </dict>
 	    <dict>
@@ -36,6 +36,6 @@
     <key>Name</key>
     <string>MP3</string>
     <key>Version</key>
-    <string>1.0</string>
+    <string>2.0</string>
 </dict>
 </plist>

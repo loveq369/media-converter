@@ -14,14 +14,14 @@
 	    </dict>
 	    <dict>
     	    <key>-acodec</key>
-    	    <string>libfaac</string>
+    	    <string>aac</string>
 	    </dict>
 	    <dict>
-    	    <key>-ab</key>
+    	    <key>-b:a</key>
     	    <string>128000</string>
 	    </dict>
 	    <dict>
-    	    <key>-b</key>
+    	    <key>-b:v</key>
     	    <string>1500000</string>
 	    </dict>
 	    <dict>
@@ -37,24 +37,16 @@
     	    <string>1</string>
 	    </dict>
 	    <dict>
-    	    <key>-flags</key>
-    	    <string>+loop+slice</string>
-	    </dict>
-	    <dict>
-    	    <key>-deblockalpha</key>
-    	    <string>0</string>
-	    </dict>
-	    <dict>
-    	    <key>-deblockbeta</key>
-    	    <string>0</string>
+    	    <key>-deblock</key>
+    	    <string>0:0</string>
 	    </dict>
 	    <dict>
     	    <key>-partitions</key>
     	    <string>+parti4x4+partp8x8+partb8x8</string>
 	    </dict>
 	    <dict>
-    	    <key>-me_method</key>
-    	    <string>8</string>
+    	    <key>-motion-est</key>
+    	    <string>4</string>
 	    </dict>
 	    <dict>
     	    <key>-subq</key>
@@ -89,10 +81,6 @@
     	    <string>40</string>
 	    </dict>
 	    <dict>
-    	    <key>-rc_eq</key>
-    	    <string>'blurCplx^(1-qComp)'</string>
-	    </dict>
-	    <dict>
     	    <key>-qcomp</key>
     	    <string>0.7</string>
 	    </dict>
@@ -125,8 +113,8 @@
     	    <string>8</string>
 	    </dict>
 	    <dict>
-    	    <key>-async</key>
-    	    <string>1</string>
+    	    <key>-af</key>
+    	    <string>aresample=async=1:min_hard_comp=0.100000:first_pts=0</string>
 	    </dict>
     </array>
     <key>Extension</key>
@@ -161,6 +149,6 @@
     <key>Name</key>
     <string>iPod / iPhone (H.264)</string>
     <key>Version</key>
-    <string>1.2</string>
+    <string>2.0</string>
 </dict>
 </plist>

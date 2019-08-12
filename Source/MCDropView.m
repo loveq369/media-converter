@@ -25,6 +25,16 @@
     return self;
 }
 
+- (BOOL)isAccessibilityElement
+{
+    return YES;
+}
+
+- (BOOL)acceptsFirstResponder
+{
+    return YES;
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

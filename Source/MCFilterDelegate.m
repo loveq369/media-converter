@@ -89,38 +89,38 @@
 - (IBAction)addFilter:(id)sender
 {    
     [self selectFilter:nil];
+    [[self openFilter] resetView];
     
     [[self filterCloseButton] setTitle:NSLocalizedString(@"Add", nil)];
 
-    [NSApp beginSheet:[self filterWindow] modalForWindow:[self modalWindow] modalDelegate:self didEndSelector:@selector(filterSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
-}
-
-- (void)filterSheetDidEnd:(NSWindow*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [panel orderOut:nil];
-
-    if (returnCode == NSOKButton)
+    [[self modalWindow] beginSheet:[self filterWindow] completionHandler:^(NSModalResponse returnCode)
     {
-	    MCFilter *currentFilter = [[self filters] objectAtIndex:[[self filterPopup] indexOfSelectedItem]];
-	    NSDictionary *filter = [NSDictionary dictionaryWithObjectsAndKeys:[currentFilter name], @"Type", [currentFilter filterOptions], @"Options", [currentFilter filterIdentifier], @"Identifier", nil];
+        if (returnCode == NSModalResponseOK)
+        {
+            MCFilter *currentFilter = [[self filters] objectAtIndex:[[self filterPopup] indexOfSelectedItem]];
+            
+            [[self tableData] addObject:[currentFilter filterDictionary]];
+            [[self tableView] reloadData];
+        }
         
-	    [[self tableData] addObject:filter];
-	    [[self tableView] reloadData];
-    }
-    
-    [self setOpenFilter:nil];
-    
-    [[MCPresetManager defaultManager] updatePreview];
+        [self setOpenFilter:nil];
+        
+        [[MCPresetManager defaultManager] updatePreview];
+    }];
 }
 
 - (IBAction)add:(id)sender
 {
-    [NSApp endSheet:[self filterWindow] returnCode:NSOKButton];
+    NSWindow *filterWindow = [self filterWindow];
+    [filterWindow orderOut:nil];
+    [[self modalWindow] endSheet:filterWindow returnCode:NSModalResponseOK];
 }
 
 - (IBAction)cancel:(id)sender
 {
-    [NSApp endSheet:[self filterWindow] returnCode:NSCancelButton];
+    NSWindow *filterWindow = [self filterWindow];
+    [filterWindow orderOut:nil];
+    [[self modalWindow] endSheet:filterWindow returnCode:NSModalResponseCancel];
 }
 
 - (IBAction)delete:(id)sender
@@ -190,10 +190,27 @@
 	    [openFilter setOptions:[filterOptions objectForKey:@"Options"]];
 	    [openFilter setupView];
         [self setOpenFilter:openFilter];
+        
+        [[MCPresetManager defaultManager] updatePreview];
     
 	    [[self filterCloseButton] setTitle:NSLocalizedString(@"Save", nil)];
     
-	    [NSApp beginSheet:[self filterWindow] modalForWindow:[self modalWindow] modalDelegate:self didEndSelector:@selector(filterEditSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	    [[self modalWindow] beginSheet:[self filterWindow] completionHandler:^(NSModalResponse returnCode)
+        {
+            if (returnCode == NSModalResponseOK)
+            {
+                MCFilter *currentFilter = [[self filters] objectAtIndex:[[self filterPopup] indexOfSelectedItem]];
+
+                MCTableView *tableView = [self tableView];
+                [[self tableData] replaceObjectAtIndex:[tableView selectedRow] withObject:[currentFilter filterDictionary]];
+                [tableView reloadData];
+            }
+            
+            [self setOpenFilterOptions:nil];
+            [self setOpenFilter:nil];
+            
+            [[MCPresetManager defaultManager] updatePreview];
+        }];
     }
 }
 
@@ -201,21 +218,6 @@
 {
     [panel makeFirstResponder:nil];
     [panel orderOut:nil];
-
-    if (returnCode == NSOKButton)
-    {
-	    MCFilter *currentFilter = [[self filters] objectAtIndex:[[self filterPopup] indexOfSelectedItem]];
-
-	    NSDictionary *filter = [NSDictionary dictionaryWithObjectsAndKeys:[currentFilter name], @"Type", [currentFilter filterOptions], @"Options", [currentFilter filterIdentifier], @"Identifier", nil];
-        MCTableView *tableView = [self tableView];
-        [[self tableData] replaceObjectAtIndex:[tableView selectedRow] withObject:filter];
-	    [tableView reloadData];
-    }
-    
-    [self setOpenFilterOptions:nil];
-    [self setOpenFilter:nil];
-    
-    [[MCPresetManager defaultManager] updatePreview];
 }
 
 - (IBAction)selectFilter:(id)sender
@@ -234,7 +236,6 @@
     }
     
     MCFilter *openFilter = [filters objectAtIndex:[[self filterPopup] indexOfSelectedItem]];
-    [openFilter resetView];
     [openFilter setupView];
     [self setOpenFilter:openFilter];
     
@@ -248,7 +249,9 @@
     
     //Took me a while to figure out a height problem (when this call is done before the sheet opens the window misses a title bar)
     if (![filterWindow isSheet])
+    {
 	    newHeight += 22;
+    }
     
     CGFloat newY = windowFrame.origin.y - (newHeight - windowFrame.size.height);
     
@@ -257,6 +260,8 @@
     
     [[filterWindow contentView] addSubview:newView];
     [filterWindow recalculateKeyViewLoop];
+    
+    [[MCPresetManager defaultManager] updatePreview];
 }
 
 - (void)setFilterOptions:(NSMutableArray *)filterOptions
@@ -288,28 +293,51 @@
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef bitmapContext = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4, colorSpace, (CGBitmapInfo)kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
     CGColorSpaceRelease(colorSpace);
-    
+    BOOL openFilterDrawn = NO;
     for (NSDictionary *filterOptions in [self tableData])
     {
 	    if (filterOptions != [self openFilterOptions])
 	    {
     	    NSString *type = [filterOptions objectForKey:@"Type"];
 	    
-    	    MCFilter *filter = [[NSClassFromString(type) alloc] init];
+    	    MCFilter *filter = [[NSClassFromString(type) alloc] initForPreview];
     	    [filter setOptions:[filterOptions objectForKey:@"Options"]];
     	    
-    	    CGImageRef filterImage = [filter newImageWithSize:size];
-            CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
-            CGImageRelease(filterImage);
+            CGImageRef filterImage = [filter newImageWithSize:size];
+            if (filterImage != NULL)
+            {
+                CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
+                CGImageRelease(filterImage);
+            }
 	    }
+        else
+        {
+            MCFilter *openFilter = [self openFilter];
+            if (openFilter != nil)
+            {
+                CGImageRef filterImage = [openFilter newImageWithSize:size];
+                if (filterImage != NULL)
+                {
+                    CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
+                    CGImageRelease(filterImage);
+                }
+            }
+            openFilterDrawn = YES;
+        }
     }
     
-    MCFilter *openFilter = [self openFilter];
-    if (openFilter != nil)
+    if (!openFilterDrawn)
     {
-	    CGImageRef filterImage = [openFilter newImageWithSize:size];
-        CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
-        CGImageRelease(filterImage);
+        MCFilter *openFilter = [self openFilter];
+        if (openFilter != nil)
+        {
+            CGImageRef filterImage = [openFilter newImageWithSize:size];
+            if (filterImage != NULL)
+            {
+                CGContextDrawImage(bitmapContext, NSMakeRect(0, 0, size.width, size.height), filterImage);
+                CGImageRelease(filterImage);
+            }
+        }
     }
     
     CGImageRef previewImage = CGBitmapContextCreateImage(bitmapContext);

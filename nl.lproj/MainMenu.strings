@@ -11,6 +11,9 @@
 /* Class = "NSMenuItem"; title = "About Media Converter"; ObjectID = "58"; */
 "58.title" = "Over Media-omzetter";
 
+/* Class = "NSMenuItem"; title = "Check for Updates…"; ObjectID = "ZJn-7b-vaI"; */
+"ZJn-7b-vaI.title" = "Zoek naar nieuwe versies…";
+
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "129"; */
 "129.title" = "Voorkeuren…";
 
@@ -282,6 +285,9 @@
 /* Class = "NSMenuItem"; title = "Make a Donation"; ObjectID = "504"; */
 "504.title" = "Maak een donatie";
 
+/* Class = "NSMenuItem"; title = "Contact Support"; ObjectID = "3Cr-4T-ola"; */
+"3Cr-4T-ola.title" = "Contact via e-mail";
+
 
 // Main Window
 
@@ -291,8 +297,26 @@
 /* Class = "NSTextFieldCell"; title = "Drag Files Here"; ObjectID = "455"; */
 "455.title" = "Sleep bestanden hierheen";
 
+/* Class = "NSView"; ibExternalAccessibilityDescription = "Sleep bestanden hierheen"; ObjectID = "482"; */
+"482.ibExternalAccessibilityDescription" = "Sleep bestanden hierheen";
+
+/* Class = "NSView"; ibExternalAccessibilityHelp = "Drag media files and URLs here"; ObjectID = "482"; */
+"482.ibExternalAccessibilityHelp" = "Sleep media bestanden en locaties hierheen";
+
 /* Class = "NSTextFieldCell"; title = "Convert To:"; ObjectID = "469"; */
 "469.title" = "Converteer naar:";
+
+/* Class = "NSPopUpButton"; ibExternalAccessibilityDescription = "Preset Pop Up menu"; ObjectID = "462"; */
+"462.ibExternalAccessibilityDescription" = "Voorinstelling selectiemenu";
+
+/* Class = "NSPopUpButton"; ibExternalAccessibilityHelp = "Select the preset you want to use when converting media files"; ObjectID = "462"; */
+"462.ibExternalAccessibilityHelp" = "Selecteer een voorinstelling voor het omzetten van media bestanden";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Preset Options"; ObjectID = "541"; */
+"541.ibExternalAccessibilityDescription" = "Voorinstelling opties";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Allows you to export or edit the current selected preset file"; ObjectID = "541"; */
+"541.ibExternalAccessibilityHelp" = "Exporteer of wijzig de huidige geselecteerde voorinstelling";
 
 
 // Locations Panel
@@ -302,6 +326,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Locations:"; ObjectID = "514"; */
 "514.title" = "Locaties:";
+
+/* Class = "NSView"; ibExternalAccessibilityDescription = "Type in locations, use an enter to separate the URLs"; ObjectID = "530"; */
+"530.ibExternalAccessibilityDescription" = "Type hier je locaties, gebruik een nieuwe regel voor meerdere locaties";
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "524"; */
 "524.title" = "Annuleer";

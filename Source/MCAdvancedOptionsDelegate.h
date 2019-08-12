@@ -17,7 +17,7 @@
  *
  *  @param options An array of options to add in the form of @[@{@"Option Name", @"Option"}]
  */
-- (void)addOptions:(NSArray * _Nonnull)options;
+- (void)addOptions:(nonnull NSArray *)options;
 
 /**
  *  The current options

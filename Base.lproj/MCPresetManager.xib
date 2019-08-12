@@ -29,6 +29,7 @@
                 <outlet property="hardcodedSettingsView" destination="1185" id="1432"/>
                 <outlet property="hardcodedVAlignPopup" destination="1237" id="1429"/>
                 <outlet property="hardcodedVisiblePopup" destination="1226" id="1430"/>
+                <outlet property="mainTabView" destination="90" id="Ren-nQ-uVB"/>
                 <outlet property="modePopup" destination="163" id="260"/>
                 <outlet property="nameField" destination="222" id="224"/>
                 <outlet property="optionDelegate" destination="214" id="D99-2K-eQx"/>
@@ -124,7 +125,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
                                         <tableColumn identifier="settings" width="398" minWidth="40" maxWidth="1000" id="101">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Settings">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Setting">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -137,6 +138,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
                                     </tableColumns>
+                                    <accessibility description="Advanced Options List" help="A list of advanced FFmpeg options"/>
                                     <connections>
                                         <outlet property="dataSource" destination="214" id="215"/>
                                         <outlet property="delegate" destination="214" id="216"/>
@@ -632,10 +634,10 @@ Gw
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="206" id="5o8-Mi-eDK"/>
                                                 <constraint firstAttribute="height" constant="22" id="CWe-fI-s1M"/>
                                             </constraints>
-                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="493">
+                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" id="493">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
-                                                <menu key="menu" title="OtherViews" id="494"/>
+                                                <menu key="menu" title="OtherViews" autoenablesItems="NO" id="494"/>
                                             </popUpButtonCell>
                                             <connections>
                                                 <action selector="setSubtitleKind:" target="-2" id="628"/>
@@ -698,6 +700,7 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                         </tableColumns>
+                                                        <accessibility description="Filter list" help="A list of filters that are applied to media files converted with the preset"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="1335" id="1417"/>
                                                             <outlet property="delegate" destination="1335" id="1418"/>
@@ -736,6 +739,7 @@ Gw
                                                 <string key="keyEquivalent"></string>
                                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                             </buttonCell>
+                                            <accessibility description="Delete" help="Delete selected filter(s)"/>
                                             <connections>
                                                 <action selector="delete:" target="1335" id="1524"/>
                                             </connections>
@@ -752,6 +756,7 @@ Gw
                                                 <string key="keyEquivalent">=</string>
                                                 <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             </buttonCell>
+                                            <accessibility description="Add" help="Add filters to the preset"/>
                                             <connections>
                                                 <action selector="addFilter:" target="1335" id="1523"/>
                                             </connections>
@@ -768,6 +773,7 @@ Gw
                                                 <string key="keyEquivalent">O</string>
                                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                             </buttonCell>
+                                            <accessibility description="Action Button" help="Show context menu for the selected preset filter(s)"/>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -840,6 +846,7 @@ Gw
                             <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility help="Show or hide advanced FFmpeg options"/>
                         <connections>
                             <action selector="toggleAdvancedView:" target="-2" id="203"/>
                         </connections>
@@ -959,7 +966,7 @@ Gw
             <connections>
                 <outlet property="delegate" destination="-2" id="624"/>
             </connections>
-            <point key="canvasLocation" x="181" y="-31.5"/>
+            <point key="canvasLocation" x="365" y="-37"/>
         </window>
         <customObject id="214" customClass="MCAdvancedOptionsDelegate">
             <connections>
@@ -1489,7 +1496,7 @@ Gw
                 <constraint firstItem="1234" firstAttribute="centerY" secondItem="1235" secondAttribute="centerY" id="zUq-e0-18X"/>
                 <constraint firstItem="1239" firstAttribute="leading" secondItem="1240" secondAttribute="trailing" constant="6" id="zjh-cc-byF"/>
             </constraints>
-            <point key="canvasLocation" x="-208" y="358"/>
+            <point key="canvasLocation" x="-83" y="377"/>
         </view>
         <view id="1186" userLabel="DVD Subtitle View">
             <rect key="frame" x="0.0" y="0.0" width="545" height="158"/>
@@ -1828,7 +1835,7 @@ Gw
         </customObject>
     </objects>
     <resources>
-        <image name="Gear with arrow" width="18" height="12"/>
+        <image name="Gear with arrow" width="30" height="24"/>
         <image name="Sintel-frame" width="1920" height="818"/>
     </resources>
 </document>

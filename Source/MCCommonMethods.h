@@ -11,6 +11,9 @@
 
 @interface MCCommonMethods : NSObject
 
+// Check for dark appearance
+BOOL isAppearanceIsDark(NSAppearance * appearance);
+
 //OS actions
 
 //File actions
@@ -43,6 +46,7 @@
 + (BOOL)launchNSTaskAtPath:(NSString *)path withArguments:(NSArray *)arguments outputError:(BOOL)error outputString:(BOOL)string output:(id *)data inputPipe:(NSPipe *)inPipe predefinedTask:(NSTask *)preTask;
 //Standard informative alert
 + (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent withDetails:(NSString *)details;
++ (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent withDetails:(NSString *)details completionHandler:(void (^)(NSModalResponse returnCode))handler;
 //Get the selected items in the tableview
 + (NSArray *)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array;
 //Create a image with text

@@ -234,12 +234,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    subtitleType = @"none";
 
     NSString *temporarySubtitleFile = nil;
-    
-    NSArray *quicktimeOptions = [NSArray array];
-    NSArray *wavOptions = [NSArray array];
     NSArray *inputOptions;// = [NSArray array];
-    
-    NSArray *padOptions = [NSArray array];
+
     
     CGFloat width, height;
     CGFloat aspect = 0;
@@ -276,7 +272,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    aspect = (CGFloat)16 / (CGFloat)9;
 	    
 	    // Construct a new aspect and change it in the options
-        newSizeString = [NSString stringWithFormat:@"%fx%li", width, evenInteger((NSInteger)(width / aspect))];
+        newSizeString = [NSString stringWithFormat:@"%lix%li", (NSInteger)width, evenInteger((NSInteger)(width / aspect))];
 	    [options setObject:newSizeString forKey:@"-s"];
     }
     else if ([[extraOptions objectForKey:@"Auto Aspect"] boolValue] == YES)
@@ -295,7 +291,6 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    }
 	    
 	    [options setObject:newAspectString forKey:@"-aspect"];
-	    [options setObject:[NSString stringWithFormat:@"setdar=%@", newAspectString] forKey:@"-vf"];
     }
     else
     {
@@ -424,9 +419,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    [args addObject:@"-t"];
 	    	    [args addObject:timeLimit];
     	    }
-	    
-    	    [args addObjectsFromArray:quicktimeOptions];
-    	    [args addObjectsFromArray:wavOptions];
+	        
     	    [args addObjectsFromArray:inputOptions];
     
     	    NSString *threads = @"1";
@@ -442,7 +435,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    {
     	    	    threads = object;
 	    	    }
-	    	    else if (![key isEqualTo:@"-t"])
+	    	    else if ((![key isEqualTo:@"-t"]) && (![key isEqualToString:@"-vf"]))
 	    	    {
     	    	    [args addObject:key];
     	    
@@ -469,7 +462,6 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    [args insertObjects:threadObjects atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]];
     
     	    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    	    [args addObjectsFromArray:padOptions];
     	    [args addObject:@"-metadata"];
     	    [args addObject:[NSString stringWithFormat:@"frontend=Media Encoder %@", version]];
 	    
@@ -523,7 +515,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    for (z = 0; z < [filters count]; z ++)
 	    	    {
     	    	    NSDictionary *filterDictionary = [filters objectAtIndex:z];
-    	    	    MCFilter *filter = [[NSClassFromString([filterDictionary objectForKey:@"Type"]) alloc] init];
+    	    	    MCFilter *filter = [[NSClassFromString([filterDictionary objectForKey:@"Type"]) alloc] initForPreview];
     	    	    [filter setOptions:[filterDictionary objectForKey:@"Options"]];
     	    	    
     	    	    
@@ -633,19 +625,19 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    
     	    if ([subtitleType isEqualTo:@"dvd"])
     	    {
-	    	    spumuxPath = [NSHomeDirectory() stringByAppendingPathComponent:@".spumux"];
-	    	    uniqueSpumuxPath = [MCCommonMethods uniquePathNameFromPath:spumuxPath withSeperator:@"_"];
-	    
-	    	    if ([defaultManager fileExistsAtPath:spumuxPath])
-    	    	    [MCCommonMethods moveItemAtPath:spumuxPath toPath:uniqueSpumuxPath error:nil];
-    	    
-	    	    NSString *savedFontPath = [defaults objectForKey:@"MCFontFolderPath"];
-	    	    
-	    	    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-	    	    [defaultManager createSymbolicLinkAtPath:spumuxPath withDestinationPath:savedFontPath error:nil];
-	    	    #else
-	    	    [defaultManager createSymbolicLinkAtPath:spumuxPath pathContent:savedFontPath];
-	    	    #endif
+//                spumuxPath = [NSHomeDirectory() stringByAppendingPathComponent:@".spumux"];
+//                uniqueSpumuxPath = [MCCommonMethods uniquePathNameFromPath:spumuxPath withSeperator:@"_"];
+//
+//                if ([defaultManager fileExistsAtPath:spumuxPath])
+//                    [MCCommonMethods moveItemAtPath:spumuxPath toPath:uniqueSpumuxPath error:nil];
+//
+//                NSString *savedFontPath = [defaults objectForKey:@"MCFontFolderPath"];
+//
+//                #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
+//                [defaultManager createSymbolicLinkAtPath:spumuxPath withDestinationPath:savedFontPath error:nil];
+//                #else
+//                [defaultManager createSymbolicLinkAtPath:spumuxPath pathContent:savedFontPath];
+//                #endif
 	    
 	    	    [self createMovieWithSubtitlesAtPath:outFileWithExtension inputFile:path ouputType:@"dvd" currentOptions:nil withSize:NSMakeSize(width, height)];
     	    }
@@ -815,7 +807,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    }
     }
 
-    //[MCCommonMethods removeItemAtPath:temporaryFolder];
+    [MCCommonMethods removeItemAtPath:temporaryFolder];
     temporaryFolder = nil;
     
     //Return if ffmpeg failed or not
@@ -925,11 +917,24 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    NSString *string;
 	    
 	    BOOL result = [MCCommonMethods launchNSTaskAtPath:[MCCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&string inputPipe:nil predefinedTask:nil];
-	    
+     
 	    keepGoing = NO;
 	    
 	    NSInteger code = 0;
 	    NSString *error = NSLocalizedString(@"%@ (Unknown error)", nil);
+     
+        if ([string rangeOfString:@"Input #0"].length == 0)
+        {
+            if (*ffmpegError != nil)
+                *ffmpegError = [NSString stringWithFormat:@"%@\n\n%@", *ffmpegError, string];
+            else
+                *ffmpegError = [NSString stringWithString:string];
+            
+            error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unknown error)", nil), displayName];
+            [self setErrorStringWithString:error];
+            
+            return 0;
+        }
 	    
 	    if ([string rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
 	    {
@@ -981,9 +986,18 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    
     	    if ([string rangeOfString:@"Resampling with input channels greater than 2 unsupported."].length > 0)
 	    	    audioWorks = NO;
-    	    
-    	    NSString *input = [[[[string componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
-    	    if ([input rangeOfString:@"mp2"].length > 0 && [input rangeOfString:@"mov,"].length > 0)
+            
+            NSString *input = @"";
+            NSArray *outputArray = [string componentsSeparatedByString:@"Output #0"];
+            if ([outputArray count] > 0)
+            {
+                NSArray *inputArray = [outputArray[0] componentsSeparatedByString:@"Input #0"];
+                if ([inputArray count] > 1)
+                {
+                    input = inputArray[1];
+                }
+            }
+            if ([input rangeOfString:@"mp2"].length > 0 && [input rangeOfString:@"mov,"].length > 0)
 	    	    audioWorks = NO;
     	    
     	    BOOL hasVideoCheck = ([string rangeOfString:@"Video:"].length > 0);
@@ -1095,9 +1109,28 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 
 - (BOOL)streamWorksOfKind:(NSString *)kind inOutput:(NSString *)output
 {
-    NSString *one = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0:0"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
+    NSArray *outputArray = [output componentsSeparatedByString:@"Output #0"];
+    if ([outputArray count] == 0)
+    {
+        return NO;
+    }
+    
+    NSArray *streamArray = [outputArray[0] componentsSeparatedByString:@"Stream #0:0"];
+    if ([streamArray count] < 2)
+    {
+        return NO;
+    }
+    
+    NSArray *informationArray = [streamArray[1] componentsSeparatedByString:@": "];
+    if ([informationArray count] < 2)
+    {
+        return NO;
+    }
+
+    NSString *one =  informationArray[1];
     NSString *two = @"";
     
+    // TODO: add savety guards
     if ([output rangeOfString:@"Stream #0:1"].length > 0)
 	    two = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0:1"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
 
@@ -1430,7 +1463,6 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    subtitlePath = [subtitlePaths objectAtIndex:0];
 
     	    [self createSubtitleMovieAtPath:path withOptions:options subtitleFile:subtitlePath withSize:size];
-            NSLog(@"path: %@", path);
 	    }
     }
     else if ([type isEqualTo:@"mp4"])
@@ -2286,9 +2318,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    region = @"PAL";
 	    
 	    NSString *xmlPath = [MCCommonMethods uniquePathNameFromPath:[temporaryFolder stringByAppendingPathComponent:@"sub.xml"] withSeperator:@"-"];
-	    NSString *xmlContent = [NSString stringWithFormat:
-	    @"<subpictures format=\"%@\"><stream><textsub filename=\"%@\" characterset=\"UTF-8\" fontsize=\"%@\" font=\"%@\" horizontal-alignment=\"%@\" vertical-alignment=\"%@\" left-margin=\"%@\" right-margin=\"%@\" top-margin=\"%@\" bottom-margin=\"%@\" subtitle-fps=\"%@\" movie-fps=\"%@\" movie-width=\"%@\" movie-height=\"%@\" force=\"yes\"/></stream></subpictures>"
-	    , region, subPath, fontSize, [font stringByAppendingPathExtension:@"ttf"], hAlign, vAlign, lMargin, rMargin, tMargin, bMargin, fps, fps, movieWidth, movieHeight];
+	    NSString *xmlContent = [NSString stringWithFormat:@"<subpictures format=\"%@\"><stream><textsub filename=\"%@\" characterset=\"UTF-8\" fontsize=\"%@\" font=\"%@\" horizontal-alignment=\"%@\" vertical-alignment=\"%@\" left-margin=\"%@\" right-margin=\"%@\" top-margin=\"%@\" bottom-margin=\"%@\" subtitle-fps=\"%@\" movie-fps=\"%@\" movie-width=\"%@\" movie-height=\"%@\" force=\"yes\"/></stream></subpictures>", region, subPath, fontSize, [fontPath stringByAppendingPathComponent:[font stringByAppendingPathExtension:@"ttf"]], hAlign, vAlign, lMargin, rMargin, tMargin, bMargin, fps, fps, movieWidth, movieHeight];
 	    
 	    NSString *error = nil;
 	    [MCCommonMethods writeString:xmlContent toFile:xmlPath errorString:&error];
@@ -2331,7 +2361,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 {
     NSString *xmlPath = [MCCommonMethods uniquePathNameFromPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"sub.xml"] withSeperator:@"-"];
     NSString *testSubtitle = [[NSBundle mainBundle] pathForResource:@"SubTest" ofType:@"srt"];
-    NSString *xmlContent = [NSString stringWithFormat:@"<subpictures format=\"NTSC\"><stream><textsub filename=\"%@\" characterset=\"UTF-8\" fontsize=\"12\" font=\"%@\" horizontal-alignment=\"center\" vertical-alignment=\"bottom\" left-margin=\"60\" right-margin=\"60\" top-margin=\"20\" bottom-margin=\"30\" subtitle-fps=\"1\" movie-fps=\"1\" movie-width=\"720\" movie-height=\"480\" force=\"yes\"/></stream></subpictures>", testSubtitle, name];
+    NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCFontFolderPath"];
+    NSString *xmlContent = [NSString stringWithFormat:@"<subpictures format=\"NTSC\"><stream><textsub filename=\"%@\" characterset=\"UTF-8\" fontsize=\"12\" font=\"%@\" horizontal-alignment=\"center\" vertical-alignment=\"bottom\" left-margin=\"60\" right-margin=\"60\" top-margin=\"20\" bottom-margin=\"30\" subtitle-fps=\"1\" movie-fps=\"1\" movie-width=\"720\" movie-height=\"480\" force=\"yes\"/></stream></subpictures>", testSubtitle, [fontPath stringByAppendingPathComponent:name]];
 	    
     NSString *error = nil;
     [MCCommonMethods writeString:xmlContent toFile:xmlPath errorString:&error];

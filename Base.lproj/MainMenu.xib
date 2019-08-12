@@ -24,6 +24,12 @@
                                     <action selector="openAboutPanel:" target="483" id="607"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Check for Updates…" id="ZJn-7b-vaI">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="checkForUpdates:" target="rp5-My-gg4" id="8Zk-uA-Bda"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -450,6 +456,13 @@
                                     <action selector="makeDonation:" target="483" id="508"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Lv2-jS-kEC"/>
+                            <menuItem title="Contact Support" id="3Cr-4T-ola">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="contactSupport:" target="483" id="sdt-MO-rCE"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -477,7 +490,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="ySY-6r-IUf">
                         <rect key="frame" x="132" y="104" width="132" height="122"/>
                         <subviews>
-                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="450">
+                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="450" customClass="MCNoAccessibilityImageView">
                                 <rect key="frame" x="16" y="22" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="T4i-7A-fNl"/>
@@ -485,7 +498,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="Dropzone" id="451"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="454">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="454" customClass="MCNoAccessibiltyTextField">
                                 <rect key="frame" x="-2" y="0.0" width="136" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Drag Files Here" id="455">
                                     <font key="font" metaFont="systemBold" size="18"/>
@@ -519,6 +532,7 @@
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <accessibility description="Preset Pop Up menu" help="Select the preset you want to use when converting media files"/>
                         <connections>
                             <action selector="setPresetPopup:" target="483" id="501"/>
                         </connections>
@@ -537,6 +551,7 @@
                     </box>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="482" customClass="MCDropView">
                         <rect key="frame" x="-2" y="49" width="399" height="232"/>
+                        <accessibility description="Drag Files Here" help="Drag media files and URLs here"/>
                         <connections>
                             <outlet property="delegate" destination="483" id="LsN-pe-Kq3"/>
                         </connections>
@@ -551,6 +566,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="Preset Options" help="Allows you to export or edit the current selected preset file"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -580,6 +596,7 @@
         <customObject id="483" customClass="MCMainController">
             <connections>
                 <outlet property="actionButton" destination="541" id="544"/>
+                <outlet property="dropView" destination="482" id="5Sm-VL-ifl"/>
                 <outlet property="locationsPanel" destination="511" id="525"/>
                 <outlet property="locationsTextField" destination="531" id="534"/>
                 <outlet property="mainWindow" destination="371" id="493"/>
@@ -638,7 +655,7 @@ Gw
                         <rect key="frame" x="20" y="60" width="377" height="50"/>
                         <clipView key="contentView" id="gNE-ec-I0z">
                             <rect key="frame" x="1" y="1" width="375" height="48"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="531">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
@@ -663,6 +680,7 @@ Gw
                             <rect key="frame" x="224" y="1" width="15" height="133"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
+                        <accessibility help="Type in locations, use an enter to separate the URLs"/>
                     </scrollView>
                 </subviews>
                 <constraints>
@@ -682,24 +700,7 @@ Gw
             </view>
             <point key="canvasLocation" x="-483.5" y="-239.5"/>
         </window>
-        <textField verticalHuggingPriority="750" id="535">
-            <rect key="frame" x="0.0" y="0.0" width="96" height="22"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="536">
-                <font key="font" metaFont="system"/>
-                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-            </textFieldCell>
-        </textField>
-        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="537">
-            <rect key="frame" x="0.0" y="0.0" width="96" height="39"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="538">
-                <font key="font" metaFont="system"/>
-                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-            </textFieldCell>
-        </textField>
+        <customObject id="rp5-My-gg4" customClass="SUUpdater"/>
     </objects>
     <resources>
         <image name="Dropzone" width="82" height="85"/>

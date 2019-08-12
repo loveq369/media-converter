@@ -7,10 +7,12 @@
 
 #import "MCProgressPanel.h"
 #import "MCCommonMethods.h"
+#import <CoreImage/CoreImage.h>
 
 @interface MCProgressPanel()
 
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *progressIndicator;
+@property (nonatomic, strong) NSProgressIndicator *dockProgressIndicator;
 @property (nonatomic, weak) IBOutlet NSImageView *progressImageView;
 @property (nonatomic, weak) IBOutlet NSTextField *statusTextField;
 @property (nonatomic, weak) IBOutlet NSTextField *taskTextField;
@@ -58,19 +60,38 @@
 
 - (void)beginSheetForWindow:(NSWindow *)window completionHandler:(void (^)(NSModalResponse returnCode))handler
 {
-    [self setParentWindow:window];
-
-    [window beginSheet:[self window] completionHandler:^(NSModalResponse returnCode)
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^
     {
-        if (handler != nil)
-        {
-            handler(returnCode);
-        }
+        [self setParentWindow:window];
         
-        if (returnCode == NSModalResponseCancel && [self cancelHandler])
+        NSDockTile *dockTile = [[NSApplication sharedApplication] dockTile];
+        NSSize dockTileSize = [dockTile size];
+        NSImageView *imageView = [[NSImageView alloc] init];
+        [imageView setImage:[[NSApplication sharedApplication] applicationIconImage]];
+        [imageView becomeFirstResponder];
+        [dockTile setContentView:imageView];
+        
+        // Since the Dock tile view is always on the background, a progress indicator is always is greyed out
+        // So we render the main progress indicator to the Dock, scaled so on newer macOS versions the rounded caps are a little less round
+        // Wish this could be differently
+        NSSize progressIndicatorSize = [[self progressIndicator] frame].size;
+        NSProgressIndicator *dockProgressIndicator = [[NSProgressIndicator alloc] initWithFrame:NSMakeRect(0.0, 10.0, dockTileSize.width, progressIndicatorSize.height)];
+        [dockProgressIndicator setStyle:NSProgressIndicatorBarStyle];
+        [imageView addSubview:dockProgressIndicator];
+        [self setDockProgressIndicator:dockProgressIndicator];
+
+        [window beginSheet:[self window] completionHandler:^(NSModalResponse returnCode)
         {
-            [self cancelHandler]();
-        }
+            if (handler != nil)
+            {
+                handler(returnCode);
+            }
+            
+            if (returnCode == NSModalResponseCancel && [self cancelHandler])
+            {
+                [self cancelHandler]();
+            }
+        }];
     }];
 }
 
@@ -88,11 +109,14 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^
     {
-        [NSApp setApplicationIconImage:[[NSImage imageNamed:@"Media Converter"] copy]];
+        NSDockTile *dockTile = [[NSApplication sharedApplication] dockTile];
+        [dockTile setContentView:nil];
+        [dockTile display];
         
         NSWindow *window = [self window];
-        [[window sheetParent] endSheet:window];
+        NSWindow *sheetParent = [window sheetParent];
         [window orderOut:nil];
+        [sheetParent endSheet:window];
 
         if (completion != nil)
         {
@@ -105,8 +129,14 @@
 
 - (IBAction)cancelProgress:(id)sender
 {
-    [NSApp endSheet:[self window] returnCode:NSModalResponseCancel];
-    [[self window] orderOut:nil];
+    NSDockTile *dockTile = [[NSApplication sharedApplication] dockTile];
+    [dockTile setContentView:nil];
+    [dockTile display];
+
+    NSWindow *window = [self window];
+    NSWindow *sheetParent = [window sheetParent];
+    [window orderOut:nil];
+    [sheetParent endSheet:window returnCode:NSCancelButton];
 }
 
 #pragma mark - Property Methods
@@ -132,25 +162,25 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^
     {
         NSProgressIndicator *progressIndicator = [self progressIndicator];
+        NSProgressIndicator *dockProgressIndicator = [self dockProgressIndicator];
     
         if (maximumValue > 0)
         {
             [progressIndicator setIndeterminate:NO];
             [progressIndicator setDoubleValue:0.0];
             [progressIndicator setMaxValue:self->_maximumValue];
+            
+            [dockProgressIndicator setIndeterminate:NO];
+            [dockProgressIndicator setDoubleValue:0.0];
+            [dockProgressIndicator setMaxValue:self->_maximumValue];
         }
         else
         {
             [progressIndicator setIndeterminate:YES];
             [progressIndicator startAnimation:nil];
             
-            NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-
-            [applicationImage lockFocus];
-            [[NSImage imageNamed:@"-1"] drawInRect:NSMakeRect(9.0, 10.0, 111.0, 16.0) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-            [applicationImage unlockFocus];
-            
-            [NSApp setApplicationIconImage:applicationImage];
+            [dockProgressIndicator setIndeterminate:YES];
+            [dockProgressIndicator startAnimation:nil];
         }
     }];
 }
@@ -162,176 +192,30 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^
     {
         NSProgressIndicator *progressIndicator = [self progressIndicator];
-        NSImage *miniProgressIndicator;
-
-        NSRect progressRect = NSMakeRect(9.0, 10.0, 111.0, 16.0);
+        NSProgressIndicator *dockProgressIndicator = [self dockProgressIndicator];
 
         if (self->_value == -1)
         {
             [progressIndicator setIndeterminate:YES];
             [progressIndicator startAnimation:nil];
             
-            miniProgressIndicator = [NSImage imageNamed:@"-1"];
-            
-            NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-            
-            [applicationImage lockFocus];
-            [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-            [applicationImage unlockFocus];
-        
-            [NSApp setApplicationIconImage:applicationImage];
+            [dockProgressIndicator setIndeterminate:YES];
+            [dockProgressIndicator startAnimation:nil];
         }
         else
         {
             [progressIndicator setIndeterminate:NO];
+            [dockProgressIndicator setIndeterminate:NO];
         }
 
         if (self->_value > [progressIndicator doubleValue])
         {
             [progressIndicator setDoubleValue:self->_value];
-            
-            double percent = self->_value / [progressIndicator maxValue] * 100;
-        
-            if (percent > 0 && percent < 10)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"0"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 10 && percent < 20)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"10"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 20 && percent < 30)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"20"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 30 && percent < 40)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"30"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 40 && percent < 50)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"40"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 50 && percent < 60)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"50"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 60 && percent < 70)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"60"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 70 && percent < 80)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"70"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 80 && percent < 90)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"80"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent > 90 && percent < 99)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"90"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-
-                [NSApp setApplicationIconImage:applicationImage];
-            }
-            else if (percent == 99 && percent > 99)
-            {
-                miniProgressIndicator = [NSImage imageNamed:@"100"];
-                
-                NSImage *applicationImage = [[NSImage imageNamed:@"Media Converter"] copy];
-                
-                [applicationImage lockFocus];
-                [miniProgressIndicator drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-                [applicationImage unlockFocus];
-            
-                [NSApp setApplicationIconImage:applicationImage];
-            }
+            [dockProgressIndicator setDoubleValue:self->_value];
         }
+        
+        [[[NSApplication sharedApplication] dockTile] display];
     }];
-}
-
-- (void)setIconImage:(NSImage *)iconImage
-{
-    _iconImage = [iconImage copy];
-    [[self progressImageView] performSelectorOnMainThread:@selector(setImage:) withObject:_iconImage waitUntilDone:YES];
 }
 
 - (void)setAllowCanceling:(BOOL)allowCanceling
@@ -380,6 +264,22 @@
         
         [statusTextField setStringValue:[[[newStatusText componentsSeparatedByString:@" ("] objectAtIndex:0] stringByAppendingString:percent]];
     }];
+}
+
+- (NSImage *)progressImage
+{
+    NSProgressIndicator *progressIndicator = [self progressIndicator];
+    NSRect bounds = [progressIndicator bounds];
+    NSSize progressIndicatorSize = bounds.size;
+    NSSize imageSize = NSMakeSize(progressIndicatorSize.width, progressIndicatorSize.height);
+
+    NSBitmapImageRep *bitmapImageRep = [progressIndicator bitmapImageRepForCachingDisplayInRect:bounds];
+    [bitmapImageRep setSize:imageSize];
+    [progressIndicator cacheDisplayInRect:bounds toBitmapImageRep:bitmapImageRep];
+
+    NSImage *image = [[NSImage alloc] initWithSize:imageSize];
+    [image addRepresentation:bitmapImageRep];
+    return image;
 }
 
 @end

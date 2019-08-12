@@ -13,7 +13,7 @@
     	    <string>libvpx</string>
 	    </dict>
 	    <dict>
-    	    <key>-b</key>
+    	    <key>-b:v</key>
     	    <string>4000000</string>
 	    </dict>
 	    <dict>
@@ -21,7 +21,7 @@
     	    <string>libvorbis</string>
 	    </dict>
 	    <dict>
-    	    <key>-ab</key>
+    	    <key>-b:a</key>
     	    <string>224000</string>
 	    </dict>
 	    <dict>
@@ -44,6 +44,6 @@
     <key>Name</key>
     <string>WebM</string>
     <key>Version</key>
-    <string>1.0</string>
+    <string>2.0</string>
 </dict>
 </plist>

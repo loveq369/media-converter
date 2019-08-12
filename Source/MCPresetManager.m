@@ -13,7 +13,6 @@
 #import "MCAdvancedOptionsDelegate.h"
 #import "NSArray_Extensions.h"
 #import "MCTextCheckBoxCell.h"
-#import "MCInstallPanel.h"
 #import "MCActionButton.h"
 #import "MCFilterDelegate.h"
 #import "MCFilter.h"
@@ -24,7 +23,8 @@
 @interface MCPresetManager()
 
 /* Preset panel */
-@property (nonatomic, weak) IBOutlet NSPanel *presetsPanel;
+@property (nonatomic, strong) IBOutlet NSPanel *presetsPanel;
+@property (nonatomic, weak) IBOutlet NSTabView *mainTabView;
 @property (nonatomic, weak) IBOutlet NSButton *completeButton;
 // General
 @property (nonatomic, weak) IBOutlet NSTextField *nameField;
@@ -41,14 +41,14 @@
 @property (nonatomic, weak) IBOutlet MCPopupButton *subtitleFormatPopUp;
 @property (nonatomic, weak) IBOutlet NSView *subtitleSettingsView;
 // -> Hardcoded
-@property (nonatomic, weak) IBOutlet NSView *hardcodedSettingsView;
+@property (nonatomic, strong) IBOutlet NSView *hardcodedSettingsView;
 @property (nonatomic, weak) IBOutlet MCPopupButton *hardcodedFontPopup;
 @property (nonatomic, weak) IBOutlet MCPopupButton *hardcodedHAlignPopup;
 @property (nonatomic, weak) IBOutlet MCPopupButton *hardcodedVAlignPopup;
 @property (nonatomic, weak) IBOutlet MCPopupButton *hardcodedVisiblePopup;
 @property (nonatomic, weak) IBOutlet NSTabView *hardcodedMethodTabView;
 // -> DVD
-@property (nonatomic, weak) IBOutlet NSView *DVDSettingsView;
+@property (nonatomic, strong) IBOutlet NSView *DVDSettingsView;
 @property (nonatomic, weak) IBOutlet MCPopupButton *fontPopup;
 @property (nonatomic, weak) IBOutlet MCPopupButton *hAlignFormatPopUp;
 @property (nonatomic, weak) IBOutlet MCPopupButton *vAlignFormatPopUp;
@@ -91,11 +91,11 @@ static MCPresetManager *_defaultManager = nil;
     {
 	    _viewMappings = [[NSArray alloc] initWithObjects:   @"-f",	    //1
                                                             @"-vcodec", //2
-                                                            @"-b",	    //3
+                                                            @"-b:v",	//3
                                                             @"-s",	    //4
                                                             @"-r",	    //5
                                                             @"-acodec", //6
-                                                            @"-ab",	    //7
+                                                            @"-b:a",	//7
                                                             @"-ar",	    //8
 	    nil];
 	    
@@ -113,6 +113,7 @@ static MCPresetManager *_defaultManager = nil;
     [super awakeFromNib];
     
     [self setupPopups];
+    [self setHarcodedVisibility:nil];
 }
 
 //////////////////
@@ -139,6 +140,8 @@ static MCPresetManager *_defaultManager = nil;
 {
     NSDictionary *presetDictionary;
     
+    [[self mainTabView] selectTabViewItemAtIndex:0];
+    
     if (path)
     {
 	    [self setCurrentPresetPath:path];
@@ -148,7 +151,7 @@ static MCPresetManager *_defaultManager = nil;
     {
 	    presetDictionary = @{@"Encoder Options": @[], @"Extension": @"", @"Extra Options": @{}, @"Name": @"", @"Version": @"2.0"};
     }
-
+    
     [[self nameField] setStringValue:presetDictionary[@"Name"]];
     [[self extensionField] setStringValue:presetDictionary[@"Extension"]];
     
@@ -171,44 +174,44 @@ static MCPresetManager *_defaultManager = nil;
 	    filters = [NSMutableArray array];
     
     [[self filterDelegate] setFilterOptions:filters];
-    
-    [self setSubtitleKind:nil];
-    [self setHarcodedVisibility:nil];
 	    
-    NSString *aspectString = options[@"-vf"];
+    NSString *aspectString = options[@"-aspect"];
 	    
     if (aspectString)
     {
-	    if ([aspectString rangeOfString:@"setdar="].length > 0 && [[aspectString componentsSeparatedByString:@"setdar="] count] > 1)
-        {
-    	    [[self aspectRatioField] setStringValue:[[aspectString componentsSeparatedByString:@"setdar="] objectAtIndex:1]];
-        }
-	    else
-        {
-    	    aspectString = nil;
-        }
+	    [[self aspectRatioField] setStringValue:aspectString];
     }
 
     [[self aspectRatioButton] setState:[[NSNumber numberWithBool:(aspectString != nil)] integerValue]];
     
     NSPopUpButton *modePopup = [self modePopup];
     if ([options containsObject:@{@"-ac": @"1"}])
+    {
 	    [modePopup selectItemAtIndex:0];
+    }
     else if ([options containsObject:@{@"-ac": @"2"}])
+    {
 	    [modePopup selectItemAtIndex:1];
+    }
     else
+    {
 	    [modePopup selectItemAtIndex:3];
+    }
         
     [[self optionDelegate] addOptions:options];
     [[self advancedTableView] reloadData];
+    
+    [self updateSubtitleOptions];
+    [self setSubtitleKind:nil];
     
     [[self completeButton] setTitle:NSLocalizedString(@"Save", nil)];
     
     [self updatePreview];
     
-    [NSApp beginSheet:presetsPanel modalForWindow:window modalDelegate:self didEndSelector:nil contextInfo:nil];
     [window beginSheet:[self window] completionHandler:^(NSModalResponse returnCode)
     {
+        [[self previewPanel] orderOut:nil];
+    
         if (handler != nil)
         {
             handler(returnCode);
@@ -335,9 +338,7 @@ static MCPresetManager *_defaultManager = nil;
 
     if (!savePath)
     {
-        MCInstallPanel *installPanel = [MCInstallPanel installPanel];
-	    [installPanel setTaskText:NSLocalizedString(@"Install Presets for:", nil)];
-	    NSString *applicationSupportFolder = [installPanel runModalForInstallLocation];
+        NSString *applicationSupportFolder = [@"~/Library/Application Support" stringByExpandingTildeInPath];
     	    
 	    NSFileManager *defaultManager = [NSFileManager defaultManager];
 	    NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"];
@@ -361,60 +362,6 @@ static MCPresetManager *_defaultManager = nil;
     	    [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to create 'Presets' folder", nil) withInformationText:error withParentWindow:nil withDetails:nil];
 	    	    
     	    return NSCancelButton;
-	    }
-    }
-    
-    if (!editingPreset)
-    {
-	    NSMutableArray *duplicatePresetNames = [NSMutableArray array];
-    
-	    NSInteger i;
-	    for (i = 0; i < [names count]; i ++)
-	    {
-    	    //NSString *name = [names objectAtIndex:i];
-	    
-    	    //if ([[presetsData objectsForKey:@"Name"] containsObject:name])
-    	    //    [duplicatePresetNames addObject:name];
-	    }
-    
-	    if ([duplicatePresetNames count] > 0)
-	    {
-    	    NSAlert *alert = [[NSAlert alloc] init];
-    	    [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
-    	    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    	    [[alert window] setDefaultButtonCell:[[[alert buttons] objectAtIndex:1] cell]];
-	    
-    	    NSString *warningString;
-    	    NSString *detailsString;
-	    
-    	    if ([duplicatePresetNames count] > 1)
-    	    {
-	    	    warningString = NSLocalizedString(@"Some presets allready exist. Do you want to replace them?", nil);
-	    	    detailsString = NSLocalizedString(@"There are some presets with the same names. Replacing them will remove the presets with the same name.", nil);
-    	    }
-    	    else
-    	    {
-	    	    warningString = [NSString stringWithFormat:NSLocalizedString(@"'%@' already exists. Do you want to replace it?", nil), [duplicatePresetNames objectAtIndex:0]];
-	    	    detailsString = NSLocalizedString(@"A preset with the same name already exists. Replacing it will remove the preset with the same name.", nil);
-    	    }
-	    
-    	    [alert setMessageText:warningString];
-    	    [alert setInformativeText:detailsString];
-    	    NSInteger result = [alert runModal];
-
-    	    if (result == NSAlertFirstButtonReturn)
-    	    {
-	    	    for (i = 0; i < [duplicatePresetNames count]; i ++)
-	    	    {
-    	    	    //NSString *name = [duplicatePresetNames objectAtIndex:i];
-    	    	    //NSDictionary *presetDictionary = [presetsData objectAtIndex:[presetsData indexOfObject:name forKey:@"Name"]];
-    	    	    //[[NSFileManager defaultManager] removeFileAtPath:[presetDictionary objectForKey:@"Path"] handler:nil];
-	    	    }
-    	    }
-    	    else
-    	    {
-	    	    return NSCancelButton;
-    	    }
 	    }
     }
     
@@ -453,7 +400,7 @@ static MCPresetManager *_defaultManager = nil;
 	    
     //[self reloadPresets];
     
-    return NSOKButton;
+    return NSModalResponseOK;
 }
 
 - (NSMutableDictionary *)presetDictionary
@@ -475,7 +422,7 @@ static MCPresetManager *_defaultManager = nil;
     }
     
     presetDictionary[@"Name"] = [[self nameField] stringValue];
-    presetDictionary[@"Version"] = @"1.3";
+    presetDictionary[@"Version"] = @(2.0);
     presetDictionary[@"Extension"] = [[self extensionField] stringValue];
     presetDictionary[@"Encoder Options"] = [[self optionDelegate] options];
     presetDictionary[@"Extra Options"] = [self extraOptions];
@@ -625,7 +572,7 @@ static MCPresetManager *_defaultManager = nil;
     
 	    if (!currentPresetPath)
 	    {
-    	    NSString *folder = [[MCInstallPanel installPanel] runModalForInstallLocation];
+    	    NSString *folder = [@"~/Library/Application Support" stringByExpandingTildeInPath];
     	    folder = [folder stringByAppendingPathComponent:@"Media Converter"];
     	    folder = [folder stringByAppendingPathComponent:@"Presets"];
     	    NSString *path = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mcpreset", fileName]];
@@ -651,9 +598,9 @@ static MCPresetManager *_defaultManager = nil;
     	    [standardDefaults setObject:newPresets forKey:@"MCPresets"];
 	    }
     }
-
-    [NSApp endSheet:presetsPanel returnCode:result];
-    [presetsPanel orderOut:self];
+    
+    [[presetsPanel sheetParent] endSheet:presetsPanel returnCode:result];
+    [presetsPanel orderOut:nil];
     
     [self setCurrentPresetPath:nil];
     [self setExtraOptions:nil];
@@ -667,22 +614,18 @@ static MCPresetManager *_defaultManager = nil;
 {
     NSMutableArray *advancedOptions = [[self optionDelegate] options];
 
-    NSString *option = @"-vf";
-    NSString *option2 = @"-aspect";
+    NSString *option = @"-aspect";
     NSString *settings = nil;
-    NSString *settings2 = nil;
     
     if ([sender objectValue])
     {
 	    if (![[sender stringValue] isEqualTo:@""])
 	    {
-    	    settings = [NSString stringWithFormat:@"setdar=%@", [sender stringValue]];
-    	    settings2 = [sender stringValue];
+    	    settings = [sender stringValue];
 	    }
     }
 	    
     [advancedOptions setObject:settings forKey:option];
-    [advancedOptions setObject:settings2 forKey:option2];
     [[self advancedTableView] reloadData];
 }
 
@@ -744,10 +687,15 @@ static MCPresetManager *_defaultManager = nil;
     if (isDVD || isHardcoded)
     {
 	    NSView *subview = isDVD ? DVDSettingsView : hardcodedSettingsView;
-	    [subview setFrame:NSMakeRect(0, [subtitleSettingsView frame].size.height - [subview frame].size.height, [subview frame].size.width, [subview frame].size.height)];
+	    [subview setFrame:NSMakeRect(0, [subtitleSettingsView frame].size.height - [subview frame].size.height, [subtitleSettingsView frame].size.width, [subview frame].size.height)];
 	    [subtitleSettingsView addSubview:subview];
 	    
 	    [[self window] recalculateKeyViewLoop];
+    }
+    
+    if (isHardcoded)
+    {
+        [self setHarcodedVisibility:nil];
     }
 }
 
@@ -760,19 +708,13 @@ static MCPresetManager *_defaultManager = nil;
     NSPopUpButton *hardcodedVisiblePopup = [self hardcodedVisiblePopup];
     NSInteger selectedIndex = [hardcodedVisiblePopup indexOfSelectedItem];
     
-    //Seems when editing a preset from the main window, we have to try until we're woken from the NIB
-    while (selectedIndex == -1)
-    {
-	    selectedIndex = [hardcodedVisiblePopup indexOfSelectedItem];
-    }
-    
     NSTabView *hardcodedMethodTabView = [self hardcodedMethodTabView];
-    if (selectedIndex < 2)
+    if (selectedIndex > 0)
     {
-	    [hardcodedMethodTabView selectTabViewItemAtIndex:selectedIndex];
+	    [hardcodedMethodTabView selectTabViewItemAtIndex:selectedIndex - 1];
     }
 	    
-    [hardcodedMethodTabView setHidden:(selectedIndex == 2)];
+    [hardcodedMethodTabView setHidden:(selectedIndex == 0)];
 
     if (sender != nil)
     {
@@ -838,6 +780,7 @@ static MCPresetManager *_defaultManager = nil;
 - (IBAction)showPreview:(id)sender
 {
     NSPanel *previewPanel = [self previewPanel];
+    [self updatePreview];
     if ([previewPanel isVisible])
     {
 	    [previewPanel orderOut:nil];
@@ -846,21 +789,6 @@ static MCPresetManager *_defaultManager = nil;
     {
 	    [previewPanel orderFront:nil];
     }
-}
-
-- (void)reloadHardcodedPreview
-{
-//    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[self extraOptionDefaultValues] forKeys:[self extraOptionMappings]];
-//    [settings addEntriesFromDictionary:[self extraOptions]];
-//
-//
-//
-//
-//    CGImageRef previewImage = [MCCommonMethods overlayImageWithObject:NSLocalizedString(@"This is a scene from the movie Sintel watch it at: www.sintel.org<br><i>second line in italic</i>", nil) withSettings:settings inputImage:[NSImage imageNamed:@"Sintel-frame"]];
-//
-//    NSImageView *previewImageView = [self previewImageView];
-//    [previewImageView setImage:previewImage];
-//    [previewImageView display];
 }
 
 - (IBAction)toggleDarkBackground:(id)sender
@@ -978,24 +906,25 @@ static MCPresetManager *_defaultManager = nil;
     NSArray *subtitleNames = [NSArray arrayWithObjects:	    NSLocalizedString(@"Disable", nil),
                                                             @"",
                                                             NSLocalizedString(@"Hardcoded", nil),
+                                                            NSLocalizedString(@"SRT (External)", nil),
                                                             NSLocalizedString(@"DVD MPEG2", nil),
                                                             NSLocalizedString(@"MPEG4 / 3GP", nil),
                                                             NSLocalizedString(@"Matroska (SRT)", nil),
                                                             NSLocalizedString(@"Ogg (Kate)", nil),
-                                                            NSLocalizedString(@"SRT (External)", nil),
     nil];
     
     NSArray *subtitleFormats = [NSArray arrayWithObjects:   @"none",
                                                             @"",
                                                             @"hard",
+                                                            @"srt",
                                                             @"dvd",
                                                             @"mp4",
                                                             @"mkv",
                                                             @"kate",
-                                                            @"srt",
     nil];
     
-    [[self subtitleFormatPopUp] setArray:[MCCommonMethods popupArrayWithNames:subtitleNames forFormats:subtitleFormats]];
+    MCPopupButton *subtitleFormatPopUp = [self subtitleFormatPopUp];
+    [subtitleFormatPopUp setArray:[MCCommonMethods popupArrayWithNames:subtitleNames forFormats:subtitleFormats]];
     
     NSArray *horizontalAlignments = [MCCommonMethods defaultHorizontalPopupArray];
     [[self hAlignFormatPopUp] setArray:horizontalAlignments];
@@ -1005,8 +934,8 @@ static MCPresetManager *_defaultManager = nil;
     [[self vAlignFormatPopUp] setArray:verticalAlignments];
     [[self hardcodedVAlignPopup] setArray:verticalAlignments];
     
-    NSArray *textVisibleNames = [NSArray arrayWithObjects:NSLocalizedString(@"Text Border", nil), NSLocalizedString(@"Surounding Box", nil), NSLocalizedString(@"None", nil), nil];
-    NSArray *textVisibleFormats = [NSArray arrayWithObjects:@"border", @"box", @"none", nil];
+    NSArray *textVisibleNames = [NSArray arrayWithObjects:NSLocalizedString(@"None", nil), NSLocalizedString(@"Text Border", nil), NSLocalizedString(@"Surounding Box", nil), nil];
+    NSArray *textVisibleFormats = [NSArray arrayWithObjects:@"none", @"border", @"box", nil];
     [[self hardcodedVisiblePopup] setArray:[MCCommonMethods popupArrayWithNames:textVisibleNames forFormats:textVisibleFormats]];
     
     MCPopupButton *hardcodedFontPopup = [self hardcodedFontPopup];
@@ -1112,6 +1041,21 @@ static MCPresetManager *_defaultManager = nil;
             [fontPopup setEnabled:YES];
         }];
     }];
+}
+
+- (void)updateSubtitleOptions
+{
+    NSArray *encoderOptions = [[self optionDelegate] options];
+    NSString *format = encoderOptions[@"-f"];
+    
+    MCPopupButton *subtitleFormatPopUp = [self subtitleFormatPopUp];
+    if ([subtitleFormatPopUp numberOfItems] == 8) // Just to be sure (@"none", @"", @"hard", @"srt", @"dvd", @"mp4", @"mkv", @"kate")
+    {
+        [[subtitleFormatPopUp itemArray][4] setEnabled:[format isEqualToString:@"dvd"]];
+        [[subtitleFormatPopUp itemArray][5] setEnabled:[format isEqualToString:@"ipod"] || [format isEqualToString:@"mp4"] || [format isEqualToString:@"3gp"] || [format isEqualToString:@"3g2"]];
+        [[subtitleFormatPopUp itemArray][6] setEnabled:[format isEqualToString:@"matroska"]];
+        [[subtitleFormatPopUp itemArray][7] setEnabled:[format isEqualToString:@"ogg"] || [format isEqualToString:@"ogv"]];
+    }
 }
 
 @end

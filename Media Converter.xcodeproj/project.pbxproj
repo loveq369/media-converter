@@ -8,19 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		FE0353E015FA5D0D0006538C /* LanguageCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE0353DE15FA5D0D0006538C /* LanguageCodes.plist */; };
-		FE0F49E2168F482600D398C0 /* -1_107.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D0168F482600D398C0 /* -1_107.png */; };
-		FE0F49E3168F482600D398C0 /* -1_107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D1168F482600D398C0 /* -1_107@2x.png */; };
-		FE0F49E4168F482600D398C0 /* 0_107.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D2168F482600D398C0 /* 0_107.png */; };
-		FE0F49E5168F482600D398C0 /* 0_107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D3168F482600D398C0 /* 0_107@2x.png */; };
-		FE0F49E6168F482600D398C0 /* 1_107.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D4168F482600D398C0 /* 1_107.png */; };
-		FE0F49E7168F482600D398C0 /* 1_107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE0F49D5168F482600D398C0 /* 1_107@2x.png */; };
-		FE0F4B0F168F54A400D398C0 /* Advanced@2x.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FE1D0DBF168F055400143A71 /* Advanced@2x.tiff */; };
-		FE0F4B10168F54A600D398C0 /* Create Preset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1D0DC0168F055400143A71 /* Create Preset@2x.png */; };
-		FE0F4B11168F54A900D398C0 /* General@2x.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FE1D0DC1168F055400143A71 /* General@2x.tiff */; };
+		FE0F4B10168F54A600D398C0 /* Create Preset.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1D0DC0168F055400143A71 /* Create Preset.png */; };
 		FE10B97913C1CCD000194E45 /* MCWatermarkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FE10B97513C1CCD000194E45 /* MCWatermarkFilter.m */; };
 		FE10B98213C1CCDC00194E45 /* MCFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FE10B97F13C1CCDC00194E45 /* MCFilter.m */; };
 		FE10B9A113C1D1A200194E45 /* MCWatermarkFilter.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE10B99C13C1D1A200194E45 /* MCWatermarkFilter.xib */; };
-		FE1D0DBA168F053800143A71 /* Gear with arrow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FE1D0DB4168F053800143A71 /* Gear with arrow.pdf */; };
 		FE23AC8F13E02CF300B4E457 /* MCActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23AC8A13E02CF300B4E457 /* MCActionButton.m */; };
 		FE23AE9013E04E9800B4E457 /* MCTextFilter.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE23AE8A13E04E9800B4E457 /* MCTextFilter.xib */; };
 		FE23AEE713E04FA200B4E457 /* MCTextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23AEE213E04FA200B4E457 /* MCTextFilter.m */; };
@@ -28,8 +19,13 @@
 		FE24915B13E8046400D744A7 /* MCIgnoreColorWellTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24915513E8046400D744A7 /* MCIgnoreColorWellTextView.m */; };
 		FE3A195E22FAE4C1005BED34 /* MCAddPresetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3A195D22FAE4C1005BED34 /* MCAddPresetCellView.m */; };
 		FE3A196122FAEEE2005BED34 /* MCCommandPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3A195F22FAEEE2005BED34 /* MCCommandPanel.xib */; };
-		FE479454168F5E8700A9C142 /* Presets@2x.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FE479451168F5E8700A9C142 /* Presets@2x.tiff */; };
 		FE48BD7113A631A600C98912 /* Sintel-frame.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FE48BD6B13A631A600C98912 /* Sintel-frame.jpg */; };
+		FE519C062300486400D65DC7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE519C042300486400D65DC7 /* Sparkle.framework */; };
+		FE519C072300486400D65DC7 /* LetsMove.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE519C052300486400D65DC7 /* LetsMove.framework */; };
+		FE519C082300486F00D65DC7 /* LetsMove.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE519C052300486400D65DC7 /* LetsMove.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FE519C092300486F00D65DC7 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE519C042300486400D65DC7 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FE519C0C23005B6F00D65DC7 /* MCNoAccessibilityImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE519C0B23005B6F00D65DC7 /* MCNoAccessibilityImageView.m */; };
+		FE519C0F23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FE519C0E23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m */; };
 		FE58A6A9135EBE8400A99750 /* SubTest.mpg in Resources */ = {isa = PBXBuildFile; fileRef = FE58A69D135EBE8400A99750 /* SubTest.mpg */; };
 		FE58A6AA135EBE8400A99750 /* SubTest.srt in Resources */ = {isa = PBXBuildFile; fileRef = FE58A69E135EBE8400A99750 /* SubTest.srt */; };
 		FE59A53513ED22B5001414DC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE59A53013ED22B5001414DC /* QuartzCore.framework */; };
@@ -40,25 +36,16 @@
 		FE700959140CD7F1002429E1 /* MCProgressSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FE700953140CD7F1002429E1 /* MCProgressSlider.m */; };
 		FE703A6022FC822F00917539 /* MCPresetDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FE703A5F22FC822F00917539 /* MCPresetDefaults.m */; };
 		FE7AAEE513B602E8008DC4F7 /* MCFilterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AAEE013B602E8008DC4F7 /* MCFilterDelegate.m */; };
-		FEA63EA91376C28D001816F2 /* MCInstallPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA63EA41376C28D001816F2 /* MCInstallPanel.m */; };
-		FEA63EBC1376C352001816F2 /* MCInstallPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA63EB61376C352001816F2 /* MCInstallPanel.xib */; };
 		FEA8CF4113227D3C00C10516 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		FEA8CF4213227D3C00C10516 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		FEA8CF4413227D3C00C10516 /* Dropzone.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FE8086DC12EB01F20047FD26 /* Dropzone.pdf */; };
 		FEA8CF4513227D3C00C10516 /* Media Converter.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE8086DE12EB092D0047FD26 /* Media Converter.icns */; };
-		FEA8CF4913227D3C00C10516 /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE808C1012EB19AC0047FD26 /* -1.png */; };
-		FEA8CF4A13227D3C00C10516 /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = FE808C1112EB19AC0047FD26 /* 0.png */; };
-		FEA8CF4B13227D3C00C10516 /* 100.png in Resources */ = {isa = PBXBuildFile; fileRef = FE808C1312EB19AC0047FD26 /* 100.png */; };
 		FEA8CF4D13227D3C00C10516 /* MCPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEF5CD8512EEB83B00981441 /* MCPreferences.xib */; };
-		FEA8CF4E13227D3C00C10516 /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEF5CFBE12EEC26000981441 /* Advanced.tiff */; };
-		FEA8CF4F13227D3C00C10516 /* General.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEF5CFBF12EEC26000981441 /* General.tiff */; };
 		FEA8CF5013227D3C00C10516 /* Presets in Resources */ = {isa = PBXBuildFile; fileRef = FEBC384212F163B300F0A20A /* Presets */; };
-		FEA8CF5113227D3C00C10516 /* Create Preset.png in Resources */ = {isa = PBXBuildFile; fileRef = FE77D66E13192E8800731569 /* Create Preset.png */; };
-		FEA8CF5213227D3C00C10516 /* Presets.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FE5F7D46131D960900BF0236 /* Presets.tiff */; };
+		FEA8CF5113227D3C00C10516 /* Create Preset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE77D66E13192E8800731569 /* Create Preset@2x.png */; };
 		FEA8CF5313227D3C00C10516 /* MCProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE4E9893132105CB00B440F4 /* MCProgress.xib */; };
 		FEA8CF5413227D3C00C10516 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4E9897132105DA00B440F4 /* Localizable.strings */; };
 		FEA8CF5513227D3C00C10516 /* MCPresets.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE4E9B0013210D3100B440F4 /* MCPresets.icns */; };
-		FEA8CF5613227D3C00C10516 /* Add Preset.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4E9B3613210E6200B440F4 /* Add Preset.png */; };
 		FEA8CF5713227D3C00C10516 /* MediaConverterHelp in Resources */ = {isa = PBXBuildFile; fileRef = FE4E9BEA13218B7600B440F4 /* MediaConverterHelp */; };
 		FEA8CF5913227D3C00C10516 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		FEA8CF5A13227D3C00C10516 /* MCDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8086F112EB09E30047FD26 /* MCDropView.m */; };
@@ -97,6 +84,17 @@
 		FEF8B00B22F8305A00603B84 /* MCTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF8B00A22F8305900603B84 /* MCTableView.m */; };
 		FEF8B01722F8444200603B84 /* MCColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF8B01622F8444200603B84 /* MCColorView.m */; };
 		FEFA3D1C1333F651009B543D /* Languages.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEFA3D161333F651009B543D /* Languages.plist */; };
+		FEFB88992301B48E00E0FFF7 /* Gear with arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88962301B48E00E0FFF7 /* Gear with arrow@2x.png */; };
+		FEFB889A2301B48E00E0FFF7 /* Gear with arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88972301B48E00E0FFF7 /* Gear with arrow.png */; };
+		FEFB889B2301B48E00E0FFF7 /* Gear with arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88982301B48E00E0FFF7 /* Gear with arrow@3x.png */; };
+		FEFB889D2301B49D00E0FFF7 /* General.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEFB889C2301B49D00E0FFF7 /* General.icns */; };
+		FEFB88A12301B63F00E0FFF7 /* Gear with arrow (dark)@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB889E2301B63F00E0FFF7 /* Gear with arrow (dark)@2x.png */; };
+		FEFB88A22301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB889F2301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png */; };
+		FEFB88A32301B63F00E0FFF7 /* Gear with arrow (dark).png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88A02301B63F00E0FFF7 /* Gear with arrow (dark).png */; };
+		FEFB88A72301B99400E0FFF7 /* Create Preset@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88A62301B99400E0FFF7 /* Create Preset@3x.png */; };
+		FEFB88AB2301BDEC00E0FFF7 /* Presets@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88A82301BDEB00E0FFF7 /* Presets@3x.png */; };
+		FEFB88AC2301BDEC00E0FFF7 /* Presets@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88A92301BDEB00E0FFF7 /* Presets@2x.png */; };
+		FEFB88AD2301BDEC00E0FFF7 /* Presets.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFB88AA2301BDEC00E0FFF7 /* Presets.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,6 +104,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FE519C082300486F00D65DC7 /* LetsMove.framework in Copy Frameworks */,
+				FE519C092300486F00D65DC7 /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,21 +125,11 @@
 		FE0EF51F130A7E630076FE30 /* MCPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPopupButton.m; path = Source/MCPopupButton.m; sourceTree = "<group>"; };
 		FE0EFC7E130A928B0076FE30 /* MCTextCheckBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCTextCheckBoxCell.h; path = Source/MCTextCheckBoxCell.h; sourceTree = "<group>"; };
 		FE0EFC7F130A928B0076FE30 /* MCTextCheckBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCTextCheckBoxCell.m; path = Source/MCTextCheckBoxCell.m; sourceTree = "<group>"; };
-		FE0F4937168F461A00D398C0 /* Media Converter.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Media Converter.icns"; path = "Images/icns-10.4/Media Converter.icns"; sourceTree = "<group>"; };
-		FE0F49D0168F482600D398C0 /* -1_107.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-1_107.png"; sourceTree = "<group>"; };
-		FE0F49D1168F482600D398C0 /* -1_107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-1_107@2x.png"; sourceTree = "<group>"; };
-		FE0F49D2168F482600D398C0 /* 0_107.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0_107.png; sourceTree = "<group>"; };
-		FE0F49D3168F482600D398C0 /* 0_107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0_107@2x.png"; sourceTree = "<group>"; };
-		FE0F49D4168F482600D398C0 /* 1_107.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_107.png; sourceTree = "<group>"; };
-		FE0F49D5168F482600D398C0 /* 1_107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1_107@2x.png"; sourceTree = "<group>"; };
 		FE10B97413C1CCD000194E45 /* MCWatermarkFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCWatermarkFilter.h; path = Source/MCWatermarkFilter.h; sourceTree = "<group>"; };
 		FE10B97513C1CCD000194E45 /* MCWatermarkFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCWatermarkFilter.m; path = Source/MCWatermarkFilter.m; sourceTree = "<group>"; };
 		FE10B97E13C1CCDC00194E45 /* MCFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCFilter.h; path = Source/MCFilter.h; sourceTree = "<group>"; };
 		FE10B97F13C1CCDC00194E45 /* MCFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCFilter.m; path = Source/MCFilter.m; sourceTree = "<group>"; };
-		FE1D0DB4168F053800143A71 /* Gear with arrow.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Gear with arrow.pdf"; path = "Images/Gear with arrow.pdf"; sourceTree = "<group>"; };
-		FE1D0DBF168F055400143A71 /* Advanced@2x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Advanced@2x.tiff"; path = "Images/Advanced@2x.tiff"; sourceTree = "<group>"; };
-		FE1D0DC0168F055400143A71 /* Create Preset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset@2x.png"; path = "Images/Create Preset@2x.png"; sourceTree = "<group>"; };
-		FE1D0DC1168F055400143A71 /* General@2x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "General@2x.tiff"; path = "Images/General@2x.tiff"; sourceTree = "<group>"; };
+		FE1D0DC0168F055400143A71 /* Create Preset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset.png"; path = "Images/Create Preset.png"; sourceTree = "<group>"; };
 		FE23AC8913E02CF300B4E457 /* MCActionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCActionButton.h; path = Source/MCActionButton.h; sourceTree = "<group>"; };
 		FE23AC8A13E02CF300B4E457 /* MCActionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCActionButton.m; path = Source/MCActionButton.m; sourceTree = "<group>"; };
 		FE23AEE113E04FA200B4E457 /* MCTextFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCTextFilter.h; path = Source/MCTextFilter.h; sourceTree = "<group>"; };
@@ -151,18 +141,20 @@
 		FE3A195C22FAE4C1005BED34 /* MCAddPresetCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCAddPresetCellView.h; path = Source/MCAddPresetCellView.h; sourceTree = "<group>"; };
 		FE3A195D22FAE4C1005BED34 /* MCAddPresetCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCAddPresetCellView.m; path = Source/MCAddPresetCellView.m; sourceTree = "<group>"; };
 		FE3A196022FAEEE2005BED34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCCommandPanel.xib; sourceTree = "<group>"; };
-		FE479451168F5E8700A9C142 /* Presets@2x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Presets@2x.tiff"; path = "Images/Presets@2x.tiff"; sourceTree = "<group>"; };
 		FE48BD6B13A631A600C98912 /* Sintel-frame.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame.jpg"; path = "Images/Sintel-frame.jpg"; sourceTree = "<group>"; };
 		FE4E9893132105CB00B440F4 /* MCProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MCProgress.xib; path = Resources/MCProgress.xib; sourceTree = "<group>"; };
+		FE519C042300486400D65DC7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
+		FE519C052300486400D65DC7 /* LetsMove.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LetsMove.framework; path = Frameworks/LetsMove.framework; sourceTree = "<group>"; };
+		FE519C0A23005B6F00D65DC7 /* MCNoAccessibilityImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCNoAccessibilityImageView.h; path = Source/MCNoAccessibilityImageView.h; sourceTree = "<group>"; };
+		FE519C0B23005B6F00D65DC7 /* MCNoAccessibilityImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCNoAccessibilityImageView.m; path = Source/MCNoAccessibilityImageView.m; sourceTree = "<group>"; };
+		FE519C0D23005E7E00D65DC7 /* MCNoAccessibiltyTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCNoAccessibiltyTextField.h; path = Source/MCNoAccessibiltyTextField.h; sourceTree = "<group>"; };
+		FE519C0E23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCNoAccessibiltyTextField.m; path = Source/MCNoAccessibiltyTextField.m; sourceTree = "<group>"; };
 		FE58A69D135EBE8400A99750 /* SubTest.mpg */ = {isa = PBXFileReference; lastKnownFileType = video.mpeg; name = SubTest.mpg; path = Resources/SubTest.mpg; sourceTree = "<group>"; };
 		FE58A69E135EBE8400A99750 /* SubTest.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SubTest.srt; path = Resources/SubTest.srt; sourceTree = "<group>"; };
 		FE59A53013ED22B5001414DC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame-dark.jpg"; path = "Images/Sintel-frame-dark.jpg"; sourceTree = "<group>"; };
-		FE5F7D46131D960900BF0236 /* Presets.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Presets.tiff; path = Images/Presets.tiff; sourceTree = "<group>"; };
 		FE66771D1425D434009BB3A5 /* MCPresetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPresetManager.h; path = Source/MCPresetManager.h; sourceTree = "<group>"; };
 		FE66771E1425D434009BB3A5 /* MCPresetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPresetManager.m; path = Source/MCPresetManager.m; sourceTree = "<group>"; };
-		FE68409222F95B3C005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCInstallPanel.strings; sourceTree = "<group>"; };
-		FE68409422F95B56005B55DB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCInstallPanel.strings; sourceTree = "<group>"; };
 		FE68409622F95BDA005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
 		FE68409822F95BDF005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCWatermarkFilter.strings; sourceTree = "<group>"; };
 		FE68409A22F95D4A005B55DB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
@@ -176,7 +168,7 @@
 		FE700953140CD7F1002429E1 /* MCProgressSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProgressSlider.m; path = Source/MCProgressSlider.m; sourceTree = "<group>"; };
 		FE703A5E22FC822F00917539 /* MCPresetDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetDefaults.h; path = Source/MCPresetDefaults.h; sourceTree = "<group>"; };
 		FE703A5F22FC822F00917539 /* MCPresetDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCPresetDefaults.m; path = Source/MCPresetDefaults.m; sourceTree = "<group>"; };
-		FE77D66E13192E8800731569 /* Create Preset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset.png"; path = "Images/Create Preset.png"; sourceTree = "<group>"; };
+		FE77D66E13192E8800731569 /* Create Preset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset@2x.png"; path = "Images/Create Preset@2x.png"; sourceTree = "<group>"; };
 		FE77D9BC131940B000731569 /* MCCrippledButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCrippledButton.h; path = Source/MCCrippledButton.h; sourceTree = "<group>"; };
 		FE77D9BD131940B000731569 /* MCCrippledButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCrippledButton.m; path = Source/MCCrippledButton.m; sourceTree = "<group>"; };
 		FE77D9E0131941C500731569 /* MCCommandPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCommandPanel.h; path = Source/MCCommandPanel.h; sourceTree = "<group>"; };
@@ -195,11 +187,6 @@
 		FE808B7912EB0FEE0047FD26 /* MCCommonMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCommonMethods.h; path = Source/MCCommonMethods.h; sourceTree = "<group>"; };
 		FE808B7A12EB0FEE0047FD26 /* MCConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCConverter.h; path = Source/MCConverter.h; sourceTree = "<group>"; };
 		FE808B7B12EB0FEE0047FD26 /* MCProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressPanel.h; path = Source/MCProgressPanel.h; sourceTree = "<group>"; };
-		FE808C1012EB19AC0047FD26 /* -1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-1.png"; sourceTree = "<group>"; };
-		FE808C1112EB19AC0047FD26 /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
-		FE808C1312EB19AC0047FD26 /* 100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 100.png; sourceTree = "<group>"; };
-		FEA63EA31376C28D001816F2 /* MCInstallPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCInstallPanel.h; path = Source/MCInstallPanel.h; sourceTree = "<group>"; };
-		FEA63EA41376C28D001816F2 /* MCInstallPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCInstallPanel.m; path = Source/MCInstallPanel.m; sourceTree = "<group>"; };
 		FEA8CF7513227D3C00C10516 /* Media Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Media Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA8D4B313229AB200C10516 /* MCTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCTableView.h; path = Source/MCTableView.h; sourceTree = "<group>"; };
 		FEB4483A1689F32300938559 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Readme.txt; path = Binaries/Readme.txt; sourceTree = "<group>"; };
@@ -234,12 +221,8 @@
 		FEF466F2132527860079DBCF /* MCAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAlert.m; path = Source/MCAlert.m; sourceTree = "<group>"; };
 		FEF5CD8B12EEB89D00981441 /* MCPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPreferences.h; path = Source/MCPreferences.h; sourceTree = "<group>"; };
 		FEF5CD8C12EEB89D00981441 /* MCPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPreferences.m; path = Source/MCPreferences.m; sourceTree = "<group>"; };
-		FEF5CFBE12EEC26000981441 /* Advanced.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Advanced.tiff; path = Images/Advanced.tiff; sourceTree = "<group>"; };
-		FEF5CFBF12EEC26000981441 /* General.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = General.tiff; path = Images/General.tiff; sourceTree = "<group>"; };
 		FEF8AFEB22F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = nl; path = nl.lproj/MediaConverterHelp; sourceTree = "<group>"; };
-		FEF8AFEC22F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nl; path = "nl.lproj/Add Preset.png"; sourceTree = "<group>"; };
 		FEF8AFED22F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = nl; path = nl.lproj/MCPresets.icns; sourceTree = "<group>"; };
-		FEF8AFEE22F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = nl; path = "Images/icns-10.4/nl.lproj/MCPresets.icns"; sourceTree = "<group>"; };
 		FEF8AFF522F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = nl; path = nl.lproj/Donation; sourceTree = "<group>"; };
 		FEF8AFF622F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = nl.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FEF8AFF722F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -247,13 +230,10 @@
 		FEF8AFF922F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		FEF8AFFA22F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCPreferences.xib; sourceTree = "<group>"; };
 		FEF8AFFB22F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCPresetManager.xib; sourceTree = "<group>"; };
-		FEF8AFFC22F5C83500603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCInstallPanel.xib; sourceTree = "<group>"; };
 		FEF8AFFD22F5C83500603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCTextFilter.xib; sourceTree = "<group>"; };
 		FEF8AFFE22F5C83500603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCWatermarkFilter.xib; sourceTree = "<group>"; };
 		FEF8AFFF22F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/MediaConverterHelp; sourceTree = "<group>"; };
-		FEF8B00022F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/Add Preset.png"; sourceTree = "<group>"; };
 		FEF8B00122F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = en; path = en.lproj/MCPresets.icns; sourceTree = "<group>"; };
-		FEF8B00222F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = en; path = "Images/icns-10.4/en.lproj/MCPresets.icns"; sourceTree = "<group>"; };
 		FEF8B00322F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Donation; sourceTree = "<group>"; };
 		FEF8B00422F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FEF8B00522F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -268,6 +248,17 @@
 		FEF8B01F22F864B600603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCPresetManager.strings; sourceTree = "<group>"; };
 		FEF8B02122F86C4A00603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCPresetManager.strings; sourceTree = "<group>"; };
 		FEFA3D161333F651009B543D /* Languages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Languages.plist; path = Resources/Languages.plist; sourceTree = "<group>"; };
+		FEFB88962301B48E00E0FFF7 /* Gear with arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow@2x.png"; path = "Images/Gear with arrow@2x.png"; sourceTree = "<group>"; };
+		FEFB88972301B48E00E0FFF7 /* Gear with arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow.png"; path = "Images/Gear with arrow.png"; sourceTree = "<group>"; };
+		FEFB88982301B48E00E0FFF7 /* Gear with arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow@3x.png"; path = "Images/Gear with arrow@3x.png"; sourceTree = "<group>"; };
+		FEFB889C2301B49D00E0FFF7 /* General.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = General.icns; path = Images/General.icns; sourceTree = "<group>"; };
+		FEFB889E2301B63F00E0FFF7 /* Gear with arrow (dark)@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow (dark)@2x.png"; path = "Images/Gear with arrow (dark)@2x.png"; sourceTree = "<group>"; };
+		FEFB889F2301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow (dark)@3x.png"; path = "Images/Gear with arrow (dark)@3x.png"; sourceTree = "<group>"; };
+		FEFB88A02301B63F00E0FFF7 /* Gear with arrow (dark).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow (dark).png"; path = "Images/Gear with arrow (dark).png"; sourceTree = "<group>"; };
+		FEFB88A62301B99400E0FFF7 /* Create Preset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset@3x.png"; path = "Images/Create Preset@3x.png"; sourceTree = "<group>"; };
+		FEFB88A82301BDEB00E0FFF7 /* Presets@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Presets@3x.png"; path = "Images/Presets@3x.png"; sourceTree = "<group>"; };
+		FEFB88A92301BDEB00E0FFF7 /* Presets@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Presets@2x.png"; path = "Images/Presets@2x.png"; sourceTree = "<group>"; };
+		FEFB88AA2301BDEC00E0FFF7 /* Presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Presets.png; path = Images/Presets.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +267,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEA8CF6E13227D3C00C10516 /* Cocoa.framework in Frameworks */,
+				FE519C072300486400D65DC7 /* LetsMove.framework in Frameworks */,
+				FE519C062300486400D65DC7 /* Sparkle.framework in Frameworks */,
 				FE59A53513ED22B5001414DC /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,23 +352,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE519C032300485700D65DC7 /* Included Frameworks */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FE0F49EF168F482B00D398C0 /* 10.7 */ = {
-			isa = PBXGroup;
-			children = (
-				FE0F49D0168F482600D398C0 /* -1_107.png */,
-				FE0F49D1168F482600D398C0 /* -1_107@2x.png */,
-				FE0F49D2168F482600D398C0 /* 0_107.png */,
-				FE0F49D3168F482600D398C0 /* 0_107@2x.png */,
-				FE0F49D4168F482600D398C0 /* 1_107.png */,
-				FE0F49D5168F482600D398C0 /* 1_107@2x.png */,
-			);
-			name = 10.7;
 			sourceTree = "<group>";
 		};
 		FE10B97113C1CC9E00194E45 /* Filters */ = {
@@ -398,15 +379,6 @@
 				FE10B99C13C1D1A200194E45 /* MCWatermarkFilter.xib */,
 			);
 			name = Filters;
-			sourceTree = "<group>";
-		};
-		FE1D08E0168F00CD00143A71 /* Old Images (10.4) */ = {
-			isa = PBXGroup;
-			children = (
-				FE0F4937168F461A00D398C0 /* Media Converter.icns */,
-				FE0F493D168F462D00D398C0 /* MCPresets.icns */,
-			);
-			name = "Old Images (10.4)";
 			sourceTree = "<group>";
 		};
 		FE3A195A22FAC232005BED34 /* Custom Views and Cells */ = {
@@ -442,6 +414,10 @@
 				FEF8B01622F8444200603B84 /* MCColorView.m */,
 				FE3A195C22FAE4C1005BED34 /* MCAddPresetCellView.h */,
 				FE3A195D22FAE4C1005BED34 /* MCAddPresetCellView.m */,
+				FE519C0A23005B6F00D65DC7 /* MCNoAccessibilityImageView.h */,
+				FE519C0B23005B6F00D65DC7 /* MCNoAccessibilityImageView.m */,
+				FE519C0D23005E7E00D65DC7 /* MCNoAccessibiltyTextField.h */,
+				FE519C0E23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m */,
 			);
 			name = "Custom Views and Cells";
 			sourceTree = "<group>";
@@ -463,6 +439,15 @@
 				FE4E9BEA13218B7600B440F4 /* MediaConverterHelp */,
 			);
 			name = "Help Folders";
+			sourceTree = "<group>";
+		};
+		FE519C032300485700D65DC7 /* Included Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE519C052300486400D65DC7 /* LetsMove.framework */,
+				FE519C042300486400D65DC7 /* Sparkle.framework */,
+			);
+			name = "Included Frameworks";
 			sourceTree = "<group>";
 		};
 		FE58A69C135EBE6E00A99750 /* Subtitle Test */ = {
@@ -522,23 +507,9 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
-		FE808C0F12EB19AC0047FD26 /* ProgressIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				FE808C1012EB19AC0047FD26 /* -1.png */,
-				FE808C1112EB19AC0047FD26 /* 0.png */,
-				FE808C1312EB19AC0047FD26 /* 100.png */,
-				FE0F49EF168F482B00D398C0 /* 10.7 */,
-			);
-			name = ProgressIndicator;
-			path = Images/ProgressIndicator;
-			sourceTree = "<group>";
-		};
 		FEC2C7FF22FAF4B60014808E /* Panels */ = {
 			isa = PBXGroup;
 			children = (
-				FEA63EA31376C28D001816F2 /* MCInstallPanel.h */,
-				FEA63EA41376C28D001816F2 /* MCInstallPanel.m */,
 				FE808B7B12EB0FEE0047FD26 /* MCProgressPanel.h */,
 				FE808B7812EB0FEE0047FD26 /* MCProgressPanel.m */,
 			);
@@ -579,21 +550,22 @@
 		FEF7FBB9131A897E00E244C9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				FE1D0DB4168F053800143A71 /* Gear with arrow.pdf */,
-				FE1D08E0168F00CD00143A71 /* Old Images (10.4) */,
+				FEFB889C2301B49D00E0FFF7 /* General.icns */,
+				FEFB88AA2301BDEC00E0FFF7 /* Presets.png */,
+				FEFB88A92301BDEB00E0FFF7 /* Presets@2x.png */,
+				FEFB88A82301BDEB00E0FFF7 /* Presets@3x.png */,
+				FEFB88972301B48E00E0FFF7 /* Gear with arrow.png */,
+				FEFB88962301B48E00E0FFF7 /* Gear with arrow@2x.png */,
+				FEFB88982301B48E00E0FFF7 /* Gear with arrow@3x.png */,
+				FEFB88A02301B63F00E0FFF7 /* Gear with arrow (dark).png */,
+				FEFB889E2301B63F00E0FFF7 /* Gear with arrow (dark)@2x.png */,
+				FEFB889F2301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png */,
 				FE48BD6B13A631A600C98912 /* Sintel-frame.jpg */,
 				FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */,
-				FE4E9B3613210E6200B440F4 /* Add Preset.png */,
 				FE4E9B0013210D3100B440F4 /* MCPresets.icns */,
-				FE808C0F12EB19AC0047FD26 /* ProgressIndicator */,
-				FE77D66E13192E8800731569 /* Create Preset.png */,
-				FE1D0DC0168F055400143A71 /* Create Preset@2x.png */,
-				FEF5CFBE12EEC26000981441 /* Advanced.tiff */,
-				FE1D0DBF168F055400143A71 /* Advanced@2x.tiff */,
-				FEF5CFBF12EEC26000981441 /* General.tiff */,
-				FE1D0DC1168F055400143A71 /* General@2x.tiff */,
-				FE5F7D46131D960900BF0236 /* Presets.tiff */,
-				FE479451168F5E8700A9C142 /* Presets@2x.tiff */,
+				FE1D0DC0168F055400143A71 /* Create Preset.png */,
+				FE77D66E13192E8800731569 /* Create Preset@2x.png */,
+				FEFB88A62301B99400E0FFF7 /* Create Preset@3x.png */,
 				FE8086DE12EB092D0047FD26 /* Media Converter.icns */,
 				FE8086DC12EB01F20047FD26 /* Dropzone.pdf */,
 			);
@@ -606,7 +578,6 @@
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				FEF5CD8512EEB83B00981441 /* MCPreferences.xib */,
 				FE6677251425D458009BB3A5 /* MCPresetManager.xib */,
-				FEA63EB61376C352001816F2 /* MCInstallPanel.xib */,
 				FE4E9893132105CB00B440F4 /* MCProgress.xib */,
 				FE3A195F22FAEEE2005BED34 /* MCCommandPanel.xib */,
 				FE10B99913C1D15B00194E45 /* Filters */,
@@ -696,56 +667,49 @@
 				FEA8CF4213227D3C00C10516 /* MainMenu.xib in Resources */,
 				FEA8CF4413227D3C00C10516 /* Dropzone.pdf in Resources */,
 				FEA8CF4513227D3C00C10516 /* Media Converter.icns in Resources */,
-				FEA8CF4913227D3C00C10516 /* -1.png in Resources */,
-				FEA8CF4A13227D3C00C10516 /* 0.png in Resources */,
-				FEA8CF4B13227D3C00C10516 /* 100.png in Resources */,
 				FEA8CF4D13227D3C00C10516 /* MCPreferences.xib in Resources */,
 				FEC2C81622FB3DA20014808E /* ffmpeg in Resources */,
 				FEC2C80E22FB3DA20014808E /* oggz-merge in Resources */,
-				FEA8CF4E13227D3C00C10516 /* Advanced.tiff in Resources */,
-				FEA8CF4F13227D3C00C10516 /* General.tiff in Resources */,
 				FEA8CF5013227D3C00C10516 /* Presets in Resources */,
-				FEA8CF5113227D3C00C10516 /* Create Preset.png in Resources */,
-				FEA8CF5213227D3C00C10516 /* Presets.tiff in Resources */,
+				FEFB88992301B48E00E0FFF7 /* Gear with arrow@2x.png in Resources */,
+				FEFB88AD2301BDEC00E0FFF7 /* Presets.png in Resources */,
+				FEA8CF5113227D3C00C10516 /* Create Preset@2x.png in Resources */,
+				FEFB88A72301B99400E0FFF7 /* Create Preset@3x.png in Resources */,
+				FEFB889A2301B48E00E0FFF7 /* Gear with arrow.png in Resources */,
 				FEA8CF5313227D3C00C10516 /* MCProgress.xib in Resources */,
 				FEA8CF5413227D3C00C10516 /* Localizable.strings in Resources */,
+				FEFB88A12301B63F00E0FFF7 /* Gear with arrow (dark)@2x.png in Resources */,
 				FEA8CF5513227D3C00C10516 /* MCPresets.icns in Resources */,
-				FEA8CF5613227D3C00C10516 /* Add Preset.png in Resources */,
+				FEFB88AB2301BDEC00E0FFF7 /* Presets@3x.png in Resources */,
 				FEA8CF5713227D3C00C10516 /* MediaConverterHelp in Resources */,
 				FEA8D4FF1322AD4E00C10516 /* Donation in Resources */,
 				FEF466431324E2000079DBCF /* Credits.rtf in Resources */,
 				FEFA3D1C1333F651009B543D /* Languages.plist in Resources */,
+				FEFB88A32301B63F00E0FFF7 /* Gear with arrow (dark).png in Resources */,
 				FEC2C81722FB3DA20014808E /* qt-faststart in Resources */,
 				FE3A196122FAEEE2005BED34 /* MCCommandPanel.xib in Resources */,
 				FE58A6A9135EBE8400A99750 /* SubTest.mpg in Resources */,
+				FEFB889B2301B48E00E0FFF7 /* Gear with arrow@3x.png in Resources */,
+				FEFB88AC2301BDEC00E0FFF7 /* Presets@2x.png in Resources */,
 				FEC2C81222FB3DA20014808E /* spumux in Resources */,
 				FEC2C80F22FB3DA20014808E /* katedec in Resources */,
 				FEC2C81522FB3DA20014808E /* mkvextract in Resources */,
 				FE58A6AA135EBE8400A99750 /* SubTest.srt in Resources */,
-				FEA63EBC1376C352001816F2 /* MCInstallPanel.xib in Resources */,
+				FEFB889D2301B49D00E0FFF7 /* General.icns in Resources */,
 				FE48BD7113A631A600C98912 /* Sintel-frame.jpg in Resources */,
 				FE10B9A113C1D1A200194E45 /* MCWatermarkFilter.xib in Resources */,
 				FE23AE9013E04E9800B4E457 /* MCTextFilter.xib in Resources */,
 				FE59A54C13ED2576001414DC /* Sintel-frame-dark.jpg in Resources */,
 				FE6677281425D458009BB3A5 /* MCPresetManager.xib in Resources */,
+				FEFB88A22301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png in Resources */,
 				FE0353E015FA5D0D0006538C /* LanguageCodes.plist in Resources */,
 				FEC2C81122FB3DA20014808E /* mkvinfo in Resources */,
 				FEDB79111688743400745F56 /* LanguageConversion.plist in Resources */,
 				FEC2C81422FB3DA20014808E /* oggz-info in Resources */,
-				FE1D0DBA168F053800143A71 /* Gear with arrow.pdf in Resources */,
 				FEC2C80D22FB3DA20014808E /* fondu in Resources */,
-				FE0F49E2168F482600D398C0 /* -1_107.png in Resources */,
 				FEC2C81022FB3DA20014808E /* kateenc in Resources */,
 				FEC2C81822FB3DA20014808E /* MP4Box in Resources */,
-				FE0F49E3168F482600D398C0 /* -1_107@2x.png in Resources */,
-				FE0F49E4168F482600D398C0 /* 0_107.png in Resources */,
-				FE0F49E5168F482600D398C0 /* 0_107@2x.png in Resources */,
-				FE0F49E6168F482600D398C0 /* 1_107.png in Resources */,
-				FE0F49E7168F482600D398C0 /* 1_107@2x.png in Resources */,
-				FE0F4B0F168F54A400D398C0 /* Advanced@2x.tiff in Resources */,
-				FE0F4B10168F54A600D398C0 /* Create Preset@2x.png in Resources */,
-				FE0F4B11168F54A900D398C0 /* General@2x.tiff in Resources */,
-				FE479454168F5E8700A9C142 /* Presets@2x.tiff in Resources */,
+				FE0F4B10168F54A600D398C0 /* Create Preset.png in Resources */,
 				FEC2C81922FB3DA20014808E /* oggz-rip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -762,6 +726,7 @@
 				FE3A195E22FAE4C1005BED34 /* MCAddPresetCellView.m in Sources */,
 				FEA8CF5B13227D3C00C10516 /* MCMainController.m in Sources */,
 				FEA8CF5C13227D3C00C10516 /* MCCommonMethods.m in Sources */,
+				FE519C0C23005B6F00D65DC7 /* MCNoAccessibilityImageView.m in Sources */,
 				FEA8CF5D13227D3C00C10516 /* MCConverter.m in Sources */,
 				FEA8CF5E13227D3C00C10516 /* MCProgressPanel.m in Sources */,
 				FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */,
@@ -771,12 +736,12 @@
 				FEF8B01722F8444200603B84 /* MCColorView.m in Sources */,
 				FEA8CF6313227D3C00C10516 /* MCPopupButton.m in Sources */,
 				FEA8CF6413227D3C00C10516 /* MCTextCheckBoxCell.m in Sources */,
+				FE519C0F23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m in Sources */,
 				FEA8CF6513227D3C00C10516 /* NSArray_Extensions.m in Sources */,
 				FEA8CF6813227D3C00C10516 /* MCCrippledButton.m in Sources */,
 				FEA8CF6913227D3C00C10516 /* MCCommandPanel.m in Sources */,
 				FEF466F4132527860079DBCF /* MCAlert.m in Sources */,
 				FED68D1413265A1000332D8E /* MCAdvancedOptionsTableView.m in Sources */,
-				FEA63EA91376C28D001816F2 /* MCInstallPanel.m in Sources */,
 				FE7AAEE513B602E8008DC4F7 /* MCFilterDelegate.m in Sources */,
 				FE10B97913C1CCD000194E45 /* MCWatermarkFilter.m in Sources */,
 				FE10B98213C1CCDC00194E45 /* MCFilter.m in Sources */,
@@ -813,15 +778,6 @@
 				FE6840A122F960A6005B55DB /* en-US */,
 			);
 			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		FE0F493D168F462D00D398C0 /* MCPresets.icns */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FEF8AFEE22F5C83100603B84 /* nl */,
-				FEF8B00222F5C83700603B84 /* en */,
-			);
-			name = MCPresets.icns;
 			sourceTree = "<group>";
 		};
 		FE10B99C13C1D1A200194E45 /* MCWatermarkFilter.xib */ = {
@@ -873,15 +829,6 @@
 			name = MCPresets.icns;
 			sourceTree = "<group>";
 		};
-		FE4E9B3613210E6200B440F4 /* Add Preset.png */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FEF8AFEC22F5C83100603B84 /* nl */,
-				FEF8B00022F5C83700603B84 /* en */,
-			);
-			name = "Add Preset.png";
-			sourceTree = "<group>";
-		};
 		FE4E9BEA13218B7600B440F4 /* MediaConverterHelp */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -900,16 +847,6 @@
 				FE68409D22F95F12005B55DB /* en-US */,
 			);
 			name = MCPresetManager.xib;
-			sourceTree = "<group>";
-		};
-		FEA63EB61376C352001816F2 /* MCInstallPanel.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FEF8AFFC22F5C83500603B84 /* Base */,
-				FE68409222F95B3C005B55DB /* en */,
-				FE68409422F95B56005B55DB /* nl */,
-			);
-			name = MCInstallPanel.xib;
 			sourceTree = "<group>";
 		};
 		FEA8D4F71322AD4E00C10516 /* Donation */ = {
@@ -976,6 +913,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_NOTICES = NO;
+				IBC_WARNINGS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1013,6 +952,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_NOTICES = NO;
+				IBC_WARNINGS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
@@ -1025,15 +966,18 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Media Converter_Prefix.pch";
-				IBC_NOTICES = NO;
-				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiwifruitware.Media-Converter";
 				PRODUCT_NAME = "Media Converter";
 			};
@@ -1046,13 +990,16 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Media Converter_Prefix.pch";
-				IBC_NOTICES = NO;
-				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiwifruitware.Media-Converter";
 				PRODUCT_NAME = "Media Converter";
 			};

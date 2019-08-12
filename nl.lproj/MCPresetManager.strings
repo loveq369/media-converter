@@ -98,6 +98,30 @@
 /* Class = "NSTabViewItem"; label = "Filters"; ObjectID = "668"; */
 "668.label" = "Filters";
 
+/* Class = "NSTableView"; ibExternalAccessibilityDescription = "Filter list"; ObjectID = "1411"; */
+"1411.ibExternalAccessibilityDescription" = "Filterlijst";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "A list of filters that are applied to media files converted with the preset"; ObjectID = "1411"; */
+"1411.ibExternalAccessibilityHelp" = "Een lijst met filters die wordt toegepast op omgezette bestand met de voorinstelling";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "1513"; */
+"1513.ibExternalAccessibilityDescription" = "Wis";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Delete selected filter"; ObjectID = "1513"; */
+"1513.ibExternalAccessibilityHelp" = "Wis geselecteerde filter(s)";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Add"; ObjectID = "1514"; */
+"1514.ibExternalAccessibilityDescription" = "Voeg toe";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Add filters to the preset"; ObjectID = "1514"; */
+"1514.ibExternalAccessibilityHelp" = "Voeg filters toe aan de voorinstelling";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Action Button"; ObjectID = "1515"; */
+"1515.ibExternalAccessibilityDescription" = "Actieknop";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Show context menu for preset filters"; ObjectID = "1515"; */
+"1515.ibExternalAccessibilityHelp" = "Toon contextueel menu voor de geselecteerde voorinstelling filter(s)";
+
 // Advanced
 
 /* Class = "NSTabViewItem"; label = "Advanced"; ObjectID = "397"; */
@@ -111,14 +135,23 @@
 
 // Advanced FFMpeg options
 
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "A list of advanced FFmpeg options"; ObjectID = "171"; */
+"171.ibExternalAccessibilityHelp" = "Toon of verberg geavanceerde FFmpeg opties";
+
 /* Class = "NSTextFieldCell"; title = "Advanced ffmpeg options:"; ObjectID = "105"; */
 "105.title" = "Geavanceerde ffmpeg opties:";
 
 /* Class = "NSTableColumn"; headerCell.title = "Option"; ObjectID = "100"; */
 "100.headerCell.title" = "Optie";
 
-/* Class = "NSTableColumn"; headerCell.title = "Settings"; ObjectID = "101"; */
-"101.headerCell.title" = "Instellingen";
+/* Class = "NSTableColumn"; headerCell.title = "Setting"; ObjectID = "101"; */
+"101.headerCell.title" = "Instelling";
+
+/* Class = "NSTableView"; ibExternalAccessibilityDescription = "Advanced Options List"; ObjectID = "98"; */
+"98.ibExternalAccessibilityDescription" = "Geavenceerde optie lijst";
+
+/* Class = "NSTableView"; ibExternalAccessibilityHelp = "A list of advanced FFmpeg options"; ObjectID = "98"; */
+"98.ibExternalAccessibilityHelp" = "Een lijst met geavanceerde FFmpeg opties";
 
 /* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "190"; */
 "190.ibExternalAccessibilityDescription" = "Wis";

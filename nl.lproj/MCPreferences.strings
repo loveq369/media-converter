@@ -37,6 +37,9 @@
 /* Class = "NSTableColumn"; headerCell.title = "Preset"; ObjectID = "47"; */
 "47.headerCell.title" = "Voorinstelling";
 
+/* Class = "NSTableView"; ibExternalAccessibilityHelp = "A list of the currently installed presets"; ObjectID = "45"; */
+"45.ibExternalAccessibilityHelp" = "Een lijst met de geïnstalleerde voorinstellingen";
+
 /* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "1526"; */
 "1526.ibExternalAccessibilityDescription" = "Wis";
 
@@ -58,6 +61,9 @@
 /* Class = "NSButtonCell"; title = "Get More Presets"; ObjectID = "316"; */
 "316.title" = "Meer voorinstellingen…";
 
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Open the Media Converter website to download more presets"; ObjectID = "315"; */
+"315.ibExternalAccessibilityHelp" = "Open de Media-omzetter website om meer voorinstellingen te downloaden";
+
 // Advanced
 
 /* Class = "NSButtonCell"; title = "Turn on Logging"; ObjectID = "35"; */
@@ -65,6 +71,9 @@
 
 /* Class = "NSButtonCell"; title = "Use Custom FFmpeg Binary"; ObjectID = "37"; */
 "37.title" = "Gebruik andere FFmpeg";
+
+/* Class = "NSTextField"; ibExternalAccessibilityDescription = "Current FFmpeg path"; ObjectID = "38"; */
+"38.ibExternalAccessibilityHelp" = "Huidge FFmpeg pad";
 
 /* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "41"; */
 "41.title" = "Kies…";

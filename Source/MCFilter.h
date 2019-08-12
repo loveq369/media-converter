@@ -14,11 +14,18 @@
 @interface MCFilter : NSObject
 
 /**
+ *  Initialise the filter without loading the interface
+ *
+ *  @return A newly created filter object
+ */
+- (nullable instancetype)initForPreview;
+
+/**
  *  Set options
  *
  *  @param options The options to set
  */
-- (void)setOptions:(NSDictionary * _Nonnull)options;
+- (void)setOptions:(nonnull NSDictionary *)options;
 
 /**
  *  Setup the view
@@ -35,47 +42,54 @@
  *
  *  @return A string
  */
-- (NSString * _Nonnull)name;
+- (nonnull NSString *)name;
 
 /**
  *  The localised name
  *
  *  @return A string
  */
-+ (NSString * _Nonnull)localizedName;
++ (nonnull NSString *)localizedName;
+
+/**
+ *  Get the dictionary
+ *
+ *  @return A filter dictionary;
+ */
+- (nonnull NSDictionary *)filterDictionary;
 
 /**
  *  The filters identifier
  *
  *  @return A string
  */
-- (NSString * _Nonnull)filterIdentifier;
+- (nonnull NSString *)filterIdentifier;
 
 /**
  *  The filters view
  *
  *  @return A view
  */
-- (NSView * _Nullable)filterView;
+- (nonnull NSView *)filterView;
 
 /**
  *  The filters mappings, keys, based on the tags of views
  *
  *  @return A list of keys
  */
-- (NSArray * _Nonnull)filterMappings;
+- (nonnull NSArray *)filterMappings;
 
 /**
  *  The filters values
  *
  *  @return A list of value
  */
-- (NSArray * _Nonnull)filterDefaultValues;
+- (nonnull NSArray *)filterDefaultValues;
 
 /**
  *  The keys and values combined
  */
-- (NSMutableDictionary * _Nonnull)filterOptions;
+- (nonnull NSMutableDictionary *)filterOptions;
 
 /**
  *  Get a previes image
@@ -89,6 +103,6 @@
 /**
  *  A default outlet to set a filter option
  */
-- (IBAction)setFilterOption:(id _Nullable)sender;
+- (IBAction)setFilterOption:(nullable id)sender;
 
 @end

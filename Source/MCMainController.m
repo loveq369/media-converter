@@ -17,12 +17,13 @@
 #import "MCPresetManager.h"
 #import "MCTableView.h"
 #import "MCDropView.h"
-#import "MCInstallPanel.h"
+#import <LetsMove/LetsMove.h>
 
-@interface MCMainController() <NSFileManagerDelegate, NSApplicationDelegate, MCPreferencesDelegate, MCTableViewDelegate, MCDropViewDelegate>
+@interface MCMainController() <NSFileManagerDelegate, NSApplicationDelegate, MCPreferencesDelegate, MCTableViewDelegate, MCDropViewDelegate, NSUserNotificationCenterDelegate>
 
 // Outlets
 @property (nonatomic, weak) IBOutlet NSWindow *mainWindow;
+@property (nonatomic, weak) IBOutlet MCDropView *dropView;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *presetPopUp;
 @property (nonatomic, weak) IBOutlet NSPanel *locationsPanel;
 @property (nonatomic, strong) IBOutlet NSTextView *locationsTextField;
@@ -76,7 +77,7 @@
     MCActionButton *actionButton = [self actionButton];
     [actionButton setMenuTarget:self];
     [actionButton addMenuItemWithTitle:NSLocalizedString(@"Edit Preset…", nil) withSelector:@selector(edit:)];
-    [actionButton addMenuItemWithTitle:NSLocalizedString(@"Save Preset…", nil) withSelector:@selector(saveDocumentAs:)];
+    [actionButton addMenuItemWithTitle:NSLocalizedString(@"Export Preset…", nil) withSelector:@selector(saveDocumentAs:)];
     
     //Placeholder error string
     NSString *error = NSLocalizedString(@"An unkown error occured", nil);
@@ -88,40 +89,110 @@
     NSPopUpButton *presetPopUp = [self presetPopUp];
     [presetPopUp removeAllItems];
     
-    NSFileManager *defaultManager =     [NSFileManager defaultManager];
-    NSString *folder = @"/Library/Application Support/Media Converter/Presets";
-    NSString *supportFolder = [folder stringByDeletingLastPathComponent];
-    
-    NSString *userSupportFolder = [@"~/Library/Application Support/Media Converter" stringByExpandingTildeInPath];
-    NSString *userFolder = [userSupportFolder stringByAppendingPathComponent:@"Presets"];
-    
+    // Make sure the preset list format is right, it used to be a list of dictionaries, now they're paths
     NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+    NSMutableArray *updatedPresets = [[NSMutableArray alloc] init];
+    for (id presetObject in presets)
+    {
+        if ([presetObject isKindOfClass:[NSDictionary class]])
+        {
+            NSString *path = presetObject[@"Path"];
+            if (path != nil)
+            {
+                [updatedPresets addObject:path];
+            }
+        }
+        else
+        {
+            [updatedPresets addObject:presetObject];
+        }
+    }
+    [standardDefaults setObject:updatedPresets forKey:@"MCPresets"];
     
-    BOOL hasSupportFolder = ([defaultManager fileExistsAtPath:folder] || [defaultManager fileExistsAtPath:userFolder]);
+    // First check if there are still themes installed in /Library/Application Support/ by previous versions and move those presets
+    NSFileManager *defaultManager =  [NSFileManager defaultManager];
+    NSString *applicationSupportFolder = @"/Library/Application Support/Media Converter";
+    NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Presets"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *applicationSupportDirectory = [paths firstObject];
+    NSString *userSupportFolder = [applicationSupportDirectory stringByAppendingPathComponent:@"Media Converter"];
+    NSString *userPresetsFolder = [userSupportFolder stringByAppendingPathComponent:@"Presets"];
+    BOOL supportIsWritable = [defaultManager isWritableFileAtPath:folder];
+    
+    if (supportIsWritable && [defaultManager fileExistsAtPath:folder])
+    {
+        NSString *fontPath = [applicationSupportFolder stringByAppendingPathComponent:@"Fonts"];
+        NSString *newFontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
+        if (![defaultManager fileExistsAtPath:newFontPath])
+        {
+            NSError *error;
+            [defaultManager moveItemAtPath:fontPath toPath:newFontPath error:nil];
+            if (error != nil)
+            {
+                NSLog(@"Error: %@", error);
+            }
+        }
+    
+        NSMutableArray *checkedPresets = [updatedPresets mutableCopy];
+        for (NSString *presetPath in updatedPresets)
+        {
+            if ([presetPath rangeOfString:folder].length > 0)
+            {
+                if ([defaultManager fileExistsAtPath:presetPath])
+                {
+                    NSError *error;
+                    if (![defaultManager fileExistsAtPath:userPresetsFolder])
+                    {
+                        [defaultManager createDirectoryAtPath:userPresetsFolder withIntermediateDirectories:YES attributes:@{} error:&error];
+                        if (error != nil)
+                        {
+                            NSLog(@"Error: %@", error);
+                        }
+                    }
+                    
+                    NSString *fileName = [presetPath lastPathComponent];
+                    NSString *newPath = [userPresetsFolder stringByAppendingPathComponent:fileName];
+                    if ([defaultManager fileExistsAtPath:newPath])
+                    {
+                        newPath = [MCCommonMethods uniquePathNameFromPath:newPath withSeperator:@" "];
+                    }
+                    [defaultManager moveItemAtPath:presetPath toPath:newPath error:&error];
+                    if (error != nil)
+                    {
+                        NSLog(@"Error: %@", error);
+                    }
+                    [checkedPresets replaceObjectAtIndex:[checkedPresets indexOfObject:presetPath] withObject:newPath];
+                }
+                else
+                {
+                    [checkedPresets removeObjectAtIndex:[checkedPresets indexOfObject:presetPath]];
+                }
+            }
+        }
+        [standardDefaults setObject:checkedPresets forKey:@"MCPresets"];
+        [defaultManager removeItemAtPath:applicationSupportFolder error:nil];
+    }
+    
+    NSString *userFolder = [userSupportFolder stringByAppendingPathComponent:@"Presets"];
+    BOOL hasSupportFolder = [defaultManager fileExistsAtPath:userFolder];
     
     //Popupulate preset folder after creating it
-    if (!hasSupportFolder || [presets count] == 0)
+    if (!hasSupportFolder || [updatedPresets count] == 0)
     {
 	    if (!hasSupportFolder)
 	    {
-    	    NSString *presetsFolder = [[NSBundle mainBundle] pathForResource:@"Presets" ofType:@""];    
+            NSString *presetsFolder = [[NSBundle mainBundle] pathForResource:@"Presets" ofType:@""];
     	    BOOL supportWritable = YES;
-	    
-    	    if (![defaultManager fileExistsAtPath:supportFolder])
-	    	    supportWritable = [MCCommonMethods createDirectoryAtPath:supportFolder errorString:&error];
-	    
-    	    if (supportWritable)
-    	    {
-	    	    supportWritable = [MCCommonMethods copyItemAtPath:presetsFolder toPath:folder errorString:&error];
-    	    }
-    	    else
-    	    {
-	    	    if (![defaultManager fileExistsAtPath:userSupportFolder])
-    	    	    supportWritable = [MCCommonMethods createDirectoryAtPath:userSupportFolder errorString:&error];
-	    	    
-	    	    if (supportWritable)
-    	    	    supportWritable = [MCCommonMethods copyItemAtPath:presetsFolder toPath:userFolder errorString:&error];
-    	    }
+
+            if (![defaultManager fileExistsAtPath:userSupportFolder])
+            {
+                supportWritable = [MCCommonMethods createDirectoryAtPath:userSupportFolder errorString:&error];
+            }
+            
+            if (supportWritable)
+            {
+                supportWritable = [MCCommonMethods copyItemAtPath:presetsFolder toPath:userFolder errorString:&error];
+            }
     	    
     	    if (!supportWritable)
     	    {
@@ -134,18 +205,7 @@
     	    }
 	    }
 	    
-	    NSArray *folders;
-	    
-	    if ([defaultManager fileExistsAtPath:userFolder])
-        {
-    	    folders = [NSArray arrayWithObjects:folder, userFolder, nil];
-        }
-	    else
-        {
-    	    folders = [NSArray arrayWithObject:folder];
-        }
-    
-	    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:folders withType:@"mcpreset"];
+	    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:@[userFolder] withType:@"mcpreset"];
 	    NSMutableArray *savedPresets = [NSMutableArray array];
 	    
 	    NSInteger i;
@@ -158,11 +218,21 @@
 	    [standardDefaults setObject:savedPresets forKey:@"MCPresets"];
     }
     
-    //Check version to update some presets and phyton if needed (after asking of course)
-    [self performSelectorOnMainThread:@selector(versionUpdateCheck) withObject:nil waitUntilDone:YES];
-    
     //Now really update preset popup
     [self updatePresets];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^
+    {
+        [self versionUpdateCheckWithCompletion:^
+        {
+            PFMoveToApplicationsFolderIfNecessary();
+        }];
+    }];
 }
 
 //Files dropped on the application icon, opened with... or other external open methods
@@ -213,7 +283,7 @@
 #pragma mark - Update Methods
 
 //Some things changed in newer versions, check if we need to update things
-- (void)versionUpdateCheck
+- (void)versionUpdateCheckWithCompletion:(void (^)(void))completion
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -222,87 +292,173 @@
     
     if (lastCheck < 1.2)
     {
-	    //Ask if the user wants to update the presets for using subtitles
-	    NSAlert *upgradeAlert = [[NSAlert alloc] init];
-	    [upgradeAlert addButtonWithTitle:NSLocalizedString(@"Update", nil)];
-	    [upgradeAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-	    [[[upgradeAlert buttons] objectAtIndex:1] setKeyEquivalent:@"\E"];
-	    [upgradeAlert setMessageText:NSLocalizedString(@"This release of 'Media Converter' adds subtitle support", nil)];
-	    [upgradeAlert setInformativeText:NSLocalizedString(@"Would you like to update the presets to support it?", nil)];
-	    
-	    returnCode = [upgradeAlert runModal];
-	    
-	    //Update presets when the user chose "Update"
-	    if (returnCode == NSAlertFirstButtonReturn)
-	    {
-    	    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
-    	    
-    	    NSInteger i;
-    	    for (i = 0; i < [presets count]; i ++)
-    	    {
-	    	    NSString *path = [presets objectAtIndex:i];
-	    	    NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-	    	    [preset setObject:@"1.2" forKey:@"Version"];
-
-	    	    NSArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
-	    	    NSMutableDictionary *extraOptions = [preset objectForKey:@"Extra Options"];
-    	    
-	    	    if ([encoderOptions indexOfObject:@"matroska" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"mkv" forKey:@"Subtitle Type"];
-	    	    
-	    	    if ([encoderOptions indexOfObject:@"ogg" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"kate" forKey:@"Subtitle Type"];
-	    	    
-	    	    if ([encoderOptions indexOfObject:@"ipod" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
-	    	    
-	    	    if ([encoderOptions indexOfObject:@"mov" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
-    	    	    
-	    	    if ([encoderOptions indexOfObject:@"avi" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"srt" forKey:@"Subtitle Type"];
-    	    	    
-	    	    if ([encoderOptions indexOfObject:@"dvd" forKey:@"-f"] != NSNotFound)
-    	    	    [extraOptions setObject:@"dvd" forKey:@"Subtitle Type"];
-    	    	    
-	    	    [extraOptions setObject:@"Helvetica" forKey:@"Subtitle Font"];
-	    	    [extraOptions setObject:@"24" forKey:@"Subtitle Font Size"];
-	    	    [extraOptions setObject:@"center" forKey:@"Subtitle Horizontal Alignment"];
-	    	    [extraOptions setObject:@"bottom" forKey:@"Subtitle Vertical Alignment"];
-	    	    [extraOptions setObject:@"60" forKey:@"Subtitle Left Margin"];
-	    	    [extraOptions setObject:@"60" forKey:@"Subtitle Right Margin"];
-	    	    [extraOptions setObject:@"20" forKey:@"Subtitle Top Margin"];
-	    	    [extraOptions setObject:@"30" forKey:@"Subtitle Bottom Margin"];
-    	    	    
-	    	    [preset setObject:extraOptions forKey:@"Extra Options"];
-	    	    [preset writeToFile:path atomically:YES];
-	    	    [MCCommonMethods writeDictionary:preset toFile:path errorString:nil];
-    	    }
-	    }
-	    
-	    //Update fonts (spumux needs ttf files, we save them in the Application Support folder and make a symbolic link before starting spumux (~/.spumux))
-	    [self updateFontListForWindow:[self mainWindow]];
+        // Check for old presets
+        NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+        BOOL hasOldPresets = NO;
+        for (NSString *path in presets)
+        {
+            NSDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+            if ([preset[@"Version"] doubleValue] < 2.0)
+            {
+                hasOldPresets = YES;
+            }
+        }
         
-	    //Update "MCLastCheck" so we'll won't check again
-	    [standardDefaults setObject:[NSNumber numberWithDouble:2.0] forKey:@"MCLastCheck"];
-	    
-	    //Make sure our main window is in front
-	    [[self mainWindow] makeKeyAndOrderFront:nil];
+        if (hasOldPresets)
+        {
+            //Ask if the user wants to update the presets for using subtitles
+            NSAlert *upgradeAlert = [[NSAlert alloc] init];
+            [upgradeAlert addButtonWithTitle:NSLocalizedString(@"Update", nil)];
+            [upgradeAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+            [[[upgradeAlert buttons] objectAtIndex:1] setKeyEquivalent:@"\E"];
+            [upgradeAlert setMessageText:NSLocalizedString(@"This release of 'Media Converter' adds subtitle support", nil)];
+            [upgradeAlert setInformativeText:NSLocalizedString(@"Would you like to update the presets to support it?", nil)];
+            
+            returnCode = [upgradeAlert runModal];
+            
+            //Update presets when the user chose "Update"
+            if (returnCode == NSAlertFirstButtonReturn)
+            {
+                NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+                for (NSString *path in presets)
+                {
+                    NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+                    [preset setObject:@(1.2) forKey:@"Version"];
+
+                    NSArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
+                    NSMutableDictionary *extraOptions = [preset objectForKey:@"Extra Options"];
+                
+                    if ([encoderOptions indexOfObject:@"matroska" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"mkv" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"ogg" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"kate" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"ogv" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"kate" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"ipod" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"mp4" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"3gp" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"3g2" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"avi" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"srt" forKey:@"Subtitle Type"];
+                    
+                    if ([encoderOptions indexOfObject:@"dvd" forKey:@"-f"] != NSNotFound)
+                        [extraOptions setObject:@"dvd" forKey:@"Subtitle Type"];
+                    
+                    [extraOptions setObject:@"Helvetica" forKey:@"Subtitle Font"];
+                    [extraOptions setObject:@"24" forKey:@"Subtitle Font Size"];
+                    [extraOptions setObject:@"center" forKey:@"Subtitle Horizontal Alignment"];
+                    [extraOptions setObject:@"bottom" forKey:@"Subtitle Vertical Alignment"];
+                    [extraOptions setObject:@"60" forKey:@"Subtitle Left Margin"];
+                    [extraOptions setObject:@"60" forKey:@"Subtitle Right Margin"];
+                    [extraOptions setObject:@"20" forKey:@"Subtitle Top Margin"];
+                    [extraOptions setObject:@"30" forKey:@"Subtitle Bottom Margin"];
+                    
+                    [preset setObject:extraOptions forKey:@"Extra Options"];
+                    [preset writeToFile:path atomically:YES];
+                    [MCCommonMethods writeDictionary:preset toFile:path errorString:nil];
+                }
+            }
+         
+            [MCMainController updateFontListForWindow:[self mainWindow] withCompletion:completion];
+        }
+        else
+        {
+            if (completion != nil)
+            {
+                completion();
+            }
+        }
     }
-    /*else if (lastCheck < 1.3)
+    
+    if (lastCheck < 2.0)
     {
-	    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
-	    NSMutableArray *updatedPresets = [NSMutableArray array];
-    	    
-	    NSInteger i;
-	    for (i = 0; i < [presets count]; i ++)
-	    {
-    	    NSString *presetPath = [[presets objectAtIndex:i] objectForKey:@"Path"];
-    	    [updatedPresets addObject:presetPath];
-	    }
-    	    
-	    [standardDefaults setObject:updatedPresets forKey:@"MCPresets"];
-    }*/
+        // Update presets to work with newer versions of FFmpeg (4.2 currently)
+        NSArray *presets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
+        for (NSString *path in presets)
+        {
+            NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+            [preset setObject:@(2.0) forKey:@"Version"];
+
+            NSMutableArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
+            
+            NSMutableArray *modifiedEncoderOptions = [[NSMutableArray alloc] init];
+            
+            NSInteger deblokAlpha = [encoderOptions[@"-deblockalpha"] integerValue];
+            NSInteger deblockBeta = [encoderOptions[@"-deblockbeta"] integerValue];
+            BOOL deblockSet = NO;
+
+            // Modernise certain FFmpeg options
+            for (NSDictionary *dictionary in encoderOptions)
+            {
+                NSString *key = [dictionary allKeys][0];
+                id value = dictionary[key];
+                
+                if ([key isEqualToString:@"-b"])
+                {
+                    [modifiedEncoderOptions addObject:@{@"-b:v": dictionary[key]}];
+                }
+                else if ([key isEqualToString:@"-ab"])
+                {
+                    [modifiedEncoderOptions addObject:@{@"-b:a": dictionary[key]}];
+                }
+                else if (([key isEqualToString:@"deblockalpha"] || [key isEqualToString:@"deblockbeta"]) && (!deblockSet))
+                {
+                    [modifiedEncoderOptions addObject:@{@"-deblock": [NSString stringWithFormat:@"%li:%li", deblokAlpha, deblockBeta]}];
+                
+                    deblockSet = YES;
+                }
+                else if ([key isEqualToString:@"-async"] && [value isEqualToString:@"1"])
+                {
+                    [modifiedEncoderOptions addObject:@{@"-af": @"aresample=async=1:min_hard_comp=0.100000:first_pts=0"}];
+                }
+                else if ([key isEqualToString:@"-me_method"])
+                {
+                    [modifiedEncoderOptions addObject:@{@"-motion-est": [NSString stringWithFormat:@"%li", MIN([value integerValue], 4)]}];
+                }
+                else if ([key isEqualToString:@"-acodec"] && [value isEqualToString:@"libfaac"])
+                {
+                    [modifiedEncoderOptions addObject:@{@"-acodec": @"aac"}];
+                }
+                else if ((![key isEqualToString:@"flags"] && [value isEqualToString:@"+loop+slice"]) && (![key isEqualToString:@"rc_eq"] && [value isEqualToString:@"'blurCplx^(1-qComp)'"]))
+                {
+                    [modifiedEncoderOptions addObject:dictionary];
+                }
+            }
+            
+            [preset setObject:modifiedEncoderOptions forKey:@"Encoder Options"];
+            
+            [preset writeToFile:path atomically:YES];
+            [MCCommonMethods writeDictionary:preset toFile:path errorString:nil];
+        }
+        
+        //Update "MCLastCheck" so we'll won't check again
+        [standardDefaults setObject:@(2.0) forKey:@"MCLastCheck"];
+    }
+    
+    NSString *userSupportFolder = [@"~/Library/Application Support/Media Converter" stringByExpandingTildeInPath];
+    NSString *fontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:fontPath])
+    {
+        if (completion != nil)
+        {
+            completion();
+        }
+    }
+    else
+    {
+        [MCMainController updateFontListForWindow:[self mainWindow] withCompletion:completion];
+    }
 }
 
 //When the application starts or when a change has been made related to the presets update the preset menu
@@ -384,7 +540,7 @@
     MCPresetManager *presetManager = [MCPresetManager defaultManager];
     [presetManager editPresetForWindow:[self mainWindow] withPresetPath:path completionHandler:^(NSModalResponse returnCode)
     {
-        if (returnCode == NSOKButton)
+        if (returnCode == NSModalResponseOK)
         {
             [self updatePresets];
         }
@@ -458,29 +614,27 @@
 //Open internet URL files
 - (IBAction)openURLs:(id)sender
 {
-    [NSApp beginSheet:[self locationsPanel] modalForWindow:[self mainWindow] modalDelegate:self didEndSelector:@selector(openURLsPanelDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+    [[self mainWindow] beginSheet:[self locationsPanel] completionHandler:^(NSModalResponse returnCode)
+    {
+        NSTextView *locationsTextField = [self locationsTextField];
+
+        if (returnCode == NSModalResponseOK)
+        {
+            NSString *fieldString = [[locationsTextField textStorage] string];
+        
+            [self checkFiles:[fieldString componentsSeparatedByString:@"\n"]];
+        }
+        
+        [locationsTextField setString:@""];
+    }];
 }
 
 //Stop locations panel with return code
 - (IBAction)endOpenLocations:(id)sender
 {
-    [NSApp endSheet:[self locationsPanel] returnCode:[sender tag]];
-}
-
-- (void)openURLsPanelDidEnd:(NSWindow *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [panel orderOut:self];
-    
-    NSTextView *locationsTextField = [self locationsTextField];
-
-    if (returnCode == NSOKButton)
-    {
-	    NSString *fieldString = [[locationsTextField textStorage] string];
-    
-	    [self checkFiles:[fieldString componentsSeparatedByString:@"\n"]];
-    }
-    
-    [locationsTextField setString:@""];
+    NSWindow *locationsPanel = [self locationsPanel];
+    [locationsPanel orderOut:nil];
+    [[self mainWindow] endSheet:locationsPanel returnCode:[sender tag]];
 }
 
 //Visit the site
@@ -499,6 +653,11 @@
 - (IBAction)makeDonation:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openFile:[[[NSBundle mainBundle] pathForResource:@"Donation" ofType:@""] stringByAppendingPathComponent:@"donate.html"]];
+}
+
+- (IBAction)contactSupport:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"menu-help-mail-link", nil)]];
 }
 
 //////////////////
@@ -595,14 +754,13 @@
         //Stop being the observer
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cancelAdding" object:nil];
         
-        if ([files count] > 0)
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^
         {
-            [self performSelectorOnMainThread:@selector(showAlert:) withObject:[NSNumber numberWithInteger:protectedCount] waitUntilDone:NO];
-        }
-        else
-        {
-            [[MCProgressPanel progressPanel] endSheet];
-        }
+            if ([files count] > 0)
+            {
+                [self showAlert:@(protectedCount)];
+            }
+        }];
     }];
 }
 
@@ -613,6 +771,8 @@
     
     if (incompatibleFiles > 0)
     {
+        [[MCProgressPanel progressPanel] endSheet];
+    
         NSArray *inputFiles = [self inputFiles];
 	    if ([inputFiles count] > 0)
 	    {
@@ -715,7 +875,6 @@
 - (void)convertFiles:(NSString *)path
 {
     MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
-    [progressPanel beginSheetForWindow:[self mainWindow]];
     [progressPanel setTask:NSLocalizedString(@"Preparing to encode", nil)];
     [progressPanel setStatus:NSLocalizedString(@"Checking file...", nil)];
     [progressPanel setMaximumValue:100 * [[self inputFiles] count]];
@@ -854,21 +1013,20 @@
     return [super respondsToSelector:aSelector];
 }
 
-- (void)updateFontListForWindow:(NSWindow *)window
++ (void)updateFontListForWindow:(NSWindow *)window withCompletion:(void (^)(void))completion
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *savedFontPath = [standardDefaults objectForKey:@"MCFontFolderPath"];
-    
-    if (savedFontPath != nil)
-        [MCCommonMethods removeItemAtPath:savedFontPath];
+    NSString *fontPath = [standardDefaults objectForKey:@"MCFontFolderPath"];
+    if (fontPath != nil)
+    {
+        [[NSFileManager defaultManager]  removeItemAtPath:fontPath error:nil];
+    }
 
     MCConverter *converter = [[MCConverter alloc] init];
 
     NSFileManager *defaultManager = [NSFileManager defaultManager];
-    MCInstallPanel *installPanel = [MCInstallPanel installPanel];
-    [installPanel setTaskText:NSLocalizedString(@"Install Subtitle Fonts for:", nil)];
-    NSString *applicationSupportFolder = [installPanel runModalForInstallLocation];
-    NSString *fontPath = [[applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"] stringByAppendingPathComponent:@"Fonts"];
+    NSString *applicationSupportFolder = [@"~/Library/Application Support" stringByExpandingTildeInPath];
+    fontPath = [[applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"] stringByAppendingPathComponent:@"Fonts"];
     [standardDefaults setObject:fontPath forKey:@"MCFontFolderPath"];
     
     MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
@@ -878,23 +1036,7 @@
     [progressPanel setAllowCanceling:NO];
     [progressPanel beginSheetForWindow:window];
     
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
     [defaultManager createDirectoryAtPath:fontPath withIntermediateDirectories:YES attributes:nil error:nil];
-    #else
-    [defaultManager createDirectoryAtPath:fontPath attributes:nil];
-    #endif
-    
-    NSString *spumuxPath = [NSHomeDirectory() stringByAppendingPathComponent:@".spumux"];
-    NSString *uniqueSpumuxPath = [MCCommonMethods uniquePathNameFromPath:spumuxPath withSeperator:@"_"];
-    
-    if ([defaultManager fileExistsAtPath:spumuxPath])
-        [MCCommonMethods moveItemAtPath:spumuxPath toPath:uniqueSpumuxPath error:nil];
-    
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-    [defaultManager createSymbolicLinkAtPath:spumuxPath withDestinationPath:fontPath error:nil];
-    #else
-    [defaultManager createSymbolicLinkAtPath:spumuxPath pathContent:fontPath];
-    #endif
     
     NSMutableArray *fontFolderPaths = [NSMutableArray arrayWithObjects:@"/System/Library/Fonts", @"/Library/Fonts", nil];
     NSString *homeFontsFolder = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Fonts"];
@@ -912,85 +1054,104 @@
     NSArray *fontPaths = [MCCommonMethods getFullPathsForFolders:fontFolderPaths withType:@"ttf"];
     [progressPanel setMaximumValue:[fontPaths count] + 4];
     
-    NSInteger i;
-    for (i = 0; i < [fontPaths count]; i ++)
+    [[[NSOperationQueue alloc] init] addOperationWithBlock:^
     {
-        NSString *currentFontPath = [fontPaths objectAtIndex:i];
-        NSString *fontName = [currentFontPath lastPathComponent];
-        
-        [progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Checking font: %@", nil), fontName]];
+        NSInteger i;
+        for (i = 0; i < [fontPaths count]; i ++)
+        {
+            NSString *currentFontPath = [fontPaths objectAtIndex:i];
+            NSString *fontName = [currentFontPath lastPathComponent];
+            
+            [progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Checking font: %@", nil), fontName]];
 
-        NSString *newFontPath = [fontPath stringByAppendingPathComponent:fontName];
-        
-        if (![defaultManager fileExistsAtPath:newFontPath])
-        {
-            #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-            [defaultManager createSymbolicLinkAtPath:newFontPath withDestinationPath:currentFontPath error:nil];
-            #else
-            [defaultManager createSymbolicLinkAtPath:newFontPath pathContent:currentFontPath];
-            #endif
+            NSString *newFontPath = [fontPath stringByAppendingPathComponent:fontName];
             
-            if (![converter testFontWithName:fontName])
+            if (![defaultManager fileExistsAtPath:newFontPath])
+            {
                 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-                [[NSFileManager defaultManager] removeItemAtPath:newFontPath error:nil];
+                [defaultManager createSymbolicLinkAtPath:newFontPath withDestinationPath:currentFontPath error:nil];
                 #else
-                [[NSFileManager defaultManager] removeFileAtPath:newFontPath handler:nil];
+                [defaultManager createSymbolicLinkAtPath:newFontPath pathContent:currentFontPath];
                 #endif
+                
+                if (![converter testFontWithName:fontName])
+                    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
+                    [[NSFileManager defaultManager] removeItemAtPath:newFontPath error:nil];
+                    #else
+                    [[NSFileManager defaultManager] removeFileAtPath:newFontPath handler:nil];
+                    #endif
+            }
+            
+            [progressPanel setValue:i + 1];
         }
         
-        [progressPanel setValue:i + 1];
-    }
-    
-    [MCCommonMethods removeItemAtPath:spumuxPath];
-    
-    if ([defaultManager fileExistsAtPath:uniqueSpumuxPath])
-        [MCCommonMethods moveItemAtPath:uniqueSpumuxPath toPath:spumuxPath error:nil];
-    
-    [converter extractImportantFontsToPath:fontPath statusStart:[fontPaths count]];
-    
-    [progressPanel endSheet];
-    
-    NSArray *defaultFonts = [NSArray arrayWithObjects:        @"AppleGothic.ttf", @"Hei.ttf",
-                                                            @"Osaka.ttf",
-                                                            @"AlBayan.ttf",
-                                                            @"Raanana.ttf", @"Ayuthaya.ttf",
-                                                            @"儷黑 Pro.ttf", @"MshtakanRegular.ttf",
-                                                            nil];
-    
-    NSArray *defaultLanguages = [NSArray arrayWithObjects:        NSLocalizedString(@"Korean", nil), NSLocalizedString(@"Simplified Chinese", nil),
-                                                                NSLocalizedString(@"Japanese", nil),
-                                                                NSLocalizedString(@"Arabic", nil),
-                                                                NSLocalizedString(@"Hebrew", nil), NSLocalizedString(@"Thai", nil),
-                                                                NSLocalizedString(@"Traditional Chinese", nil), NSLocalizedString(@"Armenian", nil),
-                                                                nil];
-    
-    NSString *errorMessage = NSLocalizedString(@"Not found:", nil);
-    BOOL shouldWarn = NO;
-    
-    NSInteger z;
-    for (z = 0; z < [defaultFonts count]; z ++)
-    {
-        NSString *font = [defaultFonts objectAtIndex:z];
+    //    [MCCommonMethods removeItemAtPath:spumuxPath];
         
-        if (![defaultManager fileExistsAtPath:[fontPath stringByAppendingPathComponent:font]])
+    //    if ([defaultManager fileExistsAtPath:uniqueSpumuxPath])
+    //        [MCCommonMethods moveItemAtPath:uniqueSpumuxPath toPath:spumuxPath error:nil];
+        
+        [converter extractImportantFontsToPath:fontPath statusStart:[fontPaths count]];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^
         {
-            NSString *language = [defaultLanguages objectAtIndex:z];
+            [progressPanel endSheet];
+        
+            NSArray *defaultFonts = [NSArray arrayWithObjects:      @"AppleGothic.ttf", @"Hei.ttf",
+                                                                    @"Osaka.ttf",
+                                                                    @"AlBayan.ttf",
+                                                                    @"Raanana.ttf", @"Ayuthaya.ttf",
+                                                                    @"儷黑 Pro.ttf", @"MshtakanRegular.ttf",
+                                                                    nil];
             
-            shouldWarn = YES;
+            NSArray *defaultLanguages = [NSArray arrayWithObjects:      NSLocalizedString(@"Korean", nil), NSLocalizedString(@"Simplified Chinese", nil),
+                                                                        NSLocalizedString(@"Japanese", nil),
+                                                                        NSLocalizedString(@"Arabic", nil),
+                                                                        NSLocalizedString(@"Hebrew", nil), NSLocalizedString(@"Thai", nil),
+                                                                        NSLocalizedString(@"Traditional Chinese", nil), NSLocalizedString(@"Armenian", nil),
+                                                                        nil];
             
-            NSString *warningString = [NSString stringWithFormat:@"%@ (%@)", font, language];
+            NSString *errorMessage = NSLocalizedString(@"Not found:", nil);
+            BOOL shouldWarn = NO;
             
-            if ([errorMessage isEqualTo:@""])
-                errorMessage = warningString;
+            NSInteger z;
+            for (z = 0; z < [defaultFonts count]; z ++)
+            {
+                NSString *font = [defaultFonts objectAtIndex:z];
+                
+                if (![defaultManager fileExistsAtPath:[fontPath stringByAppendingPathComponent:font]])
+                {
+                    NSString *language = [defaultLanguages objectAtIndex:z];
+                    
+                    shouldWarn = YES;
+                    
+                    NSString *warningString = [NSString stringWithFormat:@"%@ (%@)", font, language];
+                    
+                    if ([errorMessage isEqualTo:@""])
+                        errorMessage = warningString;
+                    else
+                        errorMessage = [NSString stringWithFormat:@"%@\n%@", errorMessage, warningString];
+                }
+            }
+            
+            if (shouldWarn == YES)
+            {
+                [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to add some default language fonts", nil) withInformationText:NSLocalizedString(@"You can savely ignore this message if you don't use these languages (see details).", nil) withParentWindow:window withDetails:errorMessage completionHandler:^(NSModalResponse returnCode)
+                {
+                    if (completion)
+                    {
+                        completion();
+                    }
+                }];
+            }
             else
-                errorMessage = [NSString stringWithFormat:@"%@\n%@", errorMessage, warningString];
-        }
-    }
-    
-    if (shouldWarn == YES)
-        [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to add some default language fonts", nil) withInformationText:NSLocalizedString(@"You can savely ignore this message if you don't use these languages (see details).", nil) withParentWindow:window withDetails:errorMessage];
-    
-    converter = nil;
+            {
+                if (completion)
+                {
+                    completion();
+                }
+            }
+        }];
+    }];
 }
 
 - (void)showNotificationWithTitle:(nonnull NSString *)title withMessage:(nonnull NSString *)message withImage:(NSImage *)image

@@ -20,6 +20,19 @@
 
 @end
 
+BOOL isAppearanceIsDark(NSAppearance * appearance)
+{
+    if (@available(macOS 10.14, *))
+    {
+        NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua,NSAppearanceNameDarkAqua]];
+        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua];
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 
 @implementation MCCommonMethods
 
@@ -437,18 +450,40 @@
 
 + (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent withDetails:(NSString *)details
 {
+    [self standardAlertWithMessageText:message withInformationText:information withParentWindow:parent withDetails:details completionHandler:nil];
+}
+
++ (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent withDetails:(NSString *)details completionHandler:(void (^)(NSModalResponse returnCode))handler
+{
     MCAlert *alert = [[MCAlert alloc] init];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", Localized)];
     [alert setMessageText:message];
     [alert setInformativeText:information];
     
+    
     if (details != nil)
 	    [alert setDetails:details];
     
     if (parent)
-	    [alert beginSheetModalForWindow:parent modalDelegate:self didEndSelector:nil contextInfo:nil];
+    {
+        [alert beginSheetModalForWindow:parent completionHandler:^(NSModalResponse returnCode)
+        {
+            [[alert window] orderOut:nil];
+        
+            if (handler != nil)
+            {
+                handler(returnCode);
+            }
+        }];
+    }
     else
-	    [alert runModal];
+    {
+	    NSModalResponse response = [alert runModal];
+        if (handler != nil)
+        {
+            handler(response);
+        }
+    }
 }
 
 + (NSArray *)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array
@@ -756,7 +791,7 @@
 
 + (void)setViewOptions:(NSArray *)views infoObject:(id)info fallbackInfo:(id)fallback mappingsObject:(NSArray *)mappings startCount:(NSInteger)start
 {
-    NSControl *cntl;
+    NSControl *control;
 
     NSInteger x;
     for (x = 0; x < [views count]; x ++)
@@ -768,18 +803,18 @@
 	    else
     	    currentView = [[views objectAtIndex:x] view];
 	    
-	    NSEnumerator *iter = [[currentView subviews] objectEnumerator];
-	    while ((cntl = [iter nextObject]) != NULL)
+	    NSEnumerator *enumerator = [[currentView subviews] objectEnumerator];
+	    while ((control = [enumerator nextObject]) != NULL)
 	    {
-    	    NSInteger tag = [cntl tag] - start;
+    	    NSInteger tag = [control tag] - start;
 
-    	    if ([cntl isKindOfClass:[NSTabView class]])
+    	    if ([control isKindOfClass:[NSTabView class]])
     	    {
-	    	    [MCCommonMethods setViewOptions:[(NSTabView *)cntl tabViewItems] infoObject:info fallbackInfo:fallback mappingsObject:mappings startCount:start];
+	    	    [MCCommonMethods setViewOptions:[(NSTabView *)control tabViewItems] infoObject:info fallbackInfo:fallback mappingsObject:mappings startCount:start];
     	    }
-    	    else if ([cntl isKindOfClass:[NSBox class]])
+    	    else if ([control isKindOfClass:[NSBox class]])
     	    {
-	    	    [MCCommonMethods setViewOptions:[(NSBox *)cntl subviews] infoObject:info fallbackInfo:fallback mappingsObject:mappings startCount:start];
+	    	    [MCCommonMethods setViewOptions:[(NSBox *)control subviews] infoObject:info fallbackInfo:fallback mappingsObject:mappings startCount:start];
     	    }
     	    else if (tag > 0)
     	    {
@@ -793,7 +828,7 @@
     	    	    if (property == nil && fallback != nil)
 	    	    	    property = [fallback objectForKey:currentKey];
     	    	    
-    	    	    [MCCommonMethods setProperty:property forControl:cntl];
+    	    	    [MCCommonMethods setProperty:property forControl:control];
 
     	    	    property = nil;
 	    	    }
@@ -876,21 +911,5 @@
     
     return newArray;
 }
-
-//+ (void)sendEndSelector:(SEL)sel toObject:(id)receiver withObject:(id)object withReturnCode:(NSInteger)code
-//{
-//    NSMethodSignature *aSignature;
-//    NSInvocation *anInvocation;
-//
-//    //Get the methods signature and set the selector
-//    aSignature = [[receiver class] instanceMethodSignatureForSelector:sel];
-//    anInvocation = [NSInvocation invocationWithMethodSignature:aSignature];
-//    [anInvocation setSelector:sel];
-//    //Set arguments
-//    [anInvocation setArgument:&object atIndex:2];
-//    [anInvocation setArgument:&code atIndex:3];
-//    //Perform selector
-//    [anInvocation invokeWithTarget:receiver];
-//}
 
 @end

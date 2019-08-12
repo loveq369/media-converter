@@ -7,6 +7,7 @@
 //
 
 #import "MCActionButton.h"
+#import "MCCommonMethods.h"
 
 @interface MCActionButton()
 
@@ -37,6 +38,14 @@
 {
     [[self superview] addSubview:[self menuPopup]];
 }
+
+- (void)layout
+{
+    [super layout];
+    
+    [self setImage:[NSImage imageNamed:isAppearanceIsDark([self effectiveAppearance]) ? @"Gear with arrow (dark)" : @"Gear with arrow"]];
+}
+
 
 - (void)addMenuItemWithTitle:(NSString *)title withSelector:(SEL)sel
 {

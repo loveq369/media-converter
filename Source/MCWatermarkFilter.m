@@ -31,42 +31,56 @@
 
 @implementation MCWatermarkFilter
 
-- (id)init
+- (instancetype)init
 {
     if (self = [super init])
     {
-	    _filterMappings = [[NSArray alloc] initWithObjects:	    //Watermark
-	    	    	    	    	    	    	    	    @"Horizontal Alignment",	    	    //1
-	    	    	    	    	    	    	    	    @"Vertical Alignment",    	    	    //2
-	    	    	    	    	    	    	    	    @"Left Margin",    	    	    	    //3
-	    	    	    	    	    	    	    	    @"Right Margin",	    	    	    //4
-	    	    	    	    	    	    	    	    @"Top Margin",    	    	    	    //5
-	    	    	    	    	    	    	    	    @"Bottom Margin",	    	    	    //6
-	    	    	    	    	    	    	    	    @"Width",	    	    	    	    //7
-	    	    	    	    	    	    	    	    @"Height",	    	    	    	    //8
-	    	    	    	    	    	    	    	    @"Keep Aspect",    	    	    	    //9
-	    	    	    	    	    	    	    	    @"Alpha Value",    	    	    	    //10
-	    nil];
-	    
-	    _filterDefaultValues = [[NSArray alloc] initWithObjects:    //Watermark
-    	    	    	    	    	    	    	    	    @"right",	    	    	    	    	    // Horizontal Alignment
-    	    	    	    	    	    	    	    	    @"top",    	    	    	    	    	    // Vertical Alignment
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],	    	    // Left Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],	    	    // Right Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],	    	    // Top Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:30],	    	    // Bottom Margin
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],    	    	    // Width
-    	    	    	    	    	    	    	    	    [NSNumber numberWithInteger:0],    	    	    // Height
-    	    	    	    	    	    	    	    	    [NSNumber numberWithBool:YES],    	    	    // Keep Aspect
-    	    	    	    	    	    	    	    	    [NSNumber numberWithDouble:1.00],	    	    // Alpha Value
-	    nil];
-	    
-	    _filterOptions = [[NSMutableDictionary alloc] initWithObjects:_filterDefaultValues forKeys:_filterMappings];
-        
-         [[NSBundle mainBundle] loadNibNamed:@"MCWatermarkFilter" owner:self topLevelObjects:nil];
+	    [self setup];
+        [[NSBundle mainBundle] loadNibNamed:@"MCWatermarkFilter" owner:self topLevelObjects:nil];
     }
 
     return self;
+}
+
+- (instancetype)initForPreview
+{
+    if (self = [super initForPreview])
+    {
+        [self setup];
+    }
+
+    return self;
+}
+
+- (void)setup
+{
+    _filterMappings = [[NSArray alloc] initWithObjects:        //Watermark
+                                                                @"Horizontal Alignment",                //1
+                                                                @"Vertical Alignment",                  //2
+                                                                @"Left Margin",                         //3
+                                                                @"Right Margin",                        //4
+                                                                @"Top Margin",                          //5
+                                                                @"Bottom Margin",                       //6
+                                                                @"Width",                               //7
+                                                                @"Height",                              //8
+                                                                @"Keep Aspect",                         //9
+                                                                @"Alpha Value",                         //10
+        nil];
+    
+        _filterDefaultValues = [[NSArray alloc] initWithObjects:    //Watermark
+                                                                    @"right",                           // Horizontal Alignment
+                                                                    @"top",                             // Vertical Alignment
+                                                                    [NSNumber numberWithInteger:30],    // Left Margin
+                                                                    [NSNumber numberWithInteger:30],    // Right Margin
+                                                                    [NSNumber numberWithInteger:30],    // Top Margin
+                                                                    [NSNumber numberWithInteger:30],    // Bottom Margin
+                                                                    [NSNumber numberWithInteger:0],     // Width
+                                                                    [NSNumber numberWithInteger:0],     // Height
+                                                                    [NSNumber numberWithBool:YES],      // Keep Aspect
+                                                                    [NSNumber numberWithDouble:1.00],   // Alpha Value
+        nil];
+    
+        _filterOptions = [[NSMutableDictionary alloc] initWithObjects:_filterDefaultValues forKeys:_filterMappings];
 }
 
 - (void)awakeFromNib
@@ -98,7 +112,7 @@
     
     NSInteger result = [sheet runModal];
     
-    if (result == NSOKButton)
+    if (result == NSModalResponseOK)
     {
 	    NSString *filePath = [[sheet URL] path];
 	    NSString *identifier = [[NSFileManager defaultManager] displayNameAtPath:filePath];
@@ -204,8 +218,12 @@
 {
     NSMutableDictionary *filterOptions = [self filterOptions];
     NSData *imageData = [filterOptions objectForKey:@"Overlay Image"];
-
-    return [MCCommonMethods newOverlayImageWithObject:imageData withSettings:filterOptions size:size];
+    if (imageData != nil)
+    {
+        return [MCCommonMethods newOverlayImageWithObject:imageData withSettings:filterOptions size:size];
+    }
+    
+    return NULL;
 }
 
 @end

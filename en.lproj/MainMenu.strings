@@ -11,6 +11,9 @@
 /* Class = "NSMenuItem"; title = "About Media Converter"; ObjectID = "58"; */
 "58.title" = "About Media Converter";
 
+/* Class = "NSMenuItem"; title = "Check for Updates…"; ObjectID = "ZJn-7b-vaI"; */
+"ZJn-7b-vaI.title" = "Check for Updates…";
+
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "129"; */
 "129.title" = "Preferences…";
 
@@ -282,6 +285,9 @@
 /* Class = "NSMenuItem"; title = "Make a Donation"; ObjectID = "504"; */
 "504.title" = "Make a Donation";
 
+/* Class = "NSMenuItem"; title = "Contact Support"; ObjectID = "3Cr-4T-ola"; */
+"3Cr-4T-ola.title" = "Contact Support";
+
 
 // Main Window
 
@@ -291,8 +297,26 @@
 /* Class = "NSTextFieldCell"; title = "Drag Files Here"; ObjectID = "455"; */
 "455.title" = "Drag Files Here";
 
+/* Class = "NSView"; ibExternalAccessibilityDescription = "Drag Files Here"; ObjectID = "482"; */
+"482.ibExternalAccessibilityDescription" = "Drag Files Here";
+
+/* Class = "NSView"; ibExternalAccessibilityHelp = "Drag media files and URLs here"; ObjectID = "482"; */
+"482.ibExternalAccessibilityHelp" = "Drag media files and URLs here";
+
 /* Class = "NSTextFieldCell"; title = "Convert To:"; ObjectID = "469"; */
 "469.title" = "Convert To:";
+
+/* Class = "NSPopUpButton"; ibExternalAccessibilityDescription = "Preset Pop Up menu"; ObjectID = "462"; */
+"462.ibExternalAccessibilityDescription" = "Preset Pop Up menu";
+
+/* Class = "NSPopUpButton"; ibExternalAccessibilityHelp = "Select the preset you want to use when converting media files"; ObjectID = "462"; */
+"462.ibExternalAccessibilityHelp" = "Select the preset you want to use when converting media files";
+
+/* Class = "NSButton"; ibExternalAccessibilityDescription = "Preset Options"; ObjectID = "541"; */
+"541.ibExternalAccessibilityDescription" = "Preset Options";
+
+/* Class = "NSButton"; ibExternalAccessibilityHelp = "Allows you to export or edit the current selected preset file"; ObjectID = "541"; */
+"541.ibExternalAccessibilityHelp" = "Allows you to export or edit the current selected preset file";
 
 
 // Locations Panel
@@ -302,6 +326,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Locations:"; ObjectID = "514"; */
 "514.title" = "Locations:";
+
+/* Class = "NSView"; ibExternalAccessibilityDescription = "Type in locations, use an enter to separate the URLs"; ObjectID = "530"; */
+"530.ibExternalAccessibilityDescription" = "Type in locations, use an enter to separate the URLs";
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "524"; */
 "524.title" = "Cancel";

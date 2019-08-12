@@ -73,7 +73,7 @@
                                         @(0),                                                               // Right Margin
                                         @(0),                                                               // Top Margin
                                         @(0),                                                               // Bottom Margin
-                                        @"border",                                                          // Method
+                                        @"box",                                                             // Method
                                         [NSArchiver archivedDataWithRootObject:[NSColor darkGrayColor]],    // Box Color
                                         @(10),                                                              // Box Marge
                                         @(0.50),                                                            // Box Alpha Value

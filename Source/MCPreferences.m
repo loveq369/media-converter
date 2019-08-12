@@ -13,7 +13,6 @@
 #import "MCAdvancedOptionsDelegate.h"
 #import "NSArray_Extensions.h"
 #import "MCTextCheckBoxCell.h"
-#import "MCInstallPanel.h"
 #import "MCActionButton.h"
 #import "MCFilterDelegate.h"
 #import "MCFilter.h"
@@ -22,6 +21,7 @@
 #import "MCTableView.h"
 #import "MCAddPresetCellView.h"
 #import "MCCommandPanel.h"
+#import "MCMainController.h"
 
 @interface MCPreferences() <MCTableViewDelegate>
 
@@ -43,8 +43,7 @@
 @property (nonatomic, weak) IBOutlet NSTableView *addTableView;
 
 /* Toolbar outlets */
-@property (nonatomic, strong) NSToolbar *toolbar;
-@property (nonatomic, strong) NSMutableDictionary *itemsList;
+@property (nonatomic, strong) IBOutlet NSToolbar *toolbar;
 
 /* Variables */
 @property (nonatomic, getter = isLoaded) BOOL loaded;
@@ -72,7 +71,6 @@
                                                                     @"MCSubtitleLanguage",    	    //7
 	    nil];
 	    
-	    _itemsList = [[NSMutableDictionary alloc] init];
 	    _presetsData = [[NSMutableArray alloc] init];
 	    _loaded = NO;
 	    
@@ -133,7 +131,7 @@
     [presetsActionButton setMenuTarget:self];
     [presetsActionButton addMenuItemWithTitle:NSLocalizedString(@"Edit Preset…", nil) withSelector:@selector(edit:)];
     [presetsActionButton addMenuItemWithTitle:NSLocalizedString(@"Duplicate Preset", nil) withSelector:@selector(duplicate:)];
-    [presetsActionButton addMenuItemWithTitle:NSLocalizedString(@"Save Preset…", nil) withSelector:@selector(saveDocumentAs:)];
+    [presetsActionButton addMenuItemWithTitle:NSLocalizedString(@"Export Preset…", nil) withSelector:@selector(saveDocumentAs:)];
     
     //Load the options for our views
     [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[self generalView], [self presetsView], [self advancedView], nil] infoObject:[NSUserDefaults standardUserDefaults] fallbackInfo:nil mappingsObject:[self preferenceMappings] startCount:0];
@@ -141,7 +139,6 @@
     // Store the saved frame for later use
     NSString *savedFrameString = [[self window] stringWithSavedFrame];
     
-    [self setupToolbar];
     NSToolbar *toolbar = [self toolbar];
     [toolbar setSelectedItemIdentifier:[standardDefaults objectForKey:@"MCSavedPrefView"]];
     [self toolbarAction:[toolbar selectedItemIdentifier]];
@@ -273,49 +270,52 @@
 
 - (IBAction)addPreset:(id)sender
 {    
-    [NSApp beginSheet:[self addPanel] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(addPanelDidEnd:returnCode:contextInfo:) contextInfo:NULL];
-}
-
-- (void)addPanelDidEnd:(NSWindow*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [panel orderOut:self];
-
-    if (returnCode == NSOKButton)
+    [[self window] beginSheet:[self addPanel] completionHandler:^(NSModalResponse returnCode)
     {
-	    NSInteger selectedRow = [[self addTableView] selectedRow];
-	    
-	    if (selectedRow == 0)
-	    {
-    	    NSOpenPanel *sheet = [NSOpenPanel openPanel];
-    	    [sheet setCanChooseFiles:YES];
-    	    [sheet setCanChooseDirectories:NO];
-    	    [sheet setAllowsMultipleSelection:YES];
-            [sheet setAllowedFileTypes:@[@"mcpreset"]];
-    	    [sheet beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse result)
+        if (returnCode == NSModalResponseOK)
+        {
+            NSInteger selectedRow = [[self addTableView] selectedRow];
+            
+            if (selectedRow == 0)
             {
-                if (result == NSModalResponseOK)
+                NSOpenPanel *sheet = [NSOpenPanel openPanel];
+                [sheet setCanChooseFiles:YES];
+                [sheet setCanChooseDirectories:NO];
+                [sheet setAllowsMultipleSelection:YES];
+                [sheet setAllowedFileTypes:@[@"mcpreset"]];
+                [sheet beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse result)
                 {
-                    NSMutableArray *fileNames = [[NSMutableArray alloc] init];
-                    for (NSURL *url in [sheet URLs])
+                    if (result == NSModalResponseOK)
                     {
-                        [fileNames addObject:[url path]];
+                        NSMutableArray *fileNames = [[NSMutableArray alloc] init];
+                        for (NSURL *url in [sheet URLs])
+                        {
+                            [fileNames addObject:[url path]];
+                        }
+                    
+                        [[MCPresetManager defaultManager] openPresetFiles:fileNames];
                     }
-                
-                    [[MCPresetManager defaultManager] openPresetFiles:fileNames];
-                }
-            }];
-	    }
-	    else
-	    {
-    	    MCPresetManager *presetManager = [[MCPresetManager alloc] init];
-    	    [presetManager editPresetForWindow:[self window] withPresetPath:nil completionHandler:nil];
-	    }
-    }
+                }];
+            }
+            else
+            {
+                [[MCPresetManager defaultManager] editPresetForWindow:[self window] withPresetPath:nil completionHandler:^(NSModalResponse returnCode)
+                {
+                    if (returnCode == NSModalResponseOK)
+                    {
+                        [self reloadPresets];
+                    }
+                }];
+            }
+        }
+    }];
 }
 
 - (IBAction)endAddSheet:(id)sender
 {
-    [NSApp endSheet:[self addPanel] returnCode:[sender tag]];
+    NSWindow *addPanel = [self addPanel];
+    [[addPanel sheetParent] endSheet:addPanel returnCode:[sender tag]];
+    [addPanel orderOut:nil];
 }
 
 - (IBAction)edit:(id)sender
@@ -325,11 +325,10 @@
     if (selectedRow > - 1)
     {
 	    NSString *presetPath = [[self presetsData] objectAtIndex:selectedRow];
-
-	    MCPresetManager *presetManager = [[MCPresetManager alloc] init];
-	    [presetManager editPresetForWindow:[self window] withPresetPath:presetPath completionHandler:^(NSModalResponse returnCode)
+        
+	    [[MCPresetManager defaultManager] editPresetForWindow:[self window] withPresetPath:presetPath completionHandler:^(NSModalResponse returnCode)
         {
-            if (returnCode == NSOKButton)
+            if (returnCode == NSModalResponseOK)
             {
                 [self reloadPresets];
             }
@@ -437,7 +436,7 @@
 
 - (IBAction)rebuildFonts:(id)sender
 {
-    [self updateFontListForWindow:[self window]];
+    [MCMainController updateFontListForWindow:[self window] withCompletion:nil];
 }
 
 /////////////////////
@@ -447,30 +446,7 @@
 #pragma mark -
 #pragma mark •• Toolbar actions
 
-- (NSToolbarItem *)createToolbarItemWithName:(NSString *)name
-{
-    NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:name];
-    [toolbarItem setLabel:NSLocalizedString(name, Localized)];
-    [toolbarItem setPaletteLabel:[toolbarItem label]];
-    [toolbarItem setImage:[NSImage imageNamed:name]];
-    [toolbarItem setTarget:self];
-    [toolbarItem setAction:@selector(toolbarAction:)];
-    [[self itemsList] setObject:name forKey:name];
-
-    return toolbarItem;
-}
-
-- (void)setupToolbar
-{
-    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"mainToolbar"];
-    [toolbar setDelegate:self];
-    [toolbar setAllowsUserCustomization:NO];
-    [toolbar setAutosavesConfiguration:NO];
-    [[self window] setToolbar:toolbar];
-    [self setToolbar:toolbar];
-}
-
-- (void)toolbarAction:(id)object
+- (IBAction)toolbarAction:(id)object
 {
     id itemIdentifier;
 
@@ -501,32 +477,6 @@
 	    return [self advancedView];
     
     return nil;
-}
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
-{
-    return [self createToolbarItemWithName:itemIdentifier];
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
-{
-    return [NSArray arrayWithObjects:NSToolbarSeparatorItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, @"General", @"Presets", @"Advanced", nil];
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
-{
-    return [NSArray arrayWithObjects:@"General", @"Presets", @"Advanced", nil];
-}
-
-/* -----------------------------------------------------------------------------
-    toolbarSelectableItemIdentifiers:
-	    Make sure all our custom items can be selected. NSToolbar will
-	    automagically select the appropriate item when it is clicked.
-   -------------------------------------------------------------------------- */
-
--(NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
-{
-    return [[self itemsList] allKeys];
 }
 
 //////////////////////
@@ -578,31 +528,37 @@
     return 0;
 }
 
-//return selected row
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-    NSString *presetPath = [[self presetsData] objectAtIndex:row];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:presetPath];
-
-    return [dictionary objectForKey:[tableColumn identifier]];
-}
-
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    MCAddPresetCellView *cellView = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:self];
-    if (row == 0)
+    if (tableView == [self addTableView])
     {
-        [[cellView imageView] setImage:[NSImage imageNamed:@"Add Preset"]];
-        [[cellView textField] setStringValue:NSLocalizedString(@"Open an existing preset file", nil)];
-        [[cellView subTextField] setStringValue:NSLocalizedString(@"Choose a downloaded or copied preset file", nil)];
+        MCAddPresetCellView *cellView = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
+        if (row == 0)
+        {
+            [[cellView imageView] setImage:[NSImage imageNamed:@"MCPresets"]];
+            [[cellView textField] setStringValue:NSLocalizedString(@"Open an existing preset file", nil)];
+            [[cellView subTextField] setStringValue:NSLocalizedString(@"Choose a downloaded or copied preset file", nil)];
+        }
+        else
+        {
+            [[cellView imageView] setImage:[NSImage imageNamed:@"Create Preset"]];
+            [[cellView textField] setStringValue:NSLocalizedString(@"Create a new preset", nil)];
+            [[cellView subTextField] setStringValue:NSLocalizedString(@"This option is only for advanced users", nil)];
+        }
+        return cellView;
     }
-    else
+    else if (tableView == [self presetsTableView])
     {
-        [[cellView imageView] setImage:[NSImage imageNamed:@"Create Preset"]];
-        [[cellView textField] setStringValue:NSLocalizedString(@"Create a new preset", nil)];
-        [[cellView subTextField] setStringValue:NSLocalizedString(@"This option is only for advanced users", nil)];
+        NSString *presetPath = [[self presetsData] objectAtIndex:row];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:presetPath];
+        NSString *presetName = [dictionary objectForKey:[tableColumn identifier]];
+    
+        NSTableCellView *cellView = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
+        [[cellView textField] setStringValue:presetName];
+        return cellView;
     }
-    return cellView;
+    
+    return [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
 }
 
 //We don't want to make people change our row values
@@ -785,55 +741,6 @@
     [[self window] setFrame:r display:YES animate:YES];
 }
 
-- (void)clearOptionsInViews:(NSArray *)views
-{
-    /*NSEnumerator *iter = [[[NSEnumerator alloc] init] autorelease];
-    NSControl *cntl;
-
-    NSInteger x;
-    for (x = 0; x < [views count]; x ++)
-    {
-	    NSView *currentView;
-    
-	    if ([[views objectAtIndex:x] isKindOfClass:[NSView class]])
-    	    currentView = [views objectAtIndex:x];
-	    else
-    	    currentView = [[views objectAtIndex:x] view];
-	    
-	    iter = [[currentView subviews] objectEnumerator];
-	    while ((cntl = [iter nextObject]) != NULL)
-	    {
-    	    if ([cntl isKindOfClass:[NSTabView class]])
-    	    {
-	    	    [self clearOptionsInViews:[(NSTabView *)cntl tabViewItems]];
-    	    }
-    	    else
-    	    {
-	    	    NSInteger index = [cntl tag] - 1;
-	    	    
-	    	    if (index < [viewMappings count])
-	    	    {
-    	    	    if ([cntl isKindOfClass:[NSTextField class]])
-	    	    	    [cntl setEnabled:NO];
-    	    	    	    
-    	    	    [cntl setObjectValue:nil];
-	    	    }
-	    	    else if (index > 100)
-	    	    {
-    	    	    index = [cntl tag] - 101;
-    	    	    
-    	    	    if (index < [extraOptionMappings count])
-    	    	    {
-	    	    	    if ([cntl isKindOfClass:[NSPopUpButton class]])
-    	    	    	    [(NSPopUpButton *)cntl selectItemAtIndex:0];
-	    	    	    else
-    	    	    	    [cntl setObjectValue:nil];
-    	    	    }
-	    	    }
-    	    }
-	    }
-    }*/
-}
 
 - (void)reloadPresets
 {
@@ -843,9 +750,8 @@
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
     NSString *folder1 = [@"~/Library/Application Support/Media Converter/Presets" stringByExpandingTildeInPath];
-    NSString *folder2 = @"/Library/Application Support/Media Converter/Presets";
     
-    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:[NSArray arrayWithObjects:folder1, folder2, nil] withType:@"mcpreset"];
+    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:@[folder1] withType:@"mcpreset"];
     
     NSMutableArray *currentPresets = [NSMutableArray array];
     
@@ -879,145 +785,6 @@
     [[self presetsTableView] reloadData];
     
     [[self delegate] preferencesDidUpdatePresets:self];
-}
-
-- (void)updateFontListForWindow:(NSWindow *)window
-{
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *savedFontPath = [standardDefaults objectForKey:@"MCFontFolderPath"];
-    
-    if (savedFontPath != nil)
-	    [MCCommonMethods removeItemAtPath:savedFontPath];
-
-    MCConverter *converter = [[MCConverter alloc] init];
-
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    MCInstallPanel *installPanel = [MCInstallPanel installPanel];
-    [installPanel setTaskText:NSLocalizedString(@"Install Subtitle Fonts for:", nil)];
-    NSString *applicationSupportFolder = [installPanel runModalForInstallLocation];
-    NSString *fontPath = [[applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"] stringByAppendingPathComponent:@"Fonts"];
-    [standardDefaults setObject:fontPath forKey:@"MCFontFolderPath"];
-    
-    MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
-    [progressPanel setTask:NSLocalizedString(@"Adding fonts (one time)", nil)];
-    [progressPanel setStatus:NSLocalizedString(@"Checking font: %@", nil)];
-    [progressPanel setMaximumValue:0.0];
-    [progressPanel setAllowCanceling:NO];
-    [progressPanel beginSheetForWindow:window];
-    
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-    [defaultManager createDirectoryAtPath:fontPath withIntermediateDirectories:YES attributes:nil error:nil];
-    #else
-    [defaultManager createDirectoryAtPath:fontPath attributes:nil];
-    #endif
-	    
-    NSString *spumuxPath = [NSHomeDirectory() stringByAppendingPathComponent:@".spumux"];
-    NSString *uniqueSpumuxPath = [MCCommonMethods uniquePathNameFromPath:spumuxPath withSeperator:@"_"];
-	    
-    if ([defaultManager fileExistsAtPath:spumuxPath])
-	    [MCCommonMethods moveItemAtPath:spumuxPath toPath:uniqueSpumuxPath error:nil];
-    
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-    [defaultManager createSymbolicLinkAtPath:spumuxPath withDestinationPath:fontPath error:nil];
-    #else
-    [defaultManager createSymbolicLinkAtPath:spumuxPath pathContent:fontPath];
-    #endif
-	    
-    NSMutableArray *fontFolderPaths = [NSMutableArray arrayWithObjects:@"/System/Library/Fonts", @"/Library/Fonts", nil];
-    NSString *homeFontsFolder = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Fonts"];
-	    
-    if ([defaultManager fileExistsAtPath:homeFontsFolder])
-    {
-	    [fontFolderPaths addObject:homeFontsFolder];
-    	    
-	    NSString *msFonts = [homeFontsFolder stringByAppendingPathComponent:@"Microsoft"];
-    	    
-	    if ([defaultManager fileExistsAtPath:homeFontsFolder])
-    	    [fontFolderPaths addObject:msFonts];
-    }
-	    
-    NSArray *fontPaths = [MCCommonMethods getFullPathsForFolders:fontFolderPaths withType:@"ttf"];
-    [progressPanel setMaximumValue:[fontPaths count] + 4];
-    	    
-    NSInteger i;
-    for (i = 0; i < [fontPaths count]; i ++)
-    {
-	    NSString *currentFontPath = [fontPaths objectAtIndex:i];
-	    NSString *fontName = [currentFontPath lastPathComponent];
-    	    
-	    [progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Checking font: %@", nil), fontName]];
-
-	    NSString *newFontPath = [fontPath stringByAppendingPathComponent:fontName];
-    	    	    
-	    if (![defaultManager fileExistsAtPath:newFontPath])
-	    {
-    	    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-    	    [defaultManager createSymbolicLinkAtPath:newFontPath withDestinationPath:currentFontPath error:nil];
-    	    #else
-    	    [defaultManager createSymbolicLinkAtPath:newFontPath pathContent:currentFontPath];
-    	    #endif
-    	    	    
-    	    if (![converter testFontWithName:fontName])
-	    	    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
-	    	    [[NSFileManager defaultManager] removeItemAtPath:newFontPath error:nil];
-	    	    #else
-	    	    [[NSFileManager defaultManager] removeFileAtPath:newFontPath handler:nil];
-	    	    #endif
-	    }
-    	    
-	    [progressPanel setValue:i + 1];
-    }
-	    
-    [MCCommonMethods removeItemAtPath:spumuxPath];
-	    
-    if ([defaultManager fileExistsAtPath:uniqueSpumuxPath])
-	    [MCCommonMethods moveItemAtPath:uniqueSpumuxPath toPath:spumuxPath error:nil];
-	    
-    [converter extractImportantFontsToPath:fontPath statusStart:[fontPaths count]];
-	    
-    [progressPanel endSheet];
-	    
-    NSArray *defaultFonts = [NSArray arrayWithObjects:	    @"AppleGothic.ttf", @"Hei.ttf", 
-    	    	    	    	    	    	    	    @"Osaka.ttf", 
-    	    	    	    	    	    	    	    @"AlBayan.ttf",
-    	    	    	    	    	    	    	    @"Raanana.ttf", @"Ayuthaya.ttf",
-    	    	    	    	    	    	    	    @"儷黑 Pro.ttf", @"MshtakanRegular.ttf",
-    	    	    	    	    	    	    	    nil];
-    	    	    	    	    	    	    	    
-    NSArray *defaultLanguages = [NSArray arrayWithObjects:	    NSLocalizedString(@"Korean", nil), NSLocalizedString(@"Simplified Chinese", nil), 
-	    	    	    	    	    	    	    	    NSLocalizedString(@"Japanese", nil), 
-	    	    	    	    	    	    	    	    NSLocalizedString(@"Arabic", nil),
-	    	    	    	    	    	    	    	    NSLocalizedString(@"Hebrew", nil), NSLocalizedString(@"Thai", nil),
-	    	    	    	    	    	    	    	    NSLocalizedString(@"Traditional Chinese", nil), NSLocalizedString(@"Armenian", nil),
-	    	    	    	    	    	    	    	    nil];
-	    
-    NSString *errorMessage = NSLocalizedString(@"Not found:", nil);
-    BOOL shouldWarn = NO;
-	    
-    NSInteger z;
-    for (z = 0; z < [defaultFonts count]; z ++)
-    {
-	    NSString *font = [defaultFonts objectAtIndex:z];
-    	    
-	    if (![defaultManager fileExistsAtPath:[fontPath stringByAppendingPathComponent:font]])
-	    {
-    	    NSString *language = [defaultLanguages objectAtIndex:z];
-    	    
-    	    shouldWarn = YES;
-	    	    
-    	    NSString *warningString = [NSString stringWithFormat:@"%@ (%@)", font, language];
-	    	    
-    	    if ([errorMessage isEqualTo:@""])
-	    	    errorMessage = warningString;
-    	    else
-	    	    errorMessage = [NSString stringWithFormat:@"%@\n%@", errorMessage, warningString];
-	    }
-    }
-	    
-    if (shouldWarn == YES)
-	    [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to add some default language fonts", nil) withInformationText:NSLocalizedString(@"You can savely ignore this message if you don't use these languages (see details).", nil) withParentWindow:window withDetails:errorMessage];
-    
-    converter = nil;
 }
 
 - (void)installModeChanged:(NSNotification *)notification

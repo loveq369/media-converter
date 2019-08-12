@@ -18,6 +18,7 @@
                 <outlet property="presetsView" destination="5" id="61"/>
                 <outlet property="saveFolderPopUp" destination="13" id="64"/>
                 <outlet property="subtitleLanguagePopup" destination="655" id="663"/>
+                <outlet property="toolbar" destination="9Re-2S-mnw" id="IDQ-jh-MXb"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -32,6 +33,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="FD93473F-4027-45CA-ACA8-4520AB459E5D" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="9Re-2S-mnw">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="71EFFBD5-827B-4AC9-BC08-5737F9E3BEEA" explicitItemIdentifier="General" label="General" paletteLabel="General" tag="-1" image="General" selectable="YES" id="0yv-tH-ui4">
+                        <size key="minSize" width="128" height="128"/>
+                        <size key="maxSize" width="128" height="128"/>
+                        <connections>
+                            <action selector="toolbarAction:" target="-2" id="unv-Tg-UJ4"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="683489B5-9C17-4BB8-9749-153A06F9EB6D" explicitItemIdentifier="Presets" label="Presets" paletteLabel="Presets" tag="-1" image="Presets" selectable="YES" id="0xc-cm-hzG">
+                        <size key="minSize" width="32" height="32"/>
+                        <size key="maxSize" width="32" height="32"/>
+                        <connections>
+                            <action selector="toolbarAction:" target="-2" id="8tt-QH-7CD"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="521865BE-6948-4927-B9E6-9378BDAE6AE0" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="-1" image="NSAdvanced" selectable="YES" id="f2e-yP-Lbi">
+                        <size key="minSize" width="32" height="32"/>
+                        <size key="maxSize" width="32" height="32"/>
+                        <connections>
+                            <action selector="toolbarAction:" target="-2" id="u7l-c9-C9E"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="0yv-tH-ui4"/>
+                    <toolbarItem reference="0xc-cm-hzG"/>
+                    <toolbarItem reference="f2e-yP-Lbi"/>
+                </defaultToolbarItems>
+                <connections>
+                    <outlet property="delegate" destination="-2" id="ZAi-oW-gDV"/>
+                </connections>
+            </toolbar>
             <point key="canvasLocation" x="100" y="-604"/>
         </window>
         <customView id="4" userLabel="View (General)">
@@ -134,13 +168,13 @@
             <rect key="frame" x="0.0" y="0.0" width="460" height="462"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <scrollView verticalHuggingPriority="249" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42">
+                <scrollView verticalHuggingPriority="249" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42">
                     <rect key="frame" x="20" y="82" width="420" height="360"/>
                     <clipView key="contentView" id="XD8-fA-4gD">
                         <rect key="frame" x="1" y="0.0" width="418" height="359"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="14" headerView="46" id="45" customClass="MCTableView">
+                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="46" viewBased="YES" id="45" customClass="MCTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="418" height="334"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -159,8 +193,34 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView id="W2w-xw-RB6">
+                                                <rect key="frame" x="1" y="1" width="415" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="IlH-fF-OVH">
+                                                        <rect key="frame" x="-2" y="0.0" width="419" height="17"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="CgB-i0-m0F">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="IlH-fF-OVH" secondAttribute="bottom" id="UXT-Fe-Rsk"/>
+                                                    <constraint firstItem="IlH-fF-OVH" firstAttribute="top" secondItem="W2w-xw-RB6" secondAttribute="top" id="XkH-qP-wXV"/>
+                                                    <constraint firstAttribute="trailing" secondItem="IlH-fF-OVH" secondAttribute="trailing" id="e30-la-zH2"/>
+                                                    <constraint firstItem="IlH-fF-OVH" firstAttribute="leading" secondItem="W2w-xw-RB6" secondAttribute="leading" id="iMs-oC-rP3"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="textField" destination="IlH-fF-OVH" id="s9c-dX-ckf"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
+                                <accessibility help="A list of the currently installed presets"/>
                                 <connections>
                                     <outlet property="dataSource" destination="-2" id="80"/>
                                     <outlet property="delegate" destination="-2" id="81"/>
@@ -194,6 +254,7 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <accessibility help="Open the Media Converter website to download more presets"/>
                     <connections>
                         <action selector="goToPresetSite:" target="-2" id="396"/>
                     </connections>
@@ -311,6 +372,7 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <accessibility help="Current FFmpeg path"/>
                     <connections>
                         <action selector="setPreferenceOption:" target="-2" id="77"/>
                     </connections>
@@ -366,7 +428,7 @@
                         <rect key="frame" x="20" y="61" width="481" height="134"/>
                         <clipView key="contentView" id="nnR-Kb-0gt">
                             <rect key="frame" x="1" y="1" width="479" height="132"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView focusRingType="none" verticalHuggingPriority="750" tag="1" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="64" rowSizeStyle="automatic" viewBased="YES" id="296">
                                     <rect key="frame" x="0.0" y="0.0" width="479" height="132"/>
@@ -514,6 +576,9 @@ Gw
     </objects>
     <resources>
         <image name="Add Preset" width="128" height="128"/>
-        <image name="Gear with arrow" width="18" height="12"/>
+        <image name="Gear with arrow" width="30" height="24"/>
+        <image name="General" width="128" height="128"/>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="Presets" width="32" height="32"/>
     </resources>
 </document>

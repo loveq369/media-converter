@@ -38,13 +38,13 @@
                                 </textFieldCell>
                             </textField>
                             <box autoresizesSubviews="NO" boxType="oldStyle" borderType="line" title="Settings" translatesAutoresizingMaskIntoConstraints="NO" id="55">
-                                <rect key="frame" x="18" y="10" width="541" height="236"/>
+                                <rect key="frame" x="18" y="10" width="541" height="228"/>
                                 <view key="contentView" id="PO6-R9-7fl">
-                                    <rect key="frame" x="1" y="1" width="539" height="220"/>
+                                    <rect key="frame" x="1" y="1" width="539" height="212"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="79">
-                                            <rect key="frame" x="12" y="189" width="135" height="17"/>
+                                            <rect key="frame" x="12" y="181" width="135" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Horizontal Alignment:" id="80">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -52,7 +52,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" tag="1" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="78" customClass="MCPopupButton">
-                                            <rect key="frame" x="149" y="184" width="38" height="25"/>
+                                            <rect key="frame" x="149" y="176" width="38" height="25"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="81">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -63,7 +63,7 @@
                                             </connections>
                                         </popUpButton>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="77">
-                                            <rect key="frame" x="193" y="189" width="119" height="17"/>
+                                            <rect key="frame" x="193" y="181" width="119" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Vertical Alignment:" id="83">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -71,7 +71,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" tag="2" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="76" customClass="MCPopupButton">
-                                            <rect key="frame" x="314" y="184" width="38" height="25"/>
+                                            <rect key="frame" x="314" y="176" width="38" height="25"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="84">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -82,7 +82,7 @@
                                             </connections>
                                         </popUpButton>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="75">
-                                            <rect key="frame" x="12" y="162" width="57" height="17"/>
+                                            <rect key="frame" x="12" y="154" width="57" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Margins:" id="86">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -90,7 +90,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="74">
-                                            <rect key="frame" x="12" y="135" width="32" height="17"/>
+                                            <rect key="frame" x="12" y="127" width="32" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Left:" id="87">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -98,7 +98,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="73">
-                                            <rect key="frame" x="48" y="133" width="64" height="22"/>
+                                            <rect key="frame" x="48" y="125" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="fTl-kf-BYz"/>
                                             </constraints>
@@ -112,7 +112,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="72">
-                                            <rect key="frame" x="163" y="133" width="64" height="22"/>
+                                            <rect key="frame" x="163" y="125" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="DdM-Ij-sBc"/>
                                             </constraints>
@@ -126,7 +126,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="71">
-                                            <rect key="frame" x="234" y="135" width="31" height="17"/>
+                                            <rect key="frame" x="234" y="127" width="31" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Top:" id="90">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -134,7 +134,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="70">
-                                            <rect key="frame" x="269" y="133" width="64" height="22"/>
+                                            <rect key="frame" x="269" y="125" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="lYk-oz-DmV"/>
                                             </constraints>
@@ -148,7 +148,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69">
-                                            <rect key="frame" x="340" y="135" width="52" height="17"/>
+                                            <rect key="frame" x="340" y="127" width="52" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bottom:" id="92">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -156,7 +156,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                                            <rect key="frame" x="396" y="133" width="64" height="22"/>
+                                            <rect key="frame" x="396" y="125" width="64" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="sCu-cO-60P"/>
                                             </constraints>
@@ -170,7 +170,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="194">
-                                            <rect key="frame" x="12" y="81" width="138" height="17"/>
+                                            <rect key="frame" x="12" y="73" width="138" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Text Visibility Method:" id="223">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -178,7 +178,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" tag="7" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="195" customClass="MCPopupButton">
-                                            <rect key="frame" x="152" y="76" width="38" height="25"/>
+                                            <rect key="frame" x="152" y="68" width="38" height="25"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="221">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -189,7 +189,7 @@
                                             </connections>
                                         </popUpButton>
                                         <tabView drawsBackground="NO" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="196">
-                                            <rect key="frame" x="15" y="18" width="518" height="59"/>
+                                            <rect key="frame" x="15" y="10" width="518" height="59"/>
                                             <font key="font" metaFont="system"/>
                                             <tabViewItems>
                                                 <tabViewItem label="Tab" identifier="1" id="198">
@@ -357,7 +357,7 @@
                                             </tabViewItems>
                                         </tabView>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="235">
-                                            <rect key="frame" x="12" y="108" width="63" height="17"/>
+                                            <rect key="frame" x="12" y="100" width="63" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Visibility: " id="240">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -365,7 +365,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="236">
-                                            <rect key="frame" x="294" y="108" width="41" height="17"/>
+                                            <rect key="frame" x="294" y="100" width="41" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="100 %" id="239">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -373,7 +373,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" tag="13" translatesAutoresizingMaskIntoConstraints="NO" id="237" customClass="MCProgressSlider">
-                                            <rect key="frame" x="79" y="107" width="211" height="18"/>
+                                            <rect key="frame" x="79" y="99" width="211" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="211" id="XPY-CH-nnL"/>
                                             </constraints>
@@ -384,7 +384,7 @@
                                             </connections>
                                         </slider>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="68">
-                                            <rect key="frame" x="119" y="135" width="40" height="17"/>
+                                            <rect key="frame" x="119" y="127" width="40" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Right:" id="93">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -474,16 +474,27 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-OU-Baa" customClass="MCAutoLayoutTextField">
+                                <rect key="frame" x="301" y="248" width="254" height="14"/>
+                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Use the 'Font' menu to edit the text appearance" id="bvn-lG-y7B">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="55" secondAttribute="trailing" constant="14" id="4go-mQ-Nfq"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="58" secondAttribute="trailing" constant="20" id="6Gh-dU-BUc"/>
                             <constraint firstItem="55" firstAttribute="leading" secondItem="ju2-b1-TIR" secondAttribute="leading" constant="18" id="AOK-64-wCL"/>
-                            <constraint firstItem="55" firstAttribute="top" secondItem="131" secondAttribute="bottom" constant="25" id="NpF-OX-ffq"/>
                             <constraint firstItem="58" firstAttribute="leading" secondItem="ju2-b1-TIR" secondAttribute="leading" constant="17" id="NvV-TL-Uk6"/>
                             <constraint firstAttribute="bottom" secondItem="55" secondAttribute="bottom" constant="10" id="OZF-hj-tEo"/>
                             <constraint firstAttribute="trailing" secondItem="128" secondAttribute="trailing" constant="14" id="PS5-31-5DP"/>
+                            <constraint firstItem="55" firstAttribute="top" secondItem="arn-OU-Baa" secondAttribute="bottom" constant="10" id="T1Y-Au-M59"/>
                             <constraint firstItem="58" firstAttribute="top" secondItem="ju2-b1-TIR" secondAttribute="top" constant="13" id="Ua7-3x-mgj"/>
+                            <constraint firstAttribute="trailing" secondItem="arn-OU-Baa" secondAttribute="trailing" constant="20" id="chd-63-HoS"/>
+                            <constraint firstItem="arn-OU-Baa" firstAttribute="top" secondItem="131" secondAttribute="bottom" constant="9" id="eVN-rx-fvD"/>
+                            <constraint firstItem="arn-OU-Baa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ju2-b1-TIR" secondAttribute="leading" constant="22" id="eoi-cK-axg"/>
                             <constraint firstItem="128" firstAttribute="leading" secondItem="ju2-b1-TIR" secondAttribute="leading" constant="18" id="gcr-Zb-Bzh"/>
                             <constraint firstItem="128" firstAttribute="top" secondItem="58" secondAttribute="bottom" constant="4" id="lCg-er-YCF"/>
                         </constraints>
