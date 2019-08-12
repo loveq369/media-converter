@@ -6,12 +6,12 @@
 //
 
 #import "MCAdvancedOptionsDelegate.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 
 @interface MCAdvancedOptionsDelegate()
 
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
-@property (nonatomic, weak) IBOutlet MCPresetManager *presetManager;
+@property (nonatomic, weak) IBOutlet MCPresetEditPanel *presetManager;
 
 @property (nonatomic, strong) NSMutableArray *tableData;
 
@@ -121,7 +121,7 @@
     NSString *identifier = [tableColumn identifier];
     NSDictionary *newDictionary;
     
-    MCPresetManager *windowController = [self presetManager];
+    MCPresetEditPanel *windowController = [self presetManager];
     if ([identifier isEqualTo:@"option"])
     {
 	    id currentObject = [currentDictionary objectForKey:currentKey];

@@ -8,7 +8,7 @@
 
 #import "MCPreviewImageView.h"
 #import "MCCommonMethods.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 
 
 @implementation MCPreviewImageView
@@ -33,7 +33,7 @@
 
 - (void)viewDidEndLiveResize
 {
-    [[MCPresetManager defaultManager] updatePreview];
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 @end

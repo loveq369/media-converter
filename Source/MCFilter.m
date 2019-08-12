@@ -7,7 +7,7 @@
 //
 
 #import "MCFilter.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 #import "MCCommonMethods.h"
 
 @interface MCFilter()
@@ -117,7 +117,7 @@
     
     [self filterOptions][option] = [sender objectValue];
 
-    [[MCPresetManager defaultManager] updatePreview];
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 @end

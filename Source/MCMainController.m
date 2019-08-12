@@ -14,9 +14,10 @@
 #import "MCProgressPanel.h"
 #import "MCConverter.h"
 #import "MCPreferences.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 #import "MCTableView.h"
 #import "MCDropView.h"
+#import "MCPresetHelper.h"
 #import <LetsMove/LetsMove.h>
 
 @interface MCMainController() <NSFileManagerDelegate, NSApplicationDelegate, MCPreferencesDelegate, MCTableViewDelegate, MCDropViewDelegate, NSUserNotificationCenterDelegate>
@@ -256,7 +257,7 @@
     
     if ([presetFiles count] > 0)
     {
-	    NSInteger result = [[MCPresetManager defaultManager] openPresetFiles:filenames];
+	    NSInteger result = [[MCPresetHelper sharedHelper] openPresetFiles:filenames];
 	    
 	    if (result != 0)
 	    {
@@ -268,11 +269,14 @@
 	    	    finishMessage = [NSString stringWithFormat:NSLocalizedString(@"Succesfully installed %li presets", nil), result];
 	    	    
             [self showNotificationWithTitle:NSLocalizedString(@"Installed new preset", nil) withMessage:finishMessage withImage:[[NSWorkspace sharedWorkspace] iconForFileType:@"mcpreset"]];
-	    }
+	        [self updatePresets];
+        }
     }
     
     if ([otherFiles count] > 0)
+    {
 	    [self checkFiles:otherFiles];
+    }
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
@@ -412,59 +416,7 @@
         NSArray *presets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
         for (NSString *path in presets)
         {
-            NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-            [preset setObject:@(2.0) forKey:@"Version"];
-
-            NSMutableArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
-            
-            NSMutableArray *modifiedEncoderOptions = [[NSMutableArray alloc] init];
-            
-            NSInteger deblokAlpha = [encoderOptions[@"-deblockalpha"] integerValue];
-            NSInteger deblockBeta = [encoderOptions[@"-deblockbeta"] integerValue];
-            BOOL deblockSet = NO;
-
-            // Modernise certain FFmpeg options
-            for (NSDictionary *dictionary in encoderOptions)
-            {
-                NSString *key = [dictionary allKeys][0];
-                id value = dictionary[key];
-                
-                if ([key isEqualToString:@"-b"])
-                {
-                    [modifiedEncoderOptions addObject:@{@"-b:v": dictionary[key]}];
-                }
-                else if ([key isEqualToString:@"-ab"])
-                {
-                    [modifiedEncoderOptions addObject:@{@"-b:a": dictionary[key]}];
-                }
-                else if (([key isEqualToString:@"deblockalpha"] || [key isEqualToString:@"deblockbeta"]) && (!deblockSet))
-                {
-                    [modifiedEncoderOptions addObject:@{@"-deblock": [NSString stringWithFormat:@"%li:%li", deblokAlpha, deblockBeta]}];
-                
-                    deblockSet = YES;
-                }
-                else if ([key isEqualToString:@"-async"] && [value isEqualToString:@"1"])
-                {
-                    [modifiedEncoderOptions addObject:@{@"-af": @"aresample=async=1:min_hard_comp=0.100000:first_pts=0"}];
-                }
-                else if ([key isEqualToString:@"-me_method"])
-                {
-                    [modifiedEncoderOptions addObject:@{@"-motion-est": [NSString stringWithFormat:@"%li", MIN([value integerValue], 4)]}];
-                }
-                else if ([key isEqualToString:@"-acodec"] && [value isEqualToString:@"libfaac"])
-                {
-                    [modifiedEncoderOptions addObject:@{@"-acodec": @"aac"}];
-                }
-                else if ((![key isEqualToString:@"flags"] && [value isEqualToString:@"+loop+slice"]) && (![key isEqualToString:@"rc_eq"] && [value isEqualToString:@"'blurCplx^(1-qComp)'"]))
-                {
-                    [modifiedEncoderOptions addObject:dictionary];
-                }
-            }
-            
-            [preset setObject:modifiedEncoderOptions forKey:@"Encoder Options"];
-            
-            [preset writeToFile:path atomically:YES];
-            [MCCommonMethods writeDictionary:preset toFile:path errorString:nil];
+            [[MCPresetHelper sharedHelper] updatePresetAtPath:path];
         }
         
         //Update "MCLastCheck" so we'll won't check again
@@ -548,8 +500,8 @@
     NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
     NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue]];
     
-    MCPresetManager *presetManager = [MCPresetManager defaultManager];
-    [presetManager editPresetForWindow:[self mainWindow] withPresetPath:path completionHandler:^(NSModalResponse returnCode)
+    MCPresetEditPanel *presetManager = [MCPresetEditPanel editPanel];
+    [presetManager beginModalForWindow:[self mainWindow] withPresetPath:path completionHandler:^(NSModalResponse returnCode)
     {
         if (returnCode == NSModalResponseOK)
         {
@@ -566,7 +518,7 @@
     
     NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue]];
 
-    [[MCPresetManager defaultManager] savePresetForWindow:[self mainWindow] withPresetPath:path];
+    [[MCPresetEditPanel editPanel] savePresetForWindow:[self mainWindow] withPresetPath:path];
 }
 
 //////////////////
@@ -892,9 +844,6 @@
 
     MCConverter *converter = [[MCConverter alloc] init];
     [self setConverter:converter];
-    
-    //NSDictionary *options = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:path, @"mpg", [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:3], nil]  forKeys:[NSArray arrayWithObjects:@"MCConvertDestination", @"MCConvertExtension", @"MCConvertRegion", @"MCConvertKind", nil]];
-    
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];

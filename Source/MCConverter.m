@@ -9,7 +9,7 @@
 #import "NSArray_Extensions.h"
 #import "MCFilter.h"
 #import "MCProgressPanel.h"
-#import "MCPresetDefaults.h"
+#import "MCPresetHelper.h"
 
 @interface NSScreen (NewMethods)
 - (CGFloat)backingScaleFactor;
@@ -376,7 +376,9 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     
     NSInteger passes = 1;
     if ([[extraOptions objectForKey:@"Two Pass"] boolValue] == YES)
+    {
 	    passes = 2;
+    }
 	    
     NSString *displayName  = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
@@ -1296,6 +1298,19 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     {
 	    inputAspect = (CGFloat)inputWidth / (CGFloat)inputHeight;
     }
+    
+    CGFloat normalDiff = fabs(inputAspect - 4.0 / 3.0);
+    CGFloat wideDiff = fabs(inputAspect - 16.0 / 9.0);
+    
+    // Some slight adjustments for later calculations
+    if (normalDiff < 0.01)
+    {
+        inputAspect = 4.0 / 3.0;
+    }
+    else if (wideDiff < 0.01)
+    {
+        inputAspect = 16.0 / 9.0;
+    }
 	    
     if (hasOutput)
     {
@@ -1740,7 +1755,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    while ([string length] > 4 && [[string substringWithRange:NSMakeRange([string length] - 4, 4)] isEqualTo:@"<br>"])
     	    string = [string substringWithRange:NSMakeRange(0, [string length] - 4)];
         
-	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetDefaults standardDefaults] defaults]];
+	    NSMutableDictionary *defaultSettings = [NSMutableDictionary dictionaryWithDictionary:[[MCPresetHelper sharedHelper] defaults]];
 	    [defaultSettings addEntriesFromDictionary:[convertOptions objectForKey:@"Extra Options"]];
 	    
 	    CGImageRef image = [MCCommonMethods newOverlayImageWithObject:string withSettings:defaultSettings size:size];

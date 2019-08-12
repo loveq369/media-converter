@@ -6,7 +6,7 @@
 //  Copyright 2011 Kiwi Fruitware. All rights reserved.
 //
 
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 #import "MCConverter.h"
 #import "MCProgressPanel.h"
 #import "MCPopupButton.h"
@@ -18,9 +18,9 @@
 #import "MCFilter.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MCCommonMethods.h"
-#import "MCPresetDefaults.h"
+#import "MCPresetHelper.h"
 
-@interface MCPresetManager()
+@interface MCPresetEditPanel()
 
 /* Preset panel */
 @property (nonatomic, strong) IBOutlet NSPanel *presetsPanel;
@@ -79,9 +79,9 @@
 
 @end
 
-@implementation MCPresetManager
+@implementation MCPresetEditPanel
 
-static MCPresetManager *_defaultManager = nil;
+static MCPresetEditPanel *_defaultManager = nil;
 
 - (instancetype)init
 {
@@ -101,7 +101,7 @@ static MCPresetManager *_defaultManager = nil;
 	    
 	    _darkBackground = NO;
 	    
-        [[NSBundle mainBundle] loadNibNamed:@"MCPresetManager" owner:self topLevelObjects:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"MCPresetEditPanel" owner:self topLevelObjects:nil];
     }
 
     return self;
@@ -123,20 +123,20 @@ static MCPresetManager *_defaultManager = nil;
 #pragma mark -
 #pragma mark •• Main actions
 
-+ (MCPresetManager *)defaultManager
++ (MCPresetEditPanel *)editPanel
 {
-    static MCPresetManager *defaultManager = nil;
+    static MCPresetEditPanel *editPanel = nil;
     static dispatch_once_t onceToken = 0;
 
     dispatch_once(&onceToken, ^
     {
-        defaultManager = [[MCPresetManager alloc] init];
+        editPanel = [[MCPresetEditPanel alloc] init];
     });
     
-    return defaultManager;
+    return editPanel;
 }
 
-- (void)editPresetForWindow:(NSWindow *)window withPresetPath:(NSString *)path completionHandler:(void (^)(NSModalResponse returnCode))handler;
+- (void)beginModalForWindow:(NSWindow *)window withPresetPath:(NSString *)path completionHandler:(void (^)(NSModalResponse returnCode))handler;
 {
     NSDictionary *presetDictionary;
     
@@ -163,8 +163,8 @@ static MCPresetManager *_defaultManager = nil;
 
     [self setExtraOptions:[presetDictionary[@"Extra Options"] mutableCopy]];
     
-    NSArray *extraOptionMappings = [[MCPresetDefaults standardDefaults] extraOptionMappings];
-    [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[presetsPanel contentView], [self DVDSettingsView], [self hardcodedSettingsView], nil] infoObject:[self extraOptions] fallbackInfo:[NSDictionary dictionaryWithObjects:[[MCPresetDefaults standardDefaults] extraOptionDefaultValues] forKeys:extraOptionMappings] mappingsObject:extraOptionMappings startCount:100];
+    NSArray *extraOptionMappings = [[MCPresetHelper sharedHelper] extraOptionMappings];
+    [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[presetsPanel contentView], [self DVDSettingsView], [self hardcodedSettingsView], nil] infoObject:[self extraOptions] fallbackInfo:[NSDictionary dictionaryWithObjects:[[MCPresetHelper sharedHelper] extraOptionDefaultValues] forKeys:extraOptionMappings] mappingsObject:extraOptionMappings startCount:100];
     
     NSMutableArray *filters;
     
@@ -242,165 +242,6 @@ static MCPresetManager *_defaultManager = nil;
             }
         }
     }];
-}
-
-- (NSInteger)openPresetFiles:(NSArray *)paths
-{
-    NSInteger numberOfFiles = [paths count];
-    NSMutableArray *names = [NSMutableArray array];
-    NSMutableArray *dictionaries = [NSMutableArray array];
-    
-    for (NSString *path in paths)
-    {
-	    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
-    	    
-	    if (dictionary)
-	    {
-    	    [names addObject:dictionary[@"Name"]];
-    	    [dictionaries addObject:dictionary];
-	    }
-    }
-	    
-    NSInteger numberOfDicts = [dictionaries count];
-    if (numberOfDicts == 0 || numberOfDicts < numberOfFiles)
-    {
-	    NSAlert *alert = [[NSAlert alloc] init];
-    	    
-	    if (numberOfDicts == 0)
-	    {
-    	    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-	    }
-	    else
-	    {
-    	    [alert addButtonWithTitle:NSLocalizedString(@"Continue", nil)];
-    	    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    	    [[alert buttons][1] setKeyEquivalent:@"\E"];
-	    }
-	    
-	    NSString *warningString;
-	    NSString *detailsString;
-    	    
-	    if ((numberOfFiles - numberOfDicts) > 1)
-	    {
-    	    warningString = NSLocalizedString(@"Failed to open preset files.", nil);
-    	    detailsString = NSLocalizedString(@"Try re-downloading or re-copying them.", nil);
-	    }
-	    else
-	    {
-    	    warningString = [NSString stringWithFormat:NSLocalizedString(@"Failed to open '%@'.", nil), [[NSFileManager defaultManager] displayNameAtPath:[paths objectAtIndex:0]]];
-    	    detailsString = NSLocalizedString(@"Try re-downloading or re-copying it.", nil);
-	    }
-    	    
-	    if (numberOfDicts > 0)
-        {
-    	    detailsString = [NSString stringWithFormat:NSLocalizedString(@"%@ Would you like to continue?", nil), detailsString];
-        }
-	    
-	    [alert setMessageText:warningString];
-	    [alert setInformativeText:detailsString];
-	    NSInteger result = [alert runModal];
-
-	    if (result != NSAlertFirstButtonReturn || numberOfDicts == 0)
-	    {
-    	    return 0;
-	    }
-
-    }
-    	    
-    [self installPresetsWithNames:names presetDictionaries:dictionaries];
-    
-    return [dictionaries count];
-}
-
-- (NSInteger)installPresetsWithNames:(NSArray *)names presetDictionaries:(NSArray *)dictionaries
-{
-    NSString *savePath = nil;
-    
-    NSString *currentPresetPath = [self currentPresetPath];
-    BOOL editingPreset = (currentPresetPath && [[[NSDictionary dictionaryWithContentsOfFile:currentPresetPath] objectForKey:@"Name"] isEqualTo:[names objectAtIndex:0]]);
-
-    if (editingPreset == YES)
-    {
-	    savePath = currentPresetPath;
-	    
-	    NSDictionary *firstDictionary = [dictionaries objectAtIndex:0];
-	    NSString *newName = [firstDictionary objectForKey:@"Name"];
-	    NSString *oldName = [names objectAtIndex:0];
-	    
-	    if (![newName isEqualTo:oldName])
-	    {
-    	    /*NSDictionary *preset = [NSDictionary dictionaryWithObjectsAndKeys:newName, @"Name", currentPresetPath, @"Path", nil];
-    	    
-    	    [presetsData replaceObjectAtIndex:[presetsTableView selectedRow] withObject:preset];
-    	    [standardDefaults setObject:presetsData forKey:@"MCPresets"];*/
-	    }
-    }
-
-    if (!savePath)
-    {
-        NSString *applicationSupportFolder = [@"~/Library/Application Support" stringByExpandingTildeInPath];
-    	    
-	    NSFileManager *defaultManager = [NSFileManager defaultManager];
-	    NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"];
-    	    
-	    BOOL supportWritable = YES;
-	    NSString *error = NSLocalizedString(@"An unkown error occured", nil);
-	    
-	    if (![defaultManager fileExistsAtPath:folder])
-    	    supportWritable = [MCCommonMethods createDirectoryAtPath:folder errorString:&error];
-    	    
-	    if (supportWritable)
-	    {
-    	    savePath = [folder stringByAppendingPathComponent:@"Presets"];
-    	    
-    	    if (![defaultManager fileExistsAtPath:savePath])
-	    	    supportWritable = [MCCommonMethods createDirectoryAtPath:savePath errorString:&error];
-	    }
-	    
-	    if (!supportWritable)
-	    {
-    	    [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to create 'Presets' folder", nil) withInformationText:error withParentWindow:nil withDetails:nil];
-	    	    
-    	    return NSCancelButton;
-	    }
-    }
-    
-    NSInteger i;
-    for (i = 0; i < [names count]; i ++)
-    {
-	    NSString *name = [names objectAtIndex:i];
-	    
-	    // '/' in the Finder is in reality ':' took me a while to figure that out (failed to save the "iPod / iPhone" dict)
-	    NSMutableString *mString = [name mutableCopy];
-	    [mString replaceOccurrencesOfString:@"/" withString:@":" options:NSCaseInsensitiveSearch range:(NSRange){0,[mString length]}];
-	    name = [NSString stringWithString:mString];
-	    
-	    NSDictionary *dictionary = [dictionaries objectAtIndex:i];
-	    NSString *filePath;
-	    
-	    if (editingPreset)
-        {
-    	    filePath = currentPresetPath;
-        }
-        else
-        {
-    	    filePath = [MCCommonMethods uniquePathNameFromPath:[[savePath stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"mcpreset"] withSeperator:@" "];
-        }
-        
-	    NSString *error = NSLocalizedString(@"An unkown error occured", nil);
-	    BOOL result = [MCCommonMethods writeDictionary:dictionary toFile:filePath errorString:&error];
-	    
-	    if (result == NO)
-	    {
-    	    [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed install preset file", nil) withInformationText:error withParentWindow:nil withDetails:nil];
-	    
-    	    return NSCancelButton;
-	    }
-    }
-	    
-    //[self reloadPresets];
-    
-    return NSModalResponseOK;
 }
 
 - (NSMutableDictionary *)presetDictionary
@@ -541,7 +382,7 @@ static MCPresetManager *_defaultManager = nil;
 - (IBAction)setExtraOption:(id)sender
 {
     NSInteger index = [sender tag] - 101;
-    NSString *option = [[[MCPresetDefaults standardDefaults] extraOptionMappings] objectAtIndex:index];
+    NSString *option = [[[MCPresetHelper sharedHelper] extraOptionMappings] objectAtIndex:index];
 
     [[self extraOptions] setObject:[sender objectValue] forKey:option];
     [[self advancedTableView] reloadData];
@@ -731,7 +572,7 @@ static MCPresetManager *_defaultManager = nil;
 
 - (void)updatePreview
 {
-    MCPresetDefaults *standardDefaults = [MCPresetDefaults standardDefaults];
+    MCPresetHelper *standardDefaults = [MCPresetHelper sharedHelper];
     NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjects:[standardDefaults extraOptionDefaultValues] forKeys:[standardDefaults extraOptionMappings]];
     [settings addEntriesFromDictionary:[self extraOptions]];
     

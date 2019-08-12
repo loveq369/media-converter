@@ -14,7 +14,7 @@
 #import "MCWatermarkFilter.h"
 #import "MCTextFilter.h"
 #import "MCTableView.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 
 @interface MCFilterDelegate()
 
@@ -80,7 +80,7 @@
     [tableView registerForDraggedTypes:[NSArray arrayWithObject:@"NSGeneralPboardType"]];
     [tableView setReloadHandler:^
     {
-        [[MCPresetManager defaultManager] updatePreview];
+        [[MCPresetEditPanel editPanel] updatePreview];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewSelectionDidChange:) name:@"MCListSelected" object:tableView];
@@ -105,7 +105,7 @@
         
         [self setOpenFilter:nil];
         
-        [[MCPresetManager defaultManager] updatePreview];
+        [[MCPresetEditPanel editPanel] updatePreview];
     }];
 }
 
@@ -191,7 +191,7 @@
 	    [openFilter setupView];
         [self setOpenFilter:openFilter];
         
-        [[MCPresetManager defaultManager] updatePreview];
+        [[MCPresetEditPanel editPanel] updatePreview];
     
 	    [[self filterCloseButton] setTitle:NSLocalizedString(@"Save", nil)];
     
@@ -209,7 +209,7 @@
             [self setOpenFilterOptions:nil];
             [self setOpenFilter:nil];
             
-            [[MCPresetManager defaultManager] updatePreview];
+            [[MCPresetEditPanel editPanel] updatePreview];
         }];
     }
 }
@@ -261,7 +261,7 @@
     [[filterWindow contentView] addSubview:newView];
     [filterWindow recalculateKeyViewLoop];
     
-    [[MCPresetManager defaultManager] updatePreview];
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 - (void)setFilterOptions:(NSMutableArray *)filterOptions
@@ -384,7 +384,7 @@
 //We don't want to make people change our row values
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return YES;
+    return NO;
 }
 
 //Needed to be able to drag rows

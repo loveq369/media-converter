@@ -9,7 +9,7 @@
 #import "MCTextFilter.h"
 #import "MCCommonMethods.h"
 #import "MCPopupButton.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 
 @interface MCTextFilter()
 
@@ -141,7 +141,7 @@
 	    
     [filterOptions setObject:identString forKey:@"Identifier"];
     
-    [[MCPresetManager defaultManager] updatePreview];
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 - (NSString *)filterIdentifier

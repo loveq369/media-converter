@@ -9,7 +9,7 @@
 #import "MCWatermarkFilter.h"
 #import "MCCommonMethods.h"
 #import "MCPopupButton.h"
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 
 @interface MCWatermarkFilter()
 
@@ -120,7 +120,7 @@
 	    
 	    [self setImage:image withIdentifier:identifier];
 	    
-	    [[MCPresetManager defaultManager] updatePreview];
+	    [[MCPresetEditPanel editPanel] updatePreview];
     }
 }
 
@@ -146,7 +146,7 @@
     [filterOptions setObject:imageData forKey:@"Overlay Image"];
     [filterOptions setObject:identifier forKey:@"Identifier"];
     
-    [[MCPresetManager defaultManager] updatePreview];
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 - (NSString *)filterIdentifier

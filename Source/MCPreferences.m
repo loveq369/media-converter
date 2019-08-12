@@ -17,11 +17,12 @@
 #import "MCFilterDelegate.h"
 #import "MCFilter.h"
 #import <QuartzCore/QuartzCore.h>
-#import "MCPresetManager.h"
+#import "MCPresetEditPanel.h"
 #import "MCTableView.h"
 #import "MCAddPresetCellView.h"
 #import "MCCommandPanel.h"
 #import "MCMainController.h"
+#import "MCPresetHelper.h"
 
 @interface MCPreferences() <MCTableViewDelegate>
 
@@ -293,13 +294,14 @@
                             [fileNames addObject:[url path]];
                         }
                     
-                        [[MCPresetManager defaultManager] openPresetFiles:fileNames];
+                        [[MCPresetHelper sharedHelper] openPresetFiles:fileNames];
+                        [self reloadPresets];
                     }
                 }];
             }
             else
             {
-                [[MCPresetManager defaultManager] editPresetForWindow:[self window] withPresetPath:nil completionHandler:^(NSModalResponse returnCode)
+                [[MCPresetEditPanel editPanel] beginModalForWindow:[self window] withPresetPath:nil completionHandler:^(NSModalResponse returnCode)
                 {
                     if (returnCode == NSModalResponseOK)
                     {
@@ -326,7 +328,7 @@
     {
 	    NSString *presetPath = [[self presetsData] objectAtIndex:selectedRow];
         
-	    [[MCPresetManager defaultManager] editPresetForWindow:[self window] withPresetPath:presetPath completionHandler:^(NSModalResponse returnCode)
+	    [[MCPresetEditPanel editPanel] beginModalForWindow:[self window] withPresetPath:presetPath completionHandler:^(NSModalResponse returnCode)
         {
             if (returnCode == NSModalResponseOK)
             {
@@ -383,7 +385,7 @@
     {
 	    NSString *presetPath = [[self presetsData] objectAtIndex:selectedRow];
 	    
-	    [[MCPresetManager defaultManager] savePresetForWindow:[self window] withPresetPath:presetPath];
+	    [[MCPresetEditPanel editPanel] savePresetForWindow:[self window] withPresetPath:presetPath];
     }
 }
 
@@ -395,7 +397,7 @@
     {
 	    NSString *presetPath = [[self presetsData] objectAtIndex:selectedRow];
 	    
-	    [[MCPresetManager defaultManager] savePresetForWindow:[self window] withPresetPath:presetPath];
+	    [[MCPresetEditPanel editPanel] savePresetForWindow:[self window] withPresetPath:presetPath];
     }
 }
 

@@ -30,11 +30,11 @@
 		FE58A6AA135EBE8400A99750 /* SubTest.srt in Resources */ = {isa = PBXBuildFile; fileRef = FE58A69E135EBE8400A99750 /* SubTest.srt */; };
 		FE59A53513ED22B5001414DC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE59A53013ED22B5001414DC /* QuartzCore.framework */; };
 		FE59A54C13ED2576001414DC /* Sintel-frame-dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */; };
-		FE6677201425D434009BB3A5 /* MCPresetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66771E1425D434009BB3A5 /* MCPresetManager.m */; };
-		FE6677281425D458009BB3A5 /* MCPresetManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6677251425D458009BB3A5 /* MCPresetManager.xib */; };
+		FE6677201425D434009BB3A5 /* MCPresetEditPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */; };
+		FE6677281425D458009BB3A5 /* MCPresetEditPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6677251425D458009BB3A5 /* MCPresetEditPanel.xib */; };
 		FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */; };
 		FE700959140CD7F1002429E1 /* MCProgressSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FE700953140CD7F1002429E1 /* MCProgressSlider.m */; };
-		FE703A6022FC822F00917539 /* MCPresetDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FE703A5F22FC822F00917539 /* MCPresetDefaults.m */; };
+		FE703A6022FC822F00917539 /* MCPresetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE703A5F22FC822F00917539 /* MCPresetHelper.m */; };
 		FE7AAEE513B602E8008DC4F7 /* MCFilterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AAEE013B602E8008DC4F7 /* MCFilterDelegate.m */; };
 		FEA8CF4113227D3C00C10516 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		FEA8CF4213227D3C00C10516 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
@@ -153,21 +153,21 @@
 		FE58A69E135EBE8400A99750 /* SubTest.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SubTest.srt; path = Resources/SubTest.srt; sourceTree = "<group>"; };
 		FE59A53013ED22B5001414DC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame-dark.jpg"; path = "Images/Sintel-frame-dark.jpg"; sourceTree = "<group>"; };
-		FE66771D1425D434009BB3A5 /* MCPresetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPresetManager.h; path = Source/MCPresetManager.h; sourceTree = "<group>"; };
-		FE66771E1425D434009BB3A5 /* MCPresetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPresetManager.m; path = Source/MCPresetManager.m; sourceTree = "<group>"; };
+		FE66771D1425D434009BB3A5 /* MCPresetEditPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPresetEditPanel.h; path = Source/MCPresetEditPanel.h; sourceTree = "<group>"; };
+		FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPresetEditPanel.m; path = Source/MCPresetEditPanel.m; sourceTree = "<group>"; };
 		FE68409622F95BDA005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
 		FE68409822F95BDF005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCWatermarkFilter.strings; sourceTree = "<group>"; };
 		FE68409A22F95D4A005B55DB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
 		FE68409C22F95D55005B55DB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCWatermarkFilter.strings; sourceTree = "<group>"; };
-		FE68409D22F95F12005B55DB /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/MCPresetManager.strings"; sourceTree = "<group>"; };
+		FE68409D22F95F12005B55DB /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/MCPresetEditPanel.strings"; sourceTree = "<group>"; };
 		FE68409E22F95F12005B55DB /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/MCTextFilter.strings"; sourceTree = "<group>"; };
 		FE6840A122F960A6005B55DB /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		FE6840A222F9D27C005B55DB /* MCAutoLayoutTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAutoLayoutTextField.h; path = Source/MCAutoLayoutTextField.h; sourceTree = "<group>"; };
 		FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAutoLayoutTextField.m; path = Source/MCAutoLayoutTextField.m; sourceTree = "<group>"; };
 		FE700952140CD7F1002429E1 /* MCProgressSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressSlider.h; path = Source/MCProgressSlider.h; sourceTree = "<group>"; };
 		FE700953140CD7F1002429E1 /* MCProgressSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProgressSlider.m; path = Source/MCProgressSlider.m; sourceTree = "<group>"; };
-		FE703A5E22FC822F00917539 /* MCPresetDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetDefaults.h; path = Source/MCPresetDefaults.h; sourceTree = "<group>"; };
-		FE703A5F22FC822F00917539 /* MCPresetDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCPresetDefaults.m; path = Source/MCPresetDefaults.m; sourceTree = "<group>"; };
+		FE703A5E22FC822F00917539 /* MCPresetHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetHelper.h; path = Source/MCPresetHelper.h; sourceTree = "<group>"; };
+		FE703A5F22FC822F00917539 /* MCPresetHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCPresetHelper.m; path = Source/MCPresetHelper.m; sourceTree = "<group>"; };
 		FE77D66E13192E8800731569 /* Create Preset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Create Preset@2x.png"; path = "Images/Create Preset@2x.png"; sourceTree = "<group>"; };
 		FE77D9BC131940B000731569 /* MCCrippledButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCrippledButton.h; path = Source/MCCrippledButton.h; sourceTree = "<group>"; };
 		FE77D9BD131940B000731569 /* MCCrippledButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCrippledButton.m; path = Source/MCCrippledButton.m; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		FEF8AFF822F5C83100603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FEF8AFF922F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		FEF8AFFA22F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCPreferences.xib; sourceTree = "<group>"; };
-		FEF8AFFB22F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCPresetManager.xib; sourceTree = "<group>"; };
+		FEF8AFFB22F5C83400603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCPresetEditPanel.xib; sourceTree = "<group>"; };
 		FEF8AFFD22F5C83500603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCTextFilter.xib; sourceTree = "<group>"; };
 		FEF8AFFE22F5C83500603B84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCWatermarkFilter.xib; sourceTree = "<group>"; };
 		FEF8AFFF22F5C83700603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/MediaConverterHelp; sourceTree = "<group>"; };
@@ -245,8 +245,8 @@
 		FEF8B01622F8444200603B84 /* MCColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCColorView.m; path = Source/MCColorView.m; sourceTree = "<group>"; };
 		FEF8B01B22F8502B00603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCPreferences.strings; sourceTree = "<group>"; };
 		FEF8B01D22F8546600603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCPreferences.strings; sourceTree = "<group>"; };
-		FEF8B01F22F864B600603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCPresetManager.strings; sourceTree = "<group>"; };
-		FEF8B02122F86C4A00603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCPresetManager.strings; sourceTree = "<group>"; };
+		FEF8B01F22F864B600603B84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCPresetEditPanel.strings; sourceTree = "<group>"; };
+		FEF8B02122F86C4A00603B84 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCPresetEditPanel.strings; sourceTree = "<group>"; };
 		FEFA3D161333F651009B543D /* Languages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Languages.plist; path = Resources/Languages.plist; sourceTree = "<group>"; };
 		FEFB88962301B48E00E0FFF7 /* Gear with arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow@2x.png"; path = "Images/Gear with arrow@2x.png"; sourceTree = "<group>"; };
 		FEFB88972301B48E00E0FFF7 /* Gear with arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow.png"; path = "Images/Gear with arrow.png"; sourceTree = "<group>"; };
@@ -462,10 +462,10 @@
 		FE66771A1425D41A009BB3A5 /* Presets */ = {
 			isa = PBXGroup;
 			children = (
-				FE66771D1425D434009BB3A5 /* MCPresetManager.h */,
-				FE66771E1425D434009BB3A5 /* MCPresetManager.m */,
-				FE703A5E22FC822F00917539 /* MCPresetDefaults.h */,
-				FE703A5F22FC822F00917539 /* MCPresetDefaults.m */,
+				FE66771D1425D434009BB3A5 /* MCPresetEditPanel.h */,
+				FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */,
+				FE703A5E22FC822F00917539 /* MCPresetHelper.h */,
+				FE703A5F22FC822F00917539 /* MCPresetHelper.m */,
 				FE3A195B22FAD023005BED34 /* TableView Delegates */,
 				FE10B97113C1CC9E00194E45 /* Filters */,
 			);
@@ -577,7 +577,7 @@
 			children = (
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				FEF5CD8512EEB83B00981441 /* MCPreferences.xib */,
-				FE6677251425D458009BB3A5 /* MCPresetManager.xib */,
+				FE6677251425D458009BB3A5 /* MCPresetEditPanel.xib */,
 				FE4E9893132105CB00B440F4 /* MCProgress.xib */,
 				FE3A195F22FAEEE2005BED34 /* MCCommandPanel.xib */,
 				FE10B99913C1D15B00194E45 /* Filters */,
@@ -700,7 +700,7 @@
 				FE10B9A113C1D1A200194E45 /* MCWatermarkFilter.xib in Resources */,
 				FE23AE9013E04E9800B4E457 /* MCTextFilter.xib in Resources */,
 				FE59A54C13ED2576001414DC /* Sintel-frame-dark.jpg in Resources */,
-				FE6677281425D458009BB3A5 /* MCPresetManager.xib in Resources */,
+				FE6677281425D458009BB3A5 /* MCPresetEditPanel.xib in Resources */,
 				FEFB88A22301B63F00E0FFF7 /* Gear with arrow (dark)@3x.png in Resources */,
 				FE0353E015FA5D0D0006538C /* LanguageCodes.plist in Resources */,
 				FEC2C81122FB3DA20014808E /* mkvinfo in Resources */,
@@ -730,7 +730,7 @@
 				FEA8CF5D13227D3C00C10516 /* MCConverter.m in Sources */,
 				FEA8CF5E13227D3C00C10516 /* MCProgressPanel.m in Sources */,
 				FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */,
-				FE703A6022FC822F00917539 /* MCPresetDefaults.m in Sources */,
+				FE703A6022FC822F00917539 /* MCPresetHelper.m in Sources */,
 				FEA8CF6013227D3C00C10516 /* MCPreferences.m in Sources */,
 				FEA8CF6213227D3C00C10516 /* MCAdvancedOptionsDelegate.m in Sources */,
 				FEF8B01722F8444200603B84 /* MCColorView.m in Sources */,
@@ -753,7 +753,7 @@
 				FEE2BE7313EEA25500C1C035 /* MCDropImageView.m in Sources */,
 				FE700959140CD7F1002429E1 /* MCProgressSlider.m in Sources */,
 				FED16060141380D100841674 /* MCPreviewImageView.m in Sources */,
-				FE6677201425D434009BB3A5 /* MCPresetManager.m in Sources */,
+				FE6677201425D434009BB3A5 /* MCPresetEditPanel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,7 +838,7 @@
 			name = MediaConverterHelp;
 			sourceTree = "<group>";
 		};
-		FE6677251425D458009BB3A5 /* MCPresetManager.xib */ = {
+		FE6677251425D458009BB3A5 /* MCPresetEditPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FEF8AFFB22F5C83400603B84 /* Base */,
@@ -846,7 +846,7 @@
 				FEF8B02122F86C4A00603B84 /* nl */,
 				FE68409D22F95F12005B55DB /* en-US */,
 			);
-			name = MCPresetManager.xib;
+			name = MCPresetEditPanel.xib;
 			sourceTree = "<group>";
 		};
 		FEA8D4F71322AD4E00C10516 /* Donation */ = {
