@@ -233,7 +233,7 @@ static MCPresetEditPanel *_defaultManager = nil;
     {
         if (result == NSModalResponseOK)
         {
-            NSString *error = NSLocalizedString(@"An unkown error occured", nil);
+            NSString *error = NSLocalizedString(@"An unknown error occured", nil);
             BOOL result = [MCCommonMethods writeDictionary:presetDictionary toFile:[[sheet URL] path] errorString:&error];
 
             if (result == NO)

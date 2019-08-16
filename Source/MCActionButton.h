@@ -16,7 +16,7 @@
 /**
  *  Menu target
  */
- @property (nonatomic, assign) id menuTarget;
+ @property (nonatomic, assign, nullable) id menuTarget;
 
 /**
  *  Add menu item
@@ -24,7 +24,12 @@
  *  @param title Title of menu item
  *  @param selector A selector
  */
-- (void)addMenuItemWithTitle:(NSString *)title withSelector:(SEL)selector;
+- (void)addMenuItemWithTitle:(nonnull NSString *)title withSelector:(nonnull SEL)selector;
+
+/**
+ *  Add separator item
+ */
+- (void)addSeparatorItem;
 
 /**
  *  Set the title of a menu item
@@ -32,6 +37,6 @@
  *  @param title A title
  *  @param index Index of menu item
  */
-- (void)setTitle:(NSString *)title atIndex:(NSInteger)index;
+- (void)setTitle:(nonnull NSString *)title atIndex:(NSInteger)index;
 
 @end

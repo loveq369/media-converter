@@ -68,6 +68,8 @@
  */
 @property (nonatomic) CGFloat value;
 
+@property (nonatomic, strong, nonnull) NSString *cancelButtonTitle;
+
 /**
  *  Enable or disable the cancel button on the progress sheet
  */

@@ -48,8 +48,7 @@
 
     //Setup some defaults for the preferences (used when options aren't set)
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults =  @{ @"MCUseSoundEffects": @(YES),
-                                    @"MCInstallMode": @(0),
+    NSDictionary *appDefaults =  @{ @"MCInstallMode": @(0),
                                     @"MCSaveMethod": @(0),
                                     @"MCSaveLocation": [@"~/Movies" stringByExpandingTildeInPath],
                                     @"MCDebug": @(NO),
@@ -61,6 +60,7 @@
                                     @"MCMuxSeperateStreams": @(NO),
                                     @"MCRemuxMPEG2Streams": @(NO),
                                     @"MCSubtitleLanguage": infoDictionary[@"MCSubtitleLanguage"],
+                                    @"MCQuitAfterConvertion": @(NO),
                                  };
     
     [defaults registerDefaults:appDefaults];
@@ -79,9 +79,11 @@
     [actionButton setMenuTarget:self];
     [actionButton addMenuItemWithTitle:NSLocalizedString(@"Edit Preset…", nil) withSelector:@selector(edit:)];
     [actionButton addMenuItemWithTitle:NSLocalizedString(@"Export Preset…", nil) withSelector:@selector(saveDocumentAs:)];
+    [actionButton addSeparatorItem];
+    [actionButton addMenuItemWithTitle:NSLocalizedString(@"Create Preset…", nil) withSelector:@selector(create:)];
     
     //Placeholder error string
-    NSString *error = NSLocalizedString(@"An unkown error occured", nil);
+    NSString *error = NSLocalizedString(@"An unknown error occured", nil);
     
     //Quit the application when the main window is closed (seems to be accepted in Mac OS X)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeWindow) name:NSWindowWillCloseNotification object:[self mainWindow]];
@@ -261,15 +263,7 @@
 	    
 	    if (result != 0)
 	    {
-    	    NSString *finishMessage;
-    	    
-    	    if (result == 1)
-	    	    finishMessage = NSLocalizedString(@"Succesfully installed 1 preset", nil);
-    	    else
-	    	    finishMessage = [NSString stringWithFormat:NSLocalizedString(@"Succesfully installed %li presets", nil), result];
-	    	    
-            [self showNotificationWithTitle:NSLocalizedString(@"Installed new preset", nil) withMessage:finishMessage withImage:[[NSWorkspace sharedWorkspace] iconForFileType:@"mcpreset"]];
-	        [self updatePresets];
+    	    [self updatePresets];
         }
     }
     
@@ -521,6 +515,19 @@
     [[MCPresetEditPanel editPanel] savePresetForWindow:[self mainWindow] withPresetPath:path];
 }
 
+// Create a new preset
+- (IBAction)create:(id)sender
+{
+    MCPresetEditPanel *presetManager = [MCPresetEditPanel editPanel];
+    [presetManager beginModalForWindow:[self mainWindow] withPresetPath:nil completionHandler:^(NSModalResponse returnCode)
+    {
+        if (returnCode == NSModalResponseOK)
+        {
+            [self updatePresets];
+        }
+    }];
+}
+
 //////////////////
 // Menu actions //
 //////////////////
@@ -541,6 +548,7 @@
 //Open the preferences
 - (IBAction)openPreferences:(id)sender
 {
+    [self setPreferences:nil];
     MCPreferences *preferences = [self preferences];
     if (preferences == nil)
     {
@@ -603,7 +611,7 @@
 //Visit the site
 - (IBAction)goToSite:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://media-converter.sourceforge.net"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://media-converter.sourceforge.io"]];
 }
 
 //Get the application or external applications source (links to a folder)
@@ -641,6 +649,7 @@
     [progressPanel setTask:NSLocalizedString(@"Checking files...", nil)];
     [progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
     [progressPanel setMaximumValue:0.0];
+    [progressPanel setCancelButtonTitle:NSLocalizedString(@"progress-panel-cancel-button", nil)];
     [progressPanel setCancelHandler:^
     {
         [self setCancelAddingFiles:YES];
@@ -793,23 +802,28 @@
     NSInteger saveMethod = [[standardDefaults objectForKey:@"MCSaveMethod"] integerValue];
     if (saveMethod == 2)
     {
-	    NSOpenPanel *sheet = [NSOpenPanel openPanel];
-	    [sheet setCanChooseFiles: NO];
-	    [sheet setCanChooseDirectories: YES];
-	    [sheet setAllowsMultipleSelection: NO];
-	    [sheet setCanCreateDirectories: YES];
-	    [sheet setPrompt:NSLocalizedString(@"Choose", nil)];
-	    [sheet setMessage:NSLocalizedString(@"Choose a location to save the converted files", nil)];
-        [sheet beginSheetModalForWindow:[self mainWindow] completionHandler:^(NSModalResponse result)
+        MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
+        [progressPanel endSheetWithCompletion:^
         {
-            if (result == NSModalResponseOK)
+            NSOpenPanel *sheet = [NSOpenPanel openPanel];
+            [sheet setCanChooseFiles: NO];
+            [sheet setCanChooseDirectories: YES];
+            [sheet setAllowsMultipleSelection: NO];
+            [sheet setCanCreateDirectories: YES];
+            [sheet setPrompt:NSLocalizedString(@"Choose", nil)];
+            [sheet setMessage:NSLocalizedString(@"Choose a location to save the converted files", nil)];
+            [sheet beginSheetModalForWindow:[self mainWindow] completionHandler:^(NSModalResponse result)
             {
-                [self convertFiles:[[sheet URL] path]];
-            }
-            else
-            {
-                [self setInputFiles:nil];
-            }
+                if (result == NSModalResponseOK)
+                {
+                    [[MCProgressPanel progressPanel] beginSheetForWindow:[self mainWindow]];
+                    [self convertFiles:[[sheet URL] path]];
+                }
+                else
+                {
+                    [self setInputFiles:nil];
+                }
+            }];
         }];
     }
     else
@@ -841,6 +855,7 @@
     [progressPanel setTask:NSLocalizedString(@"Preparing to encode", nil)];
     [progressPanel setStatus:NSLocalizedString(@"Checking file...", nil)];
     [progressPanel setMaximumValue:100 * [[self inputFiles] count]];
+    [progressPanel setCancelButtonTitle:NSLocalizedString(@"converter-progress-panel-cancel-button", nil)];
 
     MCConverter *converter = [[MCConverter alloc] init];
     [self setConverter:converter];
@@ -874,6 +889,11 @@
                     NSString *firstPath = inputFiles[0];
                     NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:firstPath];
                     [self showNotificationWithTitle:NSLocalizedString(@"Finished converting", nil) withMessage:finishMessage withImage:image];
+                    
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"MCQuitAfterConvertion"])
+                    {
+                        [[NSApplication sharedApplication] terminate:nil];
+                    }
                 }
                 else if (result == 1)
                 {
@@ -891,9 +911,13 @@
     [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
 	    
     if ([errorString rangeOfString:@"\n"].length > 0)
+    {
 	    [alert setMessageText:NSLocalizedString(@"Media Converter failed to encode some files", nil)];
+    }
     else
+    {
 	    [alert setMessageText:NSLocalizedString(@"Media Converter failed to encode one file", nil)];
+    }
 	    
     NSArray *errorParts = [errorString componentsSeparatedByString:@"\nMCLog:"];
     NSString *fileErrors = [errorParts objectAtIndex:0];
@@ -1044,13 +1068,6 @@
             
             [progressPanel setValue:i + 1];
         }
-        
-    //    [MCCommonMethods removeItemAtPath:spumuxPath];
-        
-    //    if ([defaultManager fileExistsAtPath:uniqueSpumuxPath])
-    //        [MCCommonMethods moveItemAtPath:uniqueSpumuxPath toPath:spumuxPath error:nil];
-        
-        [converter extractImportantFontsToPath:fontPath statusStart:[fontPaths count]];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^
         {

@@ -137,6 +137,5 @@
 
 - (NSArray *)getFormats;
 - (NSArray *)getCodecsOfType:(NSString *)type;
-- (void)extractImportantFontsToPath:(NSString *)path statusStart:(NSInteger)start;
 
 @end

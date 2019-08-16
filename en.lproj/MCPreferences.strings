@@ -5,9 +5,6 @@
 
 // General
 
-/* Class = "NSButtonCell"; title = "Use Sound Effects"; ObjectID = "8"; */
-"8.title" = "Use Sound Effects";
-
 /* Class = "NSTextFieldCell"; title = "Save Folder:"; ObjectID = "12"; */
 "12.title" = "Save Folder:";
 
@@ -17,25 +14,16 @@
 /* Class = "NSMenuItem"; title = "Choose…"; ObjectID = "18"; */
 "18.title" = "Choose…";
 
-/* Class = "NSTextFieldCell"; title = "Install Location:"; ObjectID = "270"; */
-"270.title" = "Install Location:";
-
-/* Class = "NSMenuItem"; title = "Ask Every Time"; ObjectID = "266"; */
-"266.title" = "Ask Every Time";
-
-/* Class = "NSMenuItem"; title = "All Users"; ObjectID = "267"; */
-"267.title" = "All Users";
-
-/* Class = "NSMenuItem"; title = "Curent User"; ObjectID = "268"; */
-"268.title" = "Curent User";
-
 /* Class = "NSTextFieldCell"; title = "Default Subtitle Language:"; ObjectID = "661"; */
 "661.title" = "Default Subtitle Language:";
 
+/* Class = "NSButtonCell"; title = "Automatically download and install updates"; ObjectID = "n77-4y-PVc"; */
+"n77-4y-PVc.title" = "Automatically download and install updates";
+
 // Presets
 
-/* Class = "NSTableColumn"; headerCell.title = "Preset"; ObjectID = "47"; */
-"47.headerCell.title" = "Preset";
+/* Class = "NSTableColumn"; headerCell.title = "Presets"; ObjectID = "47"; */
+"47.headerCell.title" = "Presets";
 
 /* Class = "NSTableView"; ibExternalAccessibilityHelp = "A list of the currently installed presets"; ObjectID = "45"; */
 "45.ibExternalAccessibilityHelp" = "A list of the currently installed presets";
@@ -68,6 +56,9 @@
 
 /* Class = "NSButtonCell"; title = "Turn on Logging"; ObjectID = "35"; */
 "35.title" = "Turn on Logging";
+
+/* Class = "NSButtonCell"; title = "Quit after Successful Convertion"; ObjectID = "PUb-81-iQ3"; */
+"PUb-81-iQ3.title" = "Quit after Successful Convertion";
 
 /* Class = "NSButtonCell"; title = "Use Custom FFmpeg Binary"; ObjectID = "37"; */
 "37.title" = "Use Custom FFmpeg Binary";

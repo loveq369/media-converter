@@ -282,4 +282,14 @@
     return image;
 }
 
+- (void)setCancelButtonTitle:(NSString *)cancelButtonTitle
+{
+    [[self cancelButton] setTitle:cancelButtonTitle];
+}
+
+- (NSString *)cancelButtonTitle
+{
+    return [[self cancelButton] title];
+}
+
 @end

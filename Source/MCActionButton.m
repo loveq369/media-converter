@@ -56,6 +56,12 @@
     [editMenuItem setTarget:[self menuTarget]];
 }
 
+- (void)addSeparatorItem
+{
+    NSPopUpButton *menuPopup = [self menuPopup];
+    [[menuPopup menu] addItem:[NSMenuItem separatorItem]];
+}
+
 - (void)setTitle:(NSString *)title atIndex:(NSInteger)index
 {
     NSArray *menuItems = [[self menuPopup] itemArray];

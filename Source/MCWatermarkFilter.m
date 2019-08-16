@@ -10,10 +10,11 @@
 #import "MCCommonMethods.h"
 #import "MCPopupButton.h"
 #import "MCPresetEditPanel.h"
+#import "MCDropImageView.h"
 
-@interface MCWatermarkFilter()
+@interface MCWatermarkFilter() <MCDropImageViewDelegate>
 
-@property (nonatomic, weak) IBOutlet NSImageView *watermarkImage;
+@property (nonatomic, weak) IBOutlet MCDropImageView *watermarkImage;
 @property (nonatomic, weak) IBOutlet NSTextField *watermarkImageName;
 @property (nonatomic, weak) IBOutlet NSTextField *watermarkWidthField;
 @property (nonatomic, weak) IBOutlet NSTextField *watermarkHeightField;
@@ -224,6 +225,13 @@
     }
     
     return NULL;
+}
+
+- (void)dropImageView:(MCDropImageView *)dropImageView didDropImage:(NSImage *)image withIdentifier:(NSString *)identifier
+{
+    [self setImage:image withIdentifier:identifier];
+    
+    [[MCPresetEditPanel editPanel] updatePreview];
 }
 
 @end

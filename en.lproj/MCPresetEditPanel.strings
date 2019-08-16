@@ -138,8 +138,8 @@
 /* Class = "NSButton"; ibExternalAccessibilityHelp = "A list of advanced FFmpeg options"; ObjectID = "171"; */
 "171.ibExternalAccessibilityHelp" = "Show or hide advanced FFmpeg options";
 
-/* Class = "NSTextFieldCell"; title = "Advanced ffmpeg options:"; ObjectID = "105"; */
-"105.title" = "Advanced ffmpeg options:";
+/* Class = "NSTextFieldCell"; title = "Advanced FFmpeg options:"; ObjectID = "105"; */
+"105.title" = "Advanced FFmpeg options:";
 
 /* Class = "NSTableColumn"; headerCell.title = "Option"; ObjectID = "100"; */
 "100.headerCell.title" = "Option";
@@ -277,9 +277,6 @@
 
 // Add Filter Window
 
-/* Class = "NSWindow"; title = "Add Filter"; ObjectID = "1334"; */
-"1334.title" = "Add Filter";
-
 /* Class = "NSTextFieldCell"; title = "Filter Type:"; ObjectID = "1390"; */
 "1390.title" = "Filter Type:";
 
@@ -291,10 +288,3 @@
 
 /* Class = "NSButtonCell"; title = "Add"; ObjectID = "1391"; */
 "1391.title" = "Add";
-
-
-
-
-
-
-

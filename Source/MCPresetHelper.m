@@ -259,7 +259,7 @@
         NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"];
         
         BOOL supportWritable = YES;
-        NSString *error = NSLocalizedString(@"An unkown error occured", nil);
+        NSString *error = NSLocalizedString(@"An unknown error occured", nil);
         
         if (![defaultManager fileExistsAtPath:folder])
             supportWritable = [MCCommonMethods createDirectoryAtPath:folder errorString:&error];
@@ -293,7 +293,7 @@
         NSDictionary *dictionary = [dictionaries objectAtIndex:i];
         NSString *filePath = [MCCommonMethods uniquePathNameFromPath:[[savePath stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"mcpreset"] withSeperator:@" "];
         
-        NSString *error = NSLocalizedString(@"An unkown error occured", nil);
+        NSString *error = NSLocalizedString(@"An unknown error occured", nil);
         BOOL result = [MCCommonMethods writeDictionary:dictionary toFile:filePath errorString:&error];
         
         if (result)
@@ -302,7 +302,7 @@
         }
         else
         {
-            [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed install preset file", nil) withInformationText:error withParentWindow:nil withDetails:nil];
+            [MCCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to install the preset file", nil) withInformationText:error withParentWindow:nil withDetails:nil];
         
             return NSModalResponseCancel;
         }

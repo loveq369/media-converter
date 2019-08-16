@@ -1550,7 +1550,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    	    //Don't copy a srt file when using the same input folder as the output folder
     	    	    if ([beforeFolderContents containsObject:currentPath])
     	    	    {
-	    	    	    NSString *originalString = [MCCommonMethods stringWithContentsOfFile:currentPath encoding:NSUTF8StringEncoding error:nil];
+                        NSStringEncoding encoding;
+	    	    	    NSString *originalString = [[NSString alloc] initWithContentsOfFile:currentPath usedEncoding:&encoding error:nil];
 	    	    	    
 	    	    	    NSDictionary *languageDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Languages" ofType:@"plist"]];
 	    	    	    if ([[languageDict allKeysForObject:language] count] == 0)
@@ -1585,6 +1586,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    	    	    encoding = 0x80000422;
     	    	    	    else if ([language isEqualTo:@"vie"] || [language isEqualTo:@"vi"])
 	    	    	    	    encoding = 0x80000508;
+                            else
+                                encoding = NSISOLatin1StringEncoding;
     	    	    	    
     	    	    	    originalString = [MCCommonMethods stringWithContentsOfFile:currentPath encoding:encoding error:nil];
 	    	    	    }
@@ -1654,7 +1657,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     //else
 	    fps = inputFps;
 
-    NSString *srtFile = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
+    NSString *srtFile = [[NSString alloc] initWithContentsOfFile:file usedEncoding:nil error:nil];
+    //[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
 
     NSInteger i = 1;
     //Calculate time to fill the empty spaces between subtitles
@@ -2619,54 +2623,6 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     [formats sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
 
     return formats;
-}
-
-- (void)extractImportantFontsToPath:(NSString *)path statusStart:(NSInteger)start
-{
-    NSMutableArray *fonts = [NSMutableArray arrayWithObjects:@"/System/Library/Fonts/Helvetica.dfont", nil];
-    NSMutableArray *copyFonts = [NSMutableArray arrayWithObjects:@"Helvetica.ttf", nil];
-    NSMutableArray *newCopyFontNames = [NSMutableArray arrayWithObjects:@"Helvetica.ttf", nil];
-    
-    NSString *tempFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:@"MCTemp"];
-    NSString *error;
-    [MCCommonMethods createDirectoryAtPath:tempFolder errorString:&error];
-    NSInteger i;
-    for (i = 0; i < [fonts count]; i ++)
-    {
-	    NSString *currentPath = [fonts objectAtIndex:i];
-	    
-	    if ([[NSFileManager defaultManager] fileExistsAtPath:currentPath])
-	    {
-    	    NSString *fontName = [copyFonts objectAtIndex:i];
-    	    NSString *newFontName = [newCopyFontNames objectAtIndex:i];
-    	    
-    	    MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
-            [progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Extracting: %@", nil), newFontName]];
-            [progressPanel setValue:start + i];
-    	    
-    	    NSString *newPath = [tempFolder stringByAppendingPathComponent:[currentPath lastPathComponent]];
-    	    [MCCommonMethods copyItemAtPath:currentPath toPath:newPath errorString:nil];
-    	    
-    	    NSString *fonduPath = [[NSBundle mainBundle] pathForResource:@"fondu" ofType:@""];
-    	    NSTask *fondu = [[NSTask alloc] init];
-    	    [fondu setLaunchPath:fonduPath];
-    	    [fondu setCurrentDirectoryPath:tempFolder];
-    	    [fondu setArguments:[NSArray arrayWithObject:newPath]];
-    	    [fondu setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
-    	    [fondu setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-    	    [fondu launch];
-    	    [fondu waitUntilExit];
-    	    
-    	    if ([fondu terminationStatus] == 0)
-	    	    [MCCommonMethods copyItemAtPath:[tempFolder stringByAppendingPathComponent:fontName] toPath:[path stringByAppendingPathComponent:newFontName] errorString:nil];
-    	    
-    	    fondu = nil;
-	    }
-    }
-    
-    [[MCProgressPanel progressPanel] setValue:start + [fonts count]];
-    
-    [MCCommonMethods removeItemAtPath:tempFolder];
 }
 
 @end

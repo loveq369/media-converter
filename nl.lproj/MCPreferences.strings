@@ -5,8 +5,8 @@
 
 // General
 
-/* Class = "NSButtonCell"; title = "Use Sound Effects"; ObjectID = "8"; */
-"8.title" = "Gebruik geluidseffecten";
+/* Class = "NSToolbarItem"; label = "General"; ObjectID = "0yv-tH-ui4"; */
+"0yv-tH-ui4.label" = "Algemeen";
 
 /* Class = "NSTextFieldCell"; title = "Save Folder:"; ObjectID = "12"; */
 "12.title" = "Bewaar locatie:";
@@ -17,22 +17,16 @@
 /* Class = "NSMenuItem"; title = "Choose…"; ObjectID = "18"; */
 "18.title" = "Kies…";
 
-/* Class = "NSTextFieldCell"; title = "Install Location:"; ObjectID = "270"; */
-"270.title" = "Installeer locatie:";
-
-/* Class = "NSMenuItem"; title = "Ask Every Time"; ObjectID = "266"; */
-"266.title" = "Vraag elke keer";
-
-/* Class = "NSMenuItem"; title = "All Users"; ObjectID = "267"; */
-"267.title" = "Alle gebruikers";
-
-/* Class = "NSMenuItem"; title = "Curent User"; ObjectID = "268"; */
-"268.title" = "Huidige gebruiker";
-
 /* Class = "NSTextFieldCell"; title = "Default Subtitle Language:"; ObjectID = "661"; */
 "661.title" = "Standaard ondertitelingstaal:";
 
+/* Class = "NSButtonCell"; title = "Automatically download and install updates"; ObjectID = "n77-4y-PVc"; */
+"n77-4y-PVc.title" = "Download en installeer nieuwe versies automatisch";
+
 // Presets
+
+/* Class = "NSToolbarItem"; label = "Presets"; ObjectID = "0xc-cm-hzG"; */
+"0xc-cm-hzG.label" = "Voorinstellingen";
 
 /* Class = "NSTableColumn"; headerCell.title = "Preset"; ObjectID = "47"; */
 "47.headerCell.title" = "Voorinstelling";
@@ -66,8 +60,14 @@
 
 // Advanced
 
+/* Class = "NSToolbarItem"; label = "Advanced"; ObjectID = "f2e-yP-Lbi"; */
+"f2e-yP-Lbi.label" = "Geavanceerd";
+
 /* Class = "NSButtonCell"; title = "Turn on Logging"; ObjectID = "35"; */
 "35.title" = "Zet loggen aan";
+
+/* Class = "NSButtonCell"; title = "Quit after Successful Convertion"; ObjectID = "PUb-81-iQ3"; */
+"PUb-81-iQ3.title" = "Stop na het succesvoll omzetten";
 
 /* Class = "NSButtonCell"; title = "Use Custom FFmpeg Binary"; ObjectID = "37"; */
 "37.title" = "Gebruik andere FFmpeg";

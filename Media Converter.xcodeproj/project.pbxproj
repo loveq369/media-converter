@@ -75,6 +75,7 @@
 		FEC2C81722FB3DA20014808E /* qt-faststart in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80A22FB3DA20014808E /* qt-faststart */; };
 		FEC2C81822FB3DA20014808E /* MP4Box in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80B22FB3DA20014808E /* MP4Box */; };
 		FEC2C81922FB3DA20014808E /* oggz-rip in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80C22FB3DA20014808E /* oggz-rip */; };
+		FED0960F2306CFB000DE21F4 /* MCDetailsTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FED0960E2306CFB000DE21F4 /* MCDetailsTextView.m */; };
 		FED16060141380D100841674 /* MCPreviewImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FED1605E141380D100841674 /* MCPreviewImageView.m */; };
 		FED68D1413265A1000332D8E /* MCAdvancedOptionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FED68D0E13265A1000332D8E /* MCAdvancedOptionsTableView.m */; };
 		FEDB79111688743400745F56 /* LanguageConversion.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEDB790C1688743400745F56 /* LanguageConversion.plist */; };
@@ -120,6 +121,9 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Media Converter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Media Converter_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FE01E90E23021CF200ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		FE01E90F23021E9B00ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FE01E9102302BF1F00ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE0353DE15FA5D0D0006538C /* LanguageCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LanguageCodes.plist; path = Resources/LanguageCodes.plist; sourceTree = "<group>"; };
 		FE0EF51E130A7E630076FE30 /* MCPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPopupButton.h; path = Source/MCPopupButton.h; sourceTree = "<group>"; };
 		FE0EF51F130A7E630076FE30 /* MCPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPopupButton.m; path = Source/MCPopupButton.m; sourceTree = "<group>"; };
@@ -141,6 +145,10 @@
 		FE3A195C22FAE4C1005BED34 /* MCAddPresetCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCAddPresetCellView.h; path = Source/MCAddPresetCellView.h; sourceTree = "<group>"; };
 		FE3A195D22FAE4C1005BED34 /* MCAddPresetCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCAddPresetCellView.m; path = Source/MCAddPresetCellView.m; sourceTree = "<group>"; };
 		FE3A196022FAEEE2005BED34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MCCommandPanel.xib; sourceTree = "<group>"; };
+		FE45EB852302FFEE00057039 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCPreferences.strings; sourceTree = "<group>"; };
+		FE45EB8623030F3900057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/MediaConverterHelp; sourceTree = "<group>"; };
+		FE45EB8723030F4900057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Base; path = Base.lproj/MCPresets.icns; sourceTree = "<group>"; };
+		FE45EB8823030FAB00057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FE48BD6B13A631A600C98912 /* Sintel-frame.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame.jpg"; path = "Images/Sintel-frame.jpg"; sourceTree = "<group>"; };
 		FE4E9893132105CB00B440F4 /* MCProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MCProgress.xib; path = Resources/MCProgress.xib; sourceTree = "<group>"; };
 		FE519C042300486400D65DC7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 		FE58A69E135EBE8400A99750 /* SubTest.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SubTest.srt; path = Resources/SubTest.srt; sourceTree = "<group>"; };
 		FE59A53013ED22B5001414DC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame-dark.jpg"; path = "Images/Sintel-frame-dark.jpg"; sourceTree = "<group>"; };
+		FE62A58F230764C100CE2F9A /* it */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = it; path = it.lproj/MCPresets.icns; sourceTree = "<group>"; };
 		FE66771D1425D434009BB3A5 /* MCPresetEditPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPresetEditPanel.h; path = Source/MCPresetEditPanel.h; sourceTree = "<group>"; };
 		FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPresetEditPanel.m; path = Source/MCPresetEditPanel.m; sourceTree = "<group>"; };
 		FE68409622F95BDA005B55DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
@@ -164,6 +173,8 @@
 		FE6840A122F960A6005B55DB /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		FE6840A222F9D27C005B55DB /* MCAutoLayoutTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAutoLayoutTextField.h; path = Source/MCAutoLayoutTextField.h; sourceTree = "<group>"; };
 		FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAutoLayoutTextField.m; path = Source/MCAutoLayoutTextField.m; sourceTree = "<group>"; };
+		FE6B48732306F4E300E1F522 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
+		FE6B48752306F4E600E1F522 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCWatermarkFilter.strings; sourceTree = "<group>"; };
 		FE700952140CD7F1002429E1 /* MCProgressSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressSlider.h; path = Source/MCProgressSlider.h; sourceTree = "<group>"; };
 		FE700953140CD7F1002429E1 /* MCProgressSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProgressSlider.m; path = Source/MCProgressSlider.m; sourceTree = "<group>"; };
 		FE703A5E22FC822F00917539 /* MCPresetHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetHelper.h; path = Source/MCPresetHelper.h; sourceTree = "<group>"; };
@@ -187,6 +198,7 @@
 		FE808B7912EB0FEE0047FD26 /* MCCommonMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCommonMethods.h; path = Source/MCCommonMethods.h; sourceTree = "<group>"; };
 		FE808B7A12EB0FEE0047FD26 /* MCConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCConverter.h; path = Source/MCConverter.h; sourceTree = "<group>"; };
 		FE808B7B12EB0FEE0047FD26 /* MCProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressPanel.h; path = Source/MCProgressPanel.h; sourceTree = "<group>"; };
+		FE8F58D3230568B6001BE0D2 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCPresetEditPanel.strings; sourceTree = "<group>"; };
 		FEA8CF7513227D3C00C10516 /* Media Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Media Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA8D4B313229AB200C10516 /* MCTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCTableView.h; path = Source/MCTableView.h; sourceTree = "<group>"; };
 		FEB4483A1689F32300938559 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Readme.txt; path = Binaries/Readme.txt; sourceTree = "<group>"; };
@@ -195,6 +207,7 @@
 		FEBC384212F163B300F0A20A /* Presets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Presets; path = Resources/Presets; sourceTree = "<group>"; };
 		FEBC386512F169BE00F0A20A /* MCAdvancedOptionsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAdvancedOptionsDelegate.m; path = Source/MCAdvancedOptionsDelegate.m; sourceTree = "<group>"; };
 		FEBC386612F169BE00F0A20A /* MCAdvancedOptionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAdvancedOptionsDelegate.h; path = Source/MCAdvancedOptionsDelegate.h; sourceTree = "<group>"; };
+		FEC0455F230729C10055B6E9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = it.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FEC2C7FD22FAF4020014808E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCCommandPanel.strings; sourceTree = "<group>"; };
 		FEC2C7FE22FAF4810014808E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCCommandPanel.strings; sourceTree = "<group>"; };
 		FEC2C80022FB3DA10014808E /* fondu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = fondu; path = Binaries/fondu; sourceTree = "<group>"; };
@@ -210,8 +223,11 @@
 		FEC2C80A22FB3DA20014808E /* qt-faststart */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "qt-faststart"; path = "Binaries/qt-faststart"; sourceTree = "<group>"; };
 		FEC2C80B22FB3DA20014808E /* MP4Box */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = MP4Box; path = Binaries/MP4Box; sourceTree = "<group>"; };
 		FEC2C80C22FB3DA20014808E /* oggz-rip */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "oggz-rip"; path = "Binaries/oggz-rip"; sourceTree = "<group>"; };
+		FED0960D2306CFB000DE21F4 /* MCDetailsTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCDetailsTextView.h; path = Source/MCDetailsTextView.h; sourceTree = "<group>"; };
+		FED0960E2306CFB000DE21F4 /* MCDetailsTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCDetailsTextView.m; path = Source/MCDetailsTextView.m; sourceTree = "<group>"; };
 		FED1605D141380D100841674 /* MCPreviewImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPreviewImageView.h; path = Source/MCPreviewImageView.h; sourceTree = "<group>"; };
 		FED1605E141380D100841674 /* MCPreviewImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPreviewImageView.m; path = Source/MCPreviewImageView.m; sourceTree = "<group>"; };
+		FED208CB230471FB0058C4CC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCCommandPanel.strings; sourceTree = "<group>"; };
 		FED68D0D13265A1000332D8E /* MCAdvancedOptionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCAdvancedOptionsTableView.h; path = Source/MCAdvancedOptionsTableView.h; sourceTree = "<group>"; };
 		FED68D0E13265A1000332D8E /* MCAdvancedOptionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAdvancedOptionsTableView.m; path = Source/MCAdvancedOptionsTableView.m; sourceTree = "<group>"; };
 		FEDB790C1688743400745F56 /* LanguageConversion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LanguageConversion.plist; path = Resources/LanguageConversion.plist; sourceTree = "<group>"; };
@@ -418,6 +434,8 @@
 				FE519C0B23005B6F00D65DC7 /* MCNoAccessibilityImageView.m */,
 				FE519C0D23005E7E00D65DC7 /* MCNoAccessibiltyTextField.h */,
 				FE519C0E23005E7E00D65DC7 /* MCNoAccessibiltyTextField.m */,
+				FED0960D2306CFB000DE21F4 /* MCDetailsTextView.h */,
+				FED0960E2306CFB000DE21F4 /* MCDetailsTextView.m */,
 			);
 			name = "Custom Views and Cells";
 			sourceTree = "<group>";
@@ -647,6 +665,7 @@
 				Base,
 				en,
 				"en-US",
+				it,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Media Converter */;
 			projectDirPath = "";
@@ -733,6 +752,7 @@
 				FE703A6022FC822F00917539 /* MCPresetHelper.m in Sources */,
 				FEA8CF6013227D3C00C10516 /* MCPreferences.m in Sources */,
 				FEA8CF6213227D3C00C10516 /* MCAdvancedOptionsDelegate.m in Sources */,
+				FED0960F2306CFB000DE21F4 /* MCDetailsTextView.m in Sources */,
 				FEF8B01722F8444200603B84 /* MCColorView.m in Sources */,
 				FEA8CF6313227D3C00C10516 /* MCPopupButton.m in Sources */,
 				FEA8CF6413227D3C00C10516 /* MCTextCheckBoxCell.m in Sources */,
@@ -765,6 +785,7 @@
 			children = (
 				FEF8AFF722F5C83100603B84 /* nl */,
 				FEF8B00522F5C83700603B84 /* en */,
+				FE01E90F23021E9B00ECEB90 /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -776,6 +797,7 @@
 				FEF8B01222F8385000603B84 /* en */,
 				FEF8B01422F83CD500603B84 /* nl */,
 				FE6840A122F960A6005B55DB /* en-US */,
+				FE01E90E23021CF200ECEB90 /* it */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -786,6 +808,7 @@
 				FEF8AFFE22F5C83500603B84 /* Base */,
 				FE68409822F95BDF005B55DB /* en */,
 				FE68409C22F95D55005B55DB /* nl */,
+				FE6B48752306F4E600E1F522 /* it */,
 			);
 			name = MCWatermarkFilter.xib;
 			sourceTree = "<group>";
@@ -797,6 +820,7 @@
 				FE68409622F95BDA005B55DB /* en */,
 				FE68409A22F95D4A005B55DB /* nl */,
 				FE68409E22F95F12005B55DB /* en-US */,
+				FE6B48732306F4E300E1F522 /* it */,
 			);
 			name = MCTextFilter.xib;
 			sourceTree = "<group>";
@@ -807,6 +831,7 @@
 				FE3A196022FAEEE2005BED34 /* Base */,
 				FEC2C7FD22FAF4020014808E /* en */,
 				FEC2C7FE22FAF4810014808E /* nl */,
+				FED208CB230471FB0058C4CC /* it */,
 			);
 			name = MCCommandPanel.xib;
 			sourceTree = "<group>";
@@ -816,6 +841,7 @@
 			children = (
 				FEF8AFF822F5C83100603B84 /* nl */,
 				FEF8B00622F5C83700603B84 /* en */,
+				FE01E9102302BF1F00ECEB90 /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -825,6 +851,8 @@
 			children = (
 				FEF8AFED22F5C83100603B84 /* nl */,
 				FEF8B00122F5C83700603B84 /* en */,
+				FE45EB8723030F4900057039 /* Base */,
+				FE62A58F230764C100CE2F9A /* it */,
 			);
 			name = MCPresets.icns;
 			sourceTree = "<group>";
@@ -834,6 +862,7 @@
 			children = (
 				FEF8AFEB22F5C83100603B84 /* nl */,
 				FEF8AFFF22F5C83700603B84 /* en */,
+				FE45EB8623030F3900057039 /* Base */,
 			);
 			name = MediaConverterHelp;
 			sourceTree = "<group>";
@@ -845,6 +874,7 @@
 				FEF8B01F22F864B600603B84 /* en */,
 				FEF8B02122F86C4A00603B84 /* nl */,
 				FE68409D22F95F12005B55DB /* en-US */,
+				FE8F58D3230568B6001BE0D2 /* it */,
 			);
 			name = MCPresetEditPanel.xib;
 			sourceTree = "<group>";
@@ -863,6 +893,8 @@
 			children = (
 				FEF8AFF622F5C83100603B84 /* nl */,
 				FEF8B00422F5C83700603B84 /* en */,
+				FE45EB8823030FAB00057039 /* Base */,
+				FEC0455F230729C10055B6E9 /* it */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -873,6 +905,7 @@
 				FEF8AFFA22F5C83400603B84 /* Base */,
 				FEF8B01B22F8502B00603B84 /* en */,
 				FEF8B01D22F8546600603B84 /* nl */,
+				FE45EB852302FFEE00057039 /* it */,
 			);
 			name = MCPreferences.xib;
 			sourceTree = "<group>";
@@ -989,6 +1022,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

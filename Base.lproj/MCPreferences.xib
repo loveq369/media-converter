@@ -12,6 +12,7 @@
                 <outlet property="addTableView" destination="296" id="314"/>
                 <outlet property="advancedView" destination="6" id="62"/>
                 <outlet property="commandTextField" destination="38" id="0Ar-pd-YHb"/>
+                <outlet property="generalAutomaticUpdatesButton" destination="egp-j2-i2e" id="hyz-Lz-sqH"/>
                 <outlet property="generalView" destination="4" id="60"/>
                 <outlet property="presetsActionButton" destination="1528" id="1534"/>
                 <outlet property="presetsTableView" destination="45" id="79"/>
@@ -31,7 +32,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="FD93473F-4027-45CA-ACA8-4520AB459E5D" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="9Re-2S-mnw">
                 <allowedToolbarItems>
@@ -69,27 +70,19 @@
             <point key="canvasLocation" x="100" y="-604"/>
         </window>
         <customView id="4" userLabel="View (General)">
-            <rect key="frame" x="0.0" y="0.0" width="460" height="113"/>
+            <rect key="frame" x="0.0" y="0.0" width="460" height="107"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                    <rect key="frame" x="17" y="78" width="79" height="17"/>
+                    <rect key="frame" x="17" y="72" width="79" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Save Folder:" id="12">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="269">
-                    <rect key="frame" x="17" y="48" width="99" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Install Location:" id="270">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <popUpButton verticalHuggingPriority="750" tag="2" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                    <rect key="frame" x="98" y="73" width="131" height="25"/>
+                    <rect key="frame" x="98" y="67" width="131" height="25"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="22" id="14">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -106,25 +99,8 @@
                         <action selector="setPreferenceOption:" target="-2" id="76"/>
                     </connections>
                 </popUpButton>
-                <popUpButton verticalHuggingPriority="750" tag="3" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="263">
-                    <rect key="frame" x="118" y="43" width="131" height="25"/>
-                    <popUpButtonCell key="cell" type="push" title="Ask Every Time" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="266" id="264">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" title="OtherViews" id="265">
-                            <items>
-                                <menuItem title="Ask Every Time" state="on" id="266"/>
-                                <menuItem title="All Users" id="267"/>
-                                <menuItem title="Curent User" id="268"/>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                    <connections>
-                        <action selector="setPreferenceOption:" target="-2" id="271"/>
-                    </connections>
-                </popUpButton>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="654">
-                    <rect key="frame" x="17" y="18" width="165" height="17"/>
+                    <rect key="frame" x="17" y="45" width="165" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default Subtitle Language:" id="661">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -132,7 +108,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" tag="7" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="655" customClass="MCPopupButton">
-                    <rect key="frame" x="184" y="13" width="38" height="25"/>
+                    <rect key="frame" x="184" y="40" width="38" height="25"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="656">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -142,24 +118,34 @@
                         <action selector="setPreferenceOption:" target="-2" id="662"/>
                     </connections>
                 </popUpButton>
+                <button verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="egp-j2-i2e">
+                    <rect key="frame" x="17" y="18" width="288" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="Ni6-oU-oGN"/>
+                    </constraints>
+                    <buttonCell key="cell" type="check" title="Automatically download and install updates " bezelStyle="regularSquare" imagePosition="left" inset="2" id="n77-4y-PVc">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleAutomaticUpdates:" target="-2" id="Xfu-Wj-kVe"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstItem="11" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="19" id="0gS-TR-gQM"/>
-                <constraint firstItem="269" firstAttribute="centerY" secondItem="263" secondAttribute="centerY" id="7Et-2e-nIt"/>
                 <constraint firstItem="654" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="19" id="98H-XH-Vnt"/>
-                <constraint firstItem="655" firstAttribute="top" secondItem="263" secondAttribute="bottom" constant="9" id="IEn-zJ-ioW"/>
+                <constraint firstItem="655" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="6" id="FRX-AV-xPs"/>
+                <constraint firstItem="egp-j2-i2e" firstAttribute="top" secondItem="654" secondAttribute="bottom" constant="11" id="Ghw-18-gYl"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="19" id="Pyk-p4-mAu"/>
-                <constraint firstItem="263" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="9" id="RIY-Ns-ngt"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="263" secondAttribute="trailing" constant="20" id="VLz-Wr-70m"/>
                 <constraint firstItem="13" firstAttribute="leading" secondItem="11" secondAttribute="trailing" constant="6" id="WcQ-FK-xgH"/>
-                <constraint firstItem="263" firstAttribute="leading" secondItem="269" secondAttribute="trailing" constant="6" id="Xcv-Ki-gT8"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="655" secondAttribute="trailing" constant="20" id="Ygh-wQ-glr"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="egp-j2-i2e" secondAttribute="trailing" constant="20" id="ZOR-sw-HFT"/>
                 <constraint firstItem="11" firstAttribute="centerY" secondItem="13" secondAttribute="centerY" id="bnR-GX-mA2"/>
-                <constraint firstItem="269" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="19" id="osf-ME-Mky"/>
+                <constraint firstItem="egp-j2-i2e" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="19" id="iuI-5u-8eB"/>
+                <constraint firstAttribute="bottom" secondItem="egp-j2-i2e" secondAttribute="bottom" constant="20" id="lsV-CK-KGt"/>
                 <constraint firstItem="654" firstAttribute="centerY" secondItem="655" secondAttribute="centerY" id="paU-xY-B5E"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="top" constant="16" id="sQA-aj-9X0"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="13" secondAttribute="trailing" constant="20" id="u9H-hw-fbf"/>
-                <constraint firstAttribute="bottom" secondItem="655" secondAttribute="bottom" constant="16" id="vKF-Sl-P0j"/>
                 <constraint firstItem="655" firstAttribute="leading" secondItem="654" secondAttribute="trailing" constant="6" id="y3v-g1-C9E"/>
             </constraints>
             <point key="canvasLocation" x="110" y="-141"/>
@@ -339,11 +325,11 @@
             </constraints>
         </customView>
         <customView id="6" userLabel="View (Advanced)">
-            <rect key="frame" x="0.0" y="0.0" width="460" height="135"/>
+            <rect key="frame" x="0.0" y="0.0" width="460" height="157"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <button tag="4" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34">
-                    <rect key="frame" x="18" y="99" width="121" height="18"/>
+                    <rect key="frame" x="18" y="121" width="121" height="18"/>
                     <buttonCell key="cell" type="check" title="Turn on Logging" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="35">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -353,7 +339,7 @@
                     </connections>
                 </button>
                 <button tag="5" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="36">
-                    <rect key="frame" x="18" y="79" width="191" height="18"/>
+                    <rect key="frame" x="18" y="81" width="191" height="18"/>
                     <buttonCell key="cell" type="check" title="Use Custom FFmpeg Binary" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="37">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -363,7 +349,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="38">
-                    <rect key="frame" x="23" y="51" width="324" height="22"/>
+                    <rect key="frame" x="23" y="55" width="324" height="22"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="324" id="RIk-kb-E3c"/>
                     </constraints>
@@ -378,7 +364,7 @@
                     </connections>
                 </textField>
                 <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40">
-                    <rect key="frame" x="349" y="45" width="97" height="32"/>
+                    <rect key="frame" x="349" y="49" width="97" height="32"/>
                     <buttonCell key="cell" type="push" title="Choose…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="41">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -388,7 +374,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="664">
-                    <rect key="frame" x="164" y="13" width="133" height="32"/>
+                    <rect key="frame" x="164" y="17" width="133" height="32"/>
                     <buttonCell key="cell" type="push" title="Rebuild Fonts…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="665">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -397,25 +383,38 @@
                         <action selector="rebuildFonts:" target="-2" id="666"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" tag="8" translatesAutoresizingMaskIntoConstraints="NO" id="ust-jl-qeb">
+                    <rect key="frame" x="19" y="101" width="219" height="18"/>
+                    <buttonCell key="cell" type="check" title="Quit after Successful Convertion" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PUb-81-iQ3">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="setPreferenceOption:" target="-2" id="Nva-x1-pMA"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="664" secondAttribute="bottom" constant="20" id="3F3-b4-kpe"/>
+                <constraint firstItem="ust-jl-qeb" firstAttribute="top" secondItem="34" secondAttribute="bottom" constant="6" id="Cdg-hN-JuD"/>
+                <constraint firstItem="ust-jl-qeb" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="21" id="JkH-eB-pWu"/>
                 <constraint firstItem="664" firstAttribute="top" secondItem="38" secondAttribute="bottom" constant="10" id="KQF-Ug-M1B"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="34" secondAttribute="trailing" constant="20" id="LE4-3y-1NE"/>
                 <constraint firstItem="36" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="NoZ-sQ-3gl"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="36" secondAttribute="trailing" constant="20" id="PaP-vT-YFM"/>
-                <constraint firstItem="36" firstAttribute="top" secondItem="34" secondAttribute="bottom" constant="6" id="Pu7-eK-jqb"/>
+                <constraint firstItem="38" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="6" id="QeU-DM-33w"/>
+                <constraint firstItem="36" firstAttribute="top" secondItem="ust-jl-qeb" secondAttribute="bottom" constant="6" id="RlU-7V-P6i"/>
                 <constraint firstItem="40" firstAttribute="centerY" secondItem="38" secondAttribute="centerY" id="Wjo-o2-yZn"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ust-jl-qeb" secondAttribute="trailing" constant="20" id="Ysx-bG-9MI"/>
                 <constraint firstItem="34" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="ddI-El-tcy"/>
                 <constraint firstItem="664" firstAttribute="centerX" secondItem="6" secondAttribute="centerX" id="h41-6A-77D"/>
                 <constraint firstAttribute="trailing" secondItem="40" secondAttribute="trailing" constant="20" id="kWf-dV-z6B"/>
-                <constraint firstItem="38" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="8" id="mde-ZJ-VHP"/>
                 <constraint firstItem="40" firstAttribute="leading" secondItem="38" secondAttribute="trailing" constant="8" id="oWe-gd-Ccd"/>
                 <constraint firstItem="34" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="xbS-ll-ENV"/>
             </constraints>
             <point key="canvasLocation" x="110" y="-315"/>
         </customView>
-        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" visibleAtLaunch="NO" animationBehavior="default" id="291" userLabel="Add Panel" customClass="NSPanel">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="291" userLabel="Add Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="162" y="264" width="521" height="215"/>
@@ -460,7 +459,7 @@
                                                                 <constraint firstAttribute="height" constant="48" id="PFE-rb-weN"/>
                                                                 <constraint firstAttribute="width" constant="48" id="Q8K-y0-WOw"/>
                                                             </constraints>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Add Preset" id="V30-ZR-p08"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MCPresets" id="V30-ZR-p08"/>
                                                         </imageView>
                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="dHm-on-hqP">
                                                             <rect key="frame" x="66" y="11" width="36" height="42"/>
@@ -575,9 +574,9 @@ Gw
         </window>
     </objects>
     <resources>
-        <image name="Add Preset" width="128" height="128"/>
         <image name="Gear with arrow" width="30" height="24"/>
         <image name="General" width="128" height="128"/>
+        <image name="MCPresets" width="512" height="512"/>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="Presets" width="32" height="32"/>
     </resources>

@@ -14,10 +14,7 @@
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
-    if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) == NSDragOperationGeneric)
-        return NSDragOperationGeneric;
-    else
-        return NSDragOperationNone;
+    return NSDragOperationGeneric;
 }
 
 

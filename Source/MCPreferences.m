@@ -23,12 +23,14 @@
 #import "MCCommandPanel.h"
 #import "MCMainController.h"
 #import "MCPresetHelper.h"
+#import <Sparkle/Sparkle.h>
 
 @interface MCPreferences() <MCTableViewDelegate>
 
 /* Preferences views */
 // General
 @property (nonatomic, strong) IBOutlet NSView *generalView;
+@property (nonatomic, weak) IBOutlet NSButton *generalAutomaticUpdatesButton;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *saveFolderPopUp;
 @property (nonatomic, weak) IBOutlet MCPopupButton *subtitleLanguagePopup;
 // Presets
@@ -44,7 +46,7 @@
 @property (nonatomic, weak) IBOutlet NSTableView *addTableView;
 
 /* Toolbar outlets */
-@property (nonatomic, strong) IBOutlet NSToolbar *toolbar;
+@property (nonatomic, weak) IBOutlet NSToolbar *toolbar;
 
 /* Variables */
 @property (nonatomic, getter = isLoaded) BOOL loaded;
@@ -70,6 +72,7 @@
                                                                     @"MCUseCustomFFMPEG",    	    //5
                                                                     @"MCCustomFFMPEG",	    	    //6
                                                                     @"MCSubtitleLanguage",    	    //7
+                                                                    @"MCQuitAfterConvertion",       //8
 	    nil];
 	    
 	    _presetsData = [[NSMutableArray alloc] init];
@@ -116,6 +119,8 @@
     
     [[self subtitleLanguagePopup] setArray:subtitleLanguages];
     
+    [[self generalAutomaticUpdatesButton] setState:[[SUUpdater sharedUpdater] automaticallyChecksForUpdates]];
+    
     [self reloadPresets];
     
     NSTableView *presetsTableView = [self presetsTableView];
@@ -142,7 +147,7 @@
     
     NSToolbar *toolbar = [self toolbar];
     [toolbar setSelectedItemIdentifier:[standardDefaults objectForKey:@"MCSavedPrefView"]];
-    [self toolbarAction:[toolbar selectedItemIdentifier]];
+    [self toolbarAction:[self selectedToolbarItem]];
 
     [defaultCenter addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
     
@@ -216,6 +221,16 @@
 	    [standardDefaults setObject:object forKey:[[self preferenceMappings] objectAtIndex:tag - 1]];
     }
 }
+
+// General
+
+#pragma mark - General
+
+- (IBAction)toggleAutomaticUpdates:(NSButton *)sender
+{
+    [[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:[sender state]];
+}
+
 
 // PrefPane - Presets
 
@@ -403,7 +418,7 @@
 
 - (IBAction)goToPresetSite:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://media-converter.sourceforge.net/presets.html"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://media-converter.sourceforge.io/presets.html"]];
 }
 
 // PrefPane - Advanced
@@ -448,21 +463,18 @@
 #pragma mark -
 #pragma mark •• Toolbar actions
 
-- (IBAction)toolbarAction:(id)object
+- (IBAction)toolbarAction:(NSToolbarItem *)object
 {
-    id itemIdentifier;
-
-    if ([object isKindOfClass:[NSToolbarItem class]])
-	    itemIdentifier = [object itemIdentifier];
-    else
-	    itemIdentifier = object;
+    NSToolbarItemIdentifier itemIdentifier = [object itemIdentifier];
+    [[self toolbar] setSelectedItemIdentifier:itemIdentifier];
     
     id view = [self myViewWithIdentifier:itemIdentifier];
     NSRect frame = [view frame];
-    [[self window] setContentView:[[NSView alloc] initWithFrame:frame]];
+    NSWindow *window = [self window];
+    [window setContentView:[[NSView alloc] initWithFrame:frame]];
     [self resizeWindowOnSpotWithRect:frame];
-    [[self window] setContentView:view];
-    [[self window] setTitle:NSLocalizedString(itemIdentifier, Localized)];
+    [window setContentView:view];
+    [window setTitle:NSLocalizedString(itemIdentifier, Localized)];
     
     [self saveFrame];
 
@@ -472,11 +484,17 @@
 - (id)myViewWithIdentifier:(NSString *)identifier
 {
     if ([identifier isEqualTo:@"General"])
+    {
 	    return [self generalView];
+    }
     else if ([identifier isEqualTo:@"Presets"])
-	    return [self presetsView];
+    {
+        return [self presetsView];
+    }
     else if ([identifier isEqualTo:@"Advanced"])
-	    return [self advancedView];
+    {
+        return [self advancedView];
+    }
     
     return nil;
 }
@@ -793,6 +811,21 @@
 {
     NSInteger mode = [[notification object] integerValue];
     [(NSPopUpButton *)[[self generalView] viewWithTag:3] selectItemAtIndex:mode];
+}
+
+- (NSToolbarItem *)selectedToolbarItem
+{
+    NSToolbar *toolbar = [self toolbar];
+    NSToolbarItemIdentifier itemIdentifier = [toolbar selectedItemIdentifier];
+    for (NSToolbarItem *item in [toolbar items])
+    {
+        if ([[item itemIdentifier] isEqualToString:itemIdentifier])
+        {
+            return item;
+        }
+    }
+    
+    return nil;
 }
 
 @end

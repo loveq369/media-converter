@@ -1,0 +1,54 @@
+/* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "59"; */
+"59.title" = "Testo:";
+
+/* Class = "NSTextFieldCell"; title = "Text:"; ObjectID = "bvn-lG-y7B"; */
+"bvn-lG-y7B.title" = "Usa il menù modifica per modificare la tipologia di carattere";
+
+/* Class = "NSBox"; title = "Settings"; ObjectID = "55"; */
+"55.title" = "Impostazioni";
+
+/* Class = "NSTextFieldCell"; title = "Horizontal Alignment:"; ObjectID = "80"; */
+"80.title" = "Allineamento orizzontale:";
+
+/* Class = "NSTextFieldCell"; title = "Vertical Alignment:"; ObjectID = "83"; */
+"83.title" = "Allineamento verticale:";
+
+/* Class = "NSTextFieldCell"; title = "Margins:"; ObjectID = "86"; */
+"86.title" = "Margini:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "87"; */
+"87.title" = "Sinistra:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "93"; */
+"93.title" = "Destra:";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "90"; */
+"90.title" = "Superiore:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "92"; */
+"92.title" = "Anteriore:";
+
+/* Class = "NSTextFieldCell"; title = "Visibility: "; ObjectID = "240"; */
+"240.title" = "Visibilità:";
+
+/* Class = "NSTextFieldCell"; title = "Text Visibility Method:"; ObjectID = "223"; */
+"223.title" = "Testo visibilità:";
+
+// Method: Border
+
+/* Class = "NSTextFieldCell"; title = "Border Colour:"; ObjectID = "204"; */
+"204.title" = "Border Colour:";
+
+/* Class = "NSTextFieldCell"; title = "Border Thickness:"; ObjectID = "205"; */
+"205.title" = "Border Thickness:";
+
+// Method: Box
+
+/* Class = "NSTextFieldCell"; title = "Box Colour:"; ObjectID = "217"; */
+"217.title" = "Scatola di colori:";
+
+/* Class = "NSTextFieldCell"; title = "Box Margin:"; ObjectID = "216"; */
+"216.title" = "Box Margin:";
+
+/* Class = "NSTextFieldCell"; title = "Box Visibility:"; ObjectID = "220"; */
+"220.title" = "Visibilità scatola:";

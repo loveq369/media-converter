@@ -25,7 +25,7 @@
 	    [centeredStyle setAlignment:NSCenterTextAlignment];
 	    NSDictionary *attsDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:0], NSFontAttributeName, centeredStyle, NSParagraphStyleAttributeName, [NSColor whiteColor], NSForegroundColorAttributeName, [NSNumber numberWithInteger:NSUnderlineStyleNone], NSUnderlineStyleAttributeName, nil];
 	    NSRect myFrame = [self frame];
-	    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Resizing... (%ix%i)", nil), (NSInteger)myFrame.size.width, (NSInteger)myFrame.size.height] attributes:attsDict];
+	    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%ix%i", nil), (NSInteger)myFrame.size.width, (NSInteger)myFrame.size.height] attributes:attsDict];
 	    NSRect frame = [MCCommonMethods frameForStringDrawing:attrStr forWidth:dirtyRect.size.width];
 	    [attrStr drawInRect:NSMakeRect(0, (dirtyRect.size.height - frame.size.height) / 2, dirtyRect.size.width, frame.size.height)];
     }

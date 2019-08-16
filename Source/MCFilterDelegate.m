@@ -153,14 +153,13 @@
 
     	    NSMutableDictionary *filterDictionary = [NSMutableDictionary dictionaryWithDictionary:selectedObject];
     	    
-    	    NSString *oldIdentifier = [filterDictionary objectForKey:@"Identifier"];
-    	    NSString *newIdentifier = [NSString stringWithFormat:NSLocalizedString(@"%@ copy", nil), oldIdentifier];
-    	    [filterDictionary setObject:newIdentifier forKey:@"Identifier"];
+    	    NSString *identifier = [filterDictionary objectForKey:@"Identifier"];
+    	    [filterDictionary setObject:identifier forKey:@"Identifier"];
     	    
     	    NSInteger uniqueInt = 2;
     	    while ([tableData containsObject:filterDictionary])
     	    {
-                [filterDictionary setObject:[NSString stringWithFormat:@"%@ %li", newIdentifier, (long)uniqueInt] forKey:@"Identifier"];
+                [filterDictionary setObject:[NSString stringWithFormat:@"%@ %li", identifier, (long)uniqueInt] forKey:@"Identifier"];
 	    	    uniqueInt = uniqueInt + 1;
     	    }
     	    
