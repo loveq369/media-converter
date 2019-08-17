@@ -62,7 +62,6 @@
 		FEA8CF6913227D3C00C10516 /* MCCommandPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE77D9E1131941C500731569 /* MCCommandPanel.m */; };
 		FEA8CF6E13227D3C00C10516 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		FEA8D4FF1322AD4E00C10516 /* Donation in Resources */ = {isa = PBXBuildFile; fileRef = FEA8D4F71322AD4E00C10516 /* Donation */; };
-		FEC2C80D22FB3DA20014808E /* fondu in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80022FB3DA10014808E /* fondu */; };
 		FEC2C80E22FB3DA20014808E /* oggz-merge in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80122FB3DA10014808E /* oggz-merge */; };
 		FEC2C80F22FB3DA20014808E /* katedec in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80222FB3DA10014808E /* katedec */; };
 		FEC2C81022FB3DA20014808E /* kateenc in Resources */ = {isa = PBXBuildFile; fileRef = FEC2C80322FB3DA10014808E /* kateenc */; };
@@ -210,7 +209,6 @@
 		FEC0455F230729C10055B6E9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = it.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FEC2C7FD22FAF4020014808E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCCommandPanel.strings; sourceTree = "<group>"; };
 		FEC2C7FE22FAF4810014808E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MCCommandPanel.strings; sourceTree = "<group>"; };
-		FEC2C80022FB3DA10014808E /* fondu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = fondu; path = Binaries/fondu; sourceTree = "<group>"; };
 		FEC2C80122FB3DA10014808E /* oggz-merge */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "oggz-merge"; path = "Binaries/oggz-merge"; sourceTree = "<group>"; };
 		FEC2C80222FB3DA10014808E /* katedec */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = katedec; path = Binaries/katedec; sourceTree = "<group>"; };
 		FEC2C80322FB3DA10014808E /* kateenc */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = kateenc; path = Binaries/kateenc; sourceTree = "<group>"; };
@@ -495,7 +493,6 @@
 			children = (
 				FEB4483A1689F32300938559 /* Readme.txt */,
 				FEC2C80922FB3DA20014808E /* ffmpeg */,
-				FEC2C80022FB3DA10014808E /* fondu */,
 				FEC2C80222FB3DA10014808E /* katedec */,
 				FEC2C80322FB3DA10014808E /* kateenc */,
 				FEC2C80822FB3DA20014808E /* mkvextract */,
@@ -725,7 +722,6 @@
 				FEC2C81122FB3DA20014808E /* mkvinfo in Resources */,
 				FEDB79111688743400745F56 /* LanguageConversion.plist in Resources */,
 				FEC2C81422FB3DA20014808E /* oggz-info in Resources */,
-				FEC2C80D22FB3DA20014808E /* fondu in Resources */,
 				FEC2C81022FB3DA20014808E /* kateenc in Resources */,
 				FEC2C81822FB3DA20014808E /* MP4Box in Resources */,
 				FE0F4B10168F54A600D398C0 /* Create Preset.png in Resources */,
