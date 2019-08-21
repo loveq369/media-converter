@@ -163,12 +163,12 @@ static MCPresetEditPanel *_defaultManager = nil;
     
     if (options[@"-vn"] != nil)
     {
-        [[self videoFormatPopUp] selectItemAtIndex:1];
+        [[self videoFormatPopUp] selectItemAtIndex:2];
     }
     
     if (options[@"-an"] != nil)
     {
-        [[self audioFormatPopUp] selectItemAtIndex:1];
+        [[self audioFormatPopUp] selectItemAtIndex:2];
     }
 
     [self setExtraOptions:[presetDictionary[@"Extra Options"] mutableCopy]];
@@ -358,7 +358,50 @@ static MCPresetEditPanel *_defaultManager = nil;
 	    	    
     	    return;
 	    }
-        else if (![settings isEqualToString:@"automatic"])
+        else if ([settings isEqualToString:@"automatic"])
+        {
+            if ([option isEqualTo:@"-acodec"])
+            {
+                NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-an"]];
+                
+                if (index != NSNotFound)
+                {
+                    [advancedOptions removeObjectAtIndex:index];
+                }
+                
+                NSString *codec = advancedOptions[@"-acodec"];
+                if (codec != nil)
+                {
+                    index = [advancedOptions indexOfObject:@{@"-acodec": advancedOptions[@"-acodec"]}];
+                    
+                    if (index != NSNotFound)
+                    {
+                        [advancedOptions removeObjectAtIndex:index];
+                    }
+                }
+            }
+            else if ([option isEqualTo:@"-vcodec"])
+            {
+                NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-vn"]];
+                
+                if (index != NSNotFound)
+                {
+                    [advancedOptions removeObjectAtIndex:index];
+                }
+                
+                NSString *codec = advancedOptions[@"-vcodec"];
+                if (codec != nil)
+                {
+                    index = [advancedOptions indexOfObject:@{@"-vcodec": advancedOptions[@"-vcodec"]}];
+                    
+                    if (index != NSNotFound)
+                    {
+                        [advancedOptions removeObjectAtIndex:index];
+                    }
+                }
+            }
+        }
+        else
         {
             if ([option isEqualTo:@"-acodec"])
             {
@@ -387,8 +430,12 @@ static MCPresetEditPanel *_defaultManager = nil;
     	    settings = [sender stringValue];
         }
     }
-
-    [advancedOptions setObject:settings forKey:option];
+    
+    if (![settings isEqualToString:@"automatic"])
+    {
+        [advancedOptions setObject:settings forKey:option];
+    }
+    
     [[self advancedTableView] reloadData];
 }
 

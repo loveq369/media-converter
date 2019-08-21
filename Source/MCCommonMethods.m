@@ -924,4 +924,24 @@ BOOL isAppearanceIsDark(NSAppearance * appearance)
     }
 }
 
++ (NSInteger)getVersionForString:(NSString *)versionString
+{
+    NSArray *components = [versionString componentsSeparatedByString:@"."];
+    NSInteger version = 0;
+    if ([components count] > 0)
+    {
+        version += [components[0] integerValue] * 100;
+    }
+    if ([components count] > 1)
+    {
+        version += [components[1] integerValue] * 10;
+    }
+    if ([components count] > 2)
+    {
+        version += [components[2] integerValue] * 1;
+    }
+    
+    return version;
+}
+
 @end

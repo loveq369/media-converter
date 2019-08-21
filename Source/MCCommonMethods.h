@@ -69,4 +69,6 @@ BOOL isAppearanceIsDark(NSAppearance * appearance);
 
 + (BOOL)isVoiceOverEnabled;
 
++ (NSInteger)getVersionForString:(NSString *)versionString;
+
 @end

@@ -285,10 +285,12 @@
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
-    CGFloat lastCheck = [[standardDefaults objectForKey:@"MCLastCheck"] doubleValue];
+    id lastCheckObject = [standardDefaults objectForKey:@"MCLastCheck"];
+    NSString *lastCheckString = [lastCheckObject isKindOfClass:[NSString class]] ? lastCheckObject : [(NSNumber *)lastCheckObject stringValue];
+    NSInteger lastCheck = [MCCommonMethods getVersionForString:lastCheckString];
     NSInteger returnCode;
     
-    if (lastCheck < 1.2)
+    if (lastCheck < 120)
     {
         // Check for old presets
         NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
@@ -404,7 +406,7 @@
         }
     }
     
-    if (lastCheck < 2.0)
+    if (lastCheck < 202)
     {
         // Update presets to work with newer versions of FFmpeg (4.2 currently)
         NSArray *presets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
@@ -414,7 +416,7 @@
         }
         
         //Update "MCLastCheck" so we'll won't check again
-        [standardDefaults setObject:@(2.0) forKey:@"MCLastCheck"];
+        [standardDefaults setObject:@"2.0.2" forKey:@"MCLastCheck"];
     }
 }
 

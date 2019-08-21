@@ -122,9 +122,14 @@
 - (void)updatePresetAtPath:(NSString *)path
 {
     NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    if ([preset[@"Version"] doubleValue] < 2.0)
+
+    id versionObject = preset[@"Version"];
+    NSString *versionString = [versionObject isKindOfClass:[NSString class]] ? versionObject : [(NSNumber *)versionObject stringValue];
+    NSInteger version = [MCCommonMethods getVersionForString:versionString];
+    
+    if (version < 200)
     {
-        [preset setObject:@(2.0) forKey:@"Version"];
+        [preset setObject:@"2.0.2" forKey:@"Version"];
 
         NSMutableArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
 
@@ -166,9 +171,67 @@
             {
                 [modifiedEncoderOptions addObject:@{@"-acodec": @"aac"}];
             }
-            else if ((!([key isEqualToString:@"flags"] && [value isEqualToString:@"+loop+slice"])) && (!([key isEqualToString:@"rc_eq"] && [value isEqualToString:@"'blurCplx^(1-qComp)'"])))
+            else if (   (!([key isEqualToString:@"flags"] && [value isEqualToString:@"+loop+slice"])) &&
+                        (!([key isEqualToString:@"rc_eq"] && [value isEqualToString:@"'blurCplx^(1-qComp)'"])) &&
+                        (![key isEqualToString:@"-acodec"] && [value isEqualToString:@"automatic"]) &&
+                        (![key isEqualToString:@"-vcodec"] && [value isEqualToString:@"automatic"]))
             {
                 [modifiedEncoderOptions addObject:dictionary];
+            }
+        }
+
+        [preset setObject:modifiedEncoderOptions forKey:@"Encoder Options"];
+
+        [preset writeToFile:path atomically:YES];
+        [MCCommonMethods writeDictionary:preset toFile:path errorString:nil];
+    }
+    else if (version < 202)
+    {
+        [preset setObject:@"2.0.2" forKey:@"Version"];
+
+        NSMutableArray *encoderOptions = [preset objectForKey:@"Encoder Options"];
+
+        NSMutableArray *modifiedEncoderOptions = [[NSMutableArray alloc] init];
+        
+        BOOL automaticAudio = NO;
+        BOOL automaticVideo = NO;
+        
+        for (NSDictionary *dictionary in encoderOptions)
+        {
+            NSString *key = [dictionary allKeys][0];
+            id value = dictionary[key];
+            
+            if ([key isEqualToString:@"-acodec"] && [value isEqualToString:@"automatic"])
+            {
+                automaticAudio = YES;
+            }
+            else if ([key isEqualToString:@"-vcodec"] && [value isEqualToString:@"automatic"])
+            {
+                automaticVideo = YES;
+            }
+            else
+            {
+                [modifiedEncoderOptions addObject:dictionary];
+            }
+        }
+        
+        if (automaticAudio)
+        {
+            NSInteger index = [modifiedEncoderOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-an"]];
+            
+            if (index != NSNotFound)
+            {
+                [modifiedEncoderOptions removeObjectAtIndex:index];
+            }
+        }
+        
+        if (automaticVideo)
+        {
+            NSInteger index = [modifiedEncoderOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-vn"]];
+            
+            if (index != NSNotFound)
+            {
+                [modifiedEncoderOptions removeObjectAtIndex:index];
             }
         }
 
