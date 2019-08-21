@@ -160,6 +160,16 @@ static MCPresetEditPanel *_defaultManager = nil;
     NSPanel *presetsPanel = [self presetsPanel];
 
     [MCCommonMethods setViewOptions:[NSArray arrayWithObject:[presetsPanel contentView]] infoObject:options fallbackInfo:nil mappingsObject:[self viewMappings] startCount:0];
+    
+    if (options[@"-vn"] != nil)
+    {
+        [[self videoFormatPopUp] selectItemAtIndex:1];
+    }
+    
+    if (options[@"-an"] != nil)
+    {
+        [[self audioFormatPopUp] selectItemAtIndex:1];
+    }
 
     [self setExtraOptions:[presetDictionary[@"Extra Options"] mutableCopy]];
     
@@ -348,24 +358,27 @@ static MCPresetEditPanel *_defaultManager = nil;
 	    	    
     	    return;
 	    }
-	    else if ([option isEqualTo:@"-acodec"])
-	    {
-    	    NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-an"]];
-    	    
-    	    if (index != NSNotFound)
+        else if (![settings isEqualToString:@"automatic"])
+        {
+            if ([option isEqualTo:@"-acodec"])
             {
-	    	    [advancedOptions removeObjectAtIndex:index];
+                NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-an"]];
+                
+                if (index != NSNotFound)
+                {
+                    [advancedOptions removeObjectAtIndex:index];
+                }
             }
-	    }
-	    else if ([option isEqualTo:@"-vcodec"])
-	    {
-    	    NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-vn"]];
-    	    
-    	    if (index != NSNotFound)
+            else if ([option isEqualTo:@"-vcodec"])
             {
-	    	    [advancedOptions removeObjectAtIndex:index];
+                NSInteger index = [advancedOptions indexOfObject:[NSDictionary dictionaryWithObject:@"" forKey:@"-vn"]];
+                
+                if (index != NSNotFound)
+                {
+                    [advancedOptions removeObjectAtIndex:index];
+                }
             }
-	    }
+        }
     }
     else
     {
@@ -438,6 +451,13 @@ static MCPresetEditPanel *_defaultManager = nil;
     	    [newPresets replaceObjectAtIndex:[newPresets indexOfObject:currentPresetPath] withObject:newPresetPath];
     	    [standardDefaults setObject:newPresets forKey:@"MCPresets"];
 	    }
+        else
+        {
+            NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+            NSMutableArray *newPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"MCPresets"]];
+            [newPresets addObject:currentPresetPath];
+            [standardDefaults setObject:newPresets forKey:@"MCPresets"];
+        }
     }
     
     [[presetsPanel sheetParent] endSheet:presetsPanel returnCode:result];
@@ -728,12 +748,15 @@ static MCPresetEditPanel *_defaultManager = nil;
 - (void)setupPopups
 {
     MCConverter *converter = [[MCConverter alloc] init];
-    [[self containerPopUp] setArray:[converter getFormats]];
+    NSString *automaticString = NSLocalizedString(@"preset-panel-pop-up-automatic", nil);
+    NSMutableArray *formats = [[NSMutableArray alloc] initWithObjects:@{@"Name": automaticString, @"Format": @"automatic"}, @{@"Name": @"", @"Format": @""}, nil];
+    [formats addObjectsFromArray:[converter getFormats]];
+    [[self containerPopUp] setArray:formats];
     
     NSArray *videoCodecs = [NSArray arrayWithArray:[converter getCodecsOfType:@"V"]];
     NSMutableArray *audioCodecs = [NSMutableArray arrayWithArray:[converter getCodecsOfType:@"A"]];
-    NSArray *codecsNames = [NSArray arrayWithObjects:NSLocalizedString(@"Disable", nil), NSLocalizedString(@"Passthrough", nil), @"", nil];
-    NSArray *codecsFormats = [NSArray arrayWithObjects:@"none", @"copy", @"", nil];
+    NSArray *codecsNames = [NSArray arrayWithObjects:NSLocalizedString(@"preset-panel-pop-up-automatic", nil), @"", NSLocalizedString(@"Disable", nil), NSLocalizedString(@"Passthrough", nil), @"", nil];
+    NSArray *codecsFormats = [NSArray arrayWithObjects:@"automatic", @"", @"none", @"copy", @"", nil];
     
     NSMutableArray *videoPopupItems = [MCCommonMethods popupArrayWithNames:codecsNames forFormats:codecsFormats];
     NSMutableArray *audioPopupItems = [NSMutableArray arrayWithArray:videoPopupItems];

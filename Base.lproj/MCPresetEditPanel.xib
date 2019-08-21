@@ -50,8 +50,8 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="162" y="-3" width="651" height="519"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-            <view key="contentView" misplaced="YES" id="83">
-                <rect key="frame" x="0.0" y="0.0" width="651" height="519"/>
+            <view key="contentView" id="83">
+                <rect key="frame" x="0.0" y="0.0" width="620" height="519"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button hidden="YES" horizontalHuggingPriority="249" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="189" customClass="MCCrippledButton">
@@ -970,6 +970,10 @@ Gw
         </window>
         <customObject id="214" customClass="MCAdvancedOptionsDelegate">
             <connections>
+                <outlet property="accessibilityAddButton" destination="tCS-ck-PNf" id="xuQ-Mo-hqV"/>
+                <outlet property="accessibilityAddOptionTextField" destination="Ssg-PY-Rrb" id="OaE-gH-lkO"/>
+                <outlet property="accessibilityAddPanel" destination="jd6-cP-Jxf" id="Kof-oC-34F"/>
+                <outlet property="accessibilityAddSettingTextField" destination="7Va-VB-4ba" id="mMT-H3-str"/>
                 <outlet property="presetManager" destination="-2" id="258"/>
                 <outlet property="tableView" destination="98" id="245"/>
             </connections>
@@ -1011,7 +1015,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="254.5" y="87"/>
+            <point key="canvasLocation" x="380" y="341"/>
         </window>
         <view id="1185" userLabel="Hardcoded Subtitle View">
             <rect key="frame" x="0.0" y="0.0" width="549" height="270"/>
@@ -1834,6 +1838,116 @@ Gw
                 <outlet property="tableView" destination="1411" id="1416"/>
             </connections>
         </customObject>
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="jd6-cP-Jxf" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="272" y="172" width="349" height="88"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="KSX-aK-dz2">
+                <rect key="frame" x="0.0" y="0.0" width="349" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ajF-Ev-r78">
+                        <rect key="frame" x="18" y="52" width="49" height="17"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Option:" id="uUr-9p-vpK">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ssg-PY-Rrb">
+                        <rect key="frame" x="73" y="49" width="96" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="96" id="nTV-KA-bYp"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="wpb-u1-7Ik">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <accessibility help="Advanced FFmpeg option to add"/>
+                        <connections>
+                            <action selector="updateAddButton:" target="214" id="zjE-ce-5qH"/>
+                            <outlet property="delegate" destination="214" id="Itn-lB-AM9"/>
+                        </connections>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oco-Ev-b0e">
+                        <rect key="frame" x="175" y="52" width="52" height="17"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Setting:" id="bwa-vP-7Bn">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Va-VB-4ba">
+                        <rect key="frame" x="233" y="49" width="96" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="96" id="EIA-Qe-15I"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="8tS-g5-tsF">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <accessibility help="Advanced FFmpeg setting to add"/>
+                        <connections>
+                            <action selector="updateAddButton:" target="214" id="Phx-H4-0bY"/>
+                            <outlet property="delegate" destination="214" id="ake-aK-q4j"/>
+                        </connections>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tCS-ck-PNf">
+                        <rect key="frame" x="227" y="6" width="108" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="2RY-bq-CPn"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zR2-fX-edv">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                            <connections>
+                                <action selector="add:" target="214" id="AR8-zz-orf"/>
+                            </connections>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eON-R7-fAd">
+                        <rect key="frame" x="119" y="6" width="108" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="nyU-01-1Zx"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xem-bL-841">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancelAdd:" target="214" id="jIr-C2-DXH"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="oco-Ev-b0e" firstAttribute="leading" secondItem="Ssg-PY-Rrb" secondAttribute="trailing" constant="8" id="1sE-jx-guj"/>
+                    <constraint firstItem="ajF-Ev-r78" firstAttribute="centerY" secondItem="Ssg-PY-Rrb" secondAttribute="centerY" id="36k-Wn-jxh"/>
+                    <constraint firstAttribute="trailing" secondItem="tCS-ck-PNf" secondAttribute="trailing" constant="20" id="4FD-zQ-6M0"/>
+                    <constraint firstItem="tCS-ck-PNf" firstAttribute="leading" secondItem="eON-R7-fAd" secondAttribute="trailing" constant="12" id="HeF-lg-YCY"/>
+                    <constraint firstAttribute="bottom" secondItem="tCS-ck-PNf" secondAttribute="bottom" constant="13" id="ODb-kx-Chf"/>
+                    <constraint firstItem="7Va-VB-4ba" firstAttribute="centerY" secondItem="oco-Ev-b0e" secondAttribute="centerY" id="Oue-bI-RL8"/>
+                    <constraint firstItem="Ssg-PY-Rrb" firstAttribute="leading" secondItem="ajF-Ev-r78" secondAttribute="trailing" constant="8" id="P5n-m9-xsD"/>
+                    <constraint firstItem="eON-R7-fAd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KSX-aK-dz2" secondAttribute="leading" constant="20" id="UNV-0c-Dti"/>
+                    <constraint firstItem="oco-Ev-b0e" firstAttribute="centerY" secondItem="Ssg-PY-Rrb" secondAttribute="centerY" id="XAm-Rl-L6K"/>
+                    <constraint firstItem="Ssg-PY-Rrb" firstAttribute="top" secondItem="KSX-aK-dz2" secondAttribute="top" constant="17" id="Y1F-S7-eje"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Va-VB-4ba" secondAttribute="trailing" constant="20" id="jyG-8D-hsG"/>
+                    <constraint firstItem="7Va-VB-4ba" firstAttribute="leading" secondItem="oco-Ev-b0e" secondAttribute="trailing" constant="8" id="k7Z-UZ-0Lg"/>
+                    <constraint firstItem="ajF-Ev-r78" firstAttribute="leading" secondItem="KSX-aK-dz2" secondAttribute="leading" constant="20" id="on9-M0-qHS"/>
+                    <constraint firstItem="tCS-ck-PNf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KSX-aK-dz2" secondAttribute="leading" constant="20" id="rDl-vI-55I"/>
+                    <constraint firstItem="eON-R7-fAd" firstAttribute="centerY" secondItem="tCS-ck-PNf" secondAttribute="centerY" id="xnT-Y9-QlT"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="-322.5" y="-98"/>
+        </window>
     </objects>
     <resources>
         <image name="Gear with arrow" width="30" height="24"/>

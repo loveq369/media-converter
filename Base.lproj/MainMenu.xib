@@ -534,7 +534,7 @@
                         </popUpButtonCell>
                         <accessibility description="Preset Pop Up menu" help="Select the preset you want to use when converting media files"/>
                         <connections>
-                            <action selector="setPresetPopup:" target="483" id="501"/>
+                            <action selector="selectPreset" target="483" id="501"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="468">

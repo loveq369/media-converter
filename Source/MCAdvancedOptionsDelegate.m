@@ -7,6 +7,7 @@
 
 #import "MCAdvancedOptionsDelegate.h"
 #import "MCPresetEditPanel.h"
+#import "MCCommonMethods.h"
 
 @interface MCAdvancedOptionsDelegate()
 
@@ -14,6 +15,11 @@
 @property (nonatomic, weak) IBOutlet MCPresetEditPanel *presetManager;
 
 @property (nonatomic, strong) NSMutableArray *tableData;
+
+@property (nonatomic, strong) IBOutlet NSPanel *accessibilityAddPanel;
+@property (nonatomic, weak) IBOutlet NSTextField *accessibilityAddOptionTextField;
+@property (nonatomic, weak) IBOutlet NSTextField *accessibilityAddSettingTextField;
+@property (nonatomic, weak) IBOutlet NSButton *accessibilityAddButton;
 
 @end
 
@@ -36,12 +42,31 @@
     NSTableView *tableView = [self tableView];
     NSMutableArray *tableData = [self tableData];
     
-    [tableData addObject:[NSDictionary dictionaryWithObject:@"" forKey:@""]];
-    [tableView reloadData];
+    if ([MCCommonMethods isVoiceOverEnabled])
+    {
+        [[self accessibilityAddOptionTextField] setStringValue:@""];
+        [[self accessibilityAddSettingTextField] setStringValue:@""];
+        [[self accessibilityAddButton] setEnabled:NO];
+        [[self accessibilityAddPanel] makeFirstResponder:[self accessibilityAddOptionTextField]];
     
-    NSInteger lastRow = [tableData count] - 1;
-    [tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:lastRow] byExtendingSelection:NO];
-    [tableView editColumn:0 row:lastRow withEvent:nil select:YES];
+        [[[self presetManager] presetsPanel] beginSheet:[self accessibilityAddPanel] completionHandler:^(NSModalResponse returnCode)
+        {
+            if (returnCode == NSModalResponseOK)
+            {
+                [tableData addObject:@{[[self accessibilityAddOptionTextField] stringValue]: [[self accessibilityAddSettingTextField] stringValue]}];
+                [tableView reloadData];
+            }
+        }];
+    }
+    else
+    {
+        [tableData addObject:[NSDictionary dictionaryWithObject:@"" forKey:@""]];
+        [tableView reloadData];
+        
+        NSInteger lastRow = [tableData count] - 1;
+        [tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:lastRow] byExtendingSelection:NO];
+        [tableView editColumn:0 row:lastRow withEvent:nil select:YES];
+    }
 }
 
 - (IBAction)removeOption:(id)sender
@@ -78,6 +103,38 @@
     return [self tableData];
 }
 
+///////////////////////////
+// Accessibility actions //
+///////////////////////////
+
+#pragma mark -
+#pragma mark •• Accessibility actions
+
+- (void)controlTextDidChange:(NSNotification *)notification
+{
+    [self updateAddButton:nil];
+}
+
+- (IBAction)updateAddButton:(id)sender
+{
+    BOOL enabled = (![[[self accessibilityAddOptionTextField] stringValue] isEqualToString:@""]) && (![[[self accessibilityAddSettingTextField] stringValue] isEqualToString:@""]);
+    [[self accessibilityAddButton] setEnabled:enabled];
+}
+
+- (IBAction)add:(id)sender
+{
+    NSPanel *accessibilityAddPanel = [self accessibilityAddPanel];
+    [accessibilityAddPanel orderOut:nil];
+    [[[self presetManager] presetsPanel] endSheet:accessibilityAddPanel returnCode:NSModalResponseOK];
+}
+
+- (IBAction)cancelAdd:(id)sender
+{
+    NSPanel *accessibilityAddPanel = [self accessibilityAddPanel];
+    [accessibilityAddPanel orderOut:nil];
+    [[[self presetManager] presetsPanel] endSheet:accessibilityAddPanel returnCode:NSModalResponseCancel];
+}
+
 //////////////////////
 // Tableview actions //
 ///////////////////////
@@ -100,15 +157,19 @@
     NSString *identifier = [tableColumn identifier];
     
     if ([identifier isEqualTo:@"option"])
+    {
 	    return currentKey;
+    }
     else
+    {
 	    return [currentDictionary objectForKey:currentKey];
+    }
 }
 
 //We don't want to make people change our row values
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return YES;
+    return ![MCCommonMethods isVoiceOverEnabled];
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -124,16 +185,16 @@
     MCPresetEditPanel *windowController = [self presetManager];
     if ([identifier isEqualTo:@"option"])
     {
-	    id currentObject = [currentDictionary objectForKey:currentKey];
-	    newDictionary = [NSDictionary dictionaryWithObject:currentObject forKey:anObject];
-	    
-	    [windowController updateForKey:currentKey withProperty:nil];
-	    [windowController updateForKey:anObject withProperty:currentObject];
+        id currentObject = [currentDictionary objectForKey:currentKey];
+        newDictionary = [NSDictionary dictionaryWithObject:currentObject forKey:anObject];
+        
+        [windowController updateForKey:currentKey withProperty:nil];
+        [windowController updateForKey:anObject withProperty:currentObject];
     }
     else
     {
-	    newDictionary = [NSDictionary dictionaryWithObject:anObject forKey:currentKey];
-	    [windowController updateForKey:currentKey withProperty:anObject];
+        newDictionary = [NSDictionary dictionaryWithObject:anObject forKey:currentKey];
+        [windowController updateForKey:currentKey withProperty:anObject];
     }
 
     [tableData replaceObjectAtIndex:currentIndex withObject:newDictionary];

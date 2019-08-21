@@ -165,6 +165,24 @@
 /* Class = "NSButton"; ibExternalAccessibilityHelp = "Add option to the list"; ObjectID = "197"; */
 "197.ibExternalAccessibilityHelp" = "Voeg optie toe aan de lijst";
 
+/* Class = "NSTextFieldCell"; title = "Option"; ObjectID = "uUr-9p-vpK"; */
+"uUr-9p-vpK.title" = "Optie";
+
+/* Class = "NSTextFieldCell"; title = "Setting"; ObjectID = "bwa-vP-7Bn"; */
+"bwa-vP-7Bn.title" = "Instelling";
+
+/* Class = "NSTextField"; title = "Advanced FFmpeg option to add"; ObjectID = "Ssg-PY-Rrb"; */
+"Ssg-PY-Rrb.ibExternalAccessibilityHelp" = "Geavanceerde FFmpeg optie om toe te voegen";
+
+/* Class = "NSTextField"; title = "Advanced FFmpeg setting to add"; ObjectID = "7Va-VB-4ba"; */
+"7Va-VB-4ba.ibExternalAccessibilityHelp" = "Geavanceerde FFmpeg instelling om toe te voegen";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "xem-bL-841"; */
+"xem-bL-841.title" = "Annuleer";
+
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "zR2-fX-edv"; */
+"zR2-fX-edv.title" = "Voeg toe";
+
 // Bottom preset panel
 
 /* Class = "NSButtonCell"; title = "Add"; ObjectID = "85"; */

@@ -67,4 +67,6 @@ BOOL isAppearanceIsDark(NSAppearance * appearance);
 
 + (NSMutableArray *)popupArrayWithNames:(NSArray *)names forFormats:(NSArray *)formats;
 
++ (BOOL)isVoiceOverEnabled;
+
 @end

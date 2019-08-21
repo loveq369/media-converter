@@ -142,28 +142,46 @@
 "105.title" = "Opzioni avanzate di fmpeg:";
 
 /* Class = "NSTableColumn"; headerCell.title = "Option"; ObjectID = "100"; */
-"100.headerCell.title" = "Option";
+"100.headerCell.title" = "Opzioni";
 
 /* Class = "NSTableColumn"; headerCell.title = "Setting"; ObjectID = "101"; */
-"101.headerCell.title" = "Setting";
+"101.headerCell.title" = "Impostazioni";
 
 /* Class = "NSTableView"; ibExternalAccessibilityDescription = "Advanced Options List"; ObjectID = "98"; */
-"98.ibExternalAccessibilityDescription" = "Advanced Options List";
+"98.ibExternalAccessibilityDescription" = "Lista di opzioni avanzate di FFmpeg";
 
 /* Class = "NSTableView"; ibExternalAccessibilityHelp = "A list of advanced FFmpeg options"; ObjectID = "98"; */
-"98.ibExternalAccessibilityHelp" = "A list of advanced FFmpeg options";
+"98.ibExternalAccessibilityHelp" = "Questa lista contiene le opzioni avanzate di FFmpeg";
 
 /* Class = "NSButton"; ibExternalAccessibilityDescription = "Delete"; ObjectID = "190"; */
 "190.ibExternalAccessibilityDescription" = "Rimuovi";
 
 /* Class = "NSButton"; ibExternalAccessibilityHelp = "Delete selected option from the list"; ObjectID = "190"; */
-"190.ibExternalAccessibilityHelp" = "Delete selected option from the list";
+"190.ibExternalAccessibilityHelp" = "Elimina l’opzione selezionata dalla lista";
 
 /* Class = "NSButton"; ibExternalAccessibilityDescription = "Add"; ObjectID = "197"; */
 "197.ibExternalAccessibilityDescription" = "Aggiungi";
 
 /* Class = "NSButton"; ibExternalAccessibilityHelp = "Add option to the list"; ObjectID = "197"; */
-"197.ibExternalAccessibilityHelp" = "Add option to the list";
+"197.ibExternalAccessibilityHelp" = "Aggiungi l'opzione alla lista";
+
+/* Class = "NSTextFieldCell"; title = "Option"; ObjectID = "uUr-9p-vpK"; */
+"uUr-9p-vpK.title" = "Opzioni";
+
+/* Class = "NSTextFieldCell"; title = "Setting"; ObjectID = "bwa-vP-7Bn"; */
+"bwa-vP-7Bn.title" = "Impostazioni";
+
+/* Class = "NSTextField"; title = "Advanced FFmpeg option to add"; ObjectID = "Ssg-PY-Rrb"; */
+"Ssg-PY-Rrb.ibExternalAccessibilityHelp" = "Aggiungi opzioni";
+
+/* Class = "NSTextField"; title = "Advanced FFmpeg setting to add"; ObjectID = "7Va-VB-4ba"; */
+"7Va-VB-4ba.ibExternalAccessibilityHelp" = "Aggiungi impostazioni";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "xem-bL-841"; */
+"xem-bL-841.title" = "Annulla";
+
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "zR2-fX-edv"; */
+"zR2-fX-edv.title" = "Aggiungi";
 
 // Bottom preset panel
 

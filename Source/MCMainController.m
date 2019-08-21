@@ -482,7 +482,7 @@
 #pragma mark •• Interface actions
 
 //Save the current preset to the preferences
-- (IBAction)setPresetPopup:(id)sender
+- (IBAction)selectPreset:(id)sender
 {
     [[NSUserDefaults standardUserDefaults] setObject:[sender objectValue] forKey:@"MCSelectedPreset"];
 }
@@ -524,6 +524,14 @@
         if (returnCode == NSModalResponseOK)
         {
             [self updatePresets];
+            
+            NSPopUpButton *presetPopUp = [self presetPopUp];
+            NSInteger numberOfItems = [presetPopUp numberOfItems];
+            if (numberOfItems > 0)
+            {
+                [presetPopUp selectItemAtIndex:numberOfItems - 1];
+                [self selectPreset:presetPopUp];
+            }
         }
     }];
 }

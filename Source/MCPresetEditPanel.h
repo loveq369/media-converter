@@ -20,7 +20,7 @@
  *
  *  @return An edit panel object
  */
-+ (MCPresetEditPanel * _Nonnull)editPanel;
++ (nonnull MCPresetEditPanel *)editPanel;
 
 /**
  *  Start a preset edit sheet
@@ -29,15 +29,15 @@
  *  @param path Path of the preset file
  *  @param handler A completion handler which returns a return code
  */
-- (void)beginModalForWindow:(NSWindow * _Nonnull)window withPresetPath:(NSString * _Nullable)path completionHandler:(nullable void (^)(NSModalResponse returnCode))handler;
+- (void)beginModalForWindow:(nonnull NSWindow *)window withPresetPath:(nullable NSString *)path completionHandler:(nullable void (^)(NSModalResponse returnCode))handler;
 
 /**
- *  Start a preset save sheeet
+ *  Start a preset save sheet
  *
  *  @param window Modal window
  *  @param path Path to save the preset file
  */
-- (void)savePresetForWindow:(NSWindow * _Nonnull)window withPresetPath:(NSString * _Nullable)path;
+- (void)savePresetForWindow:(nonnull NSWindow *)window withPresetPath:(nullable NSString *)path;
 /**
  *  Update object in the current preset dictionary
  *
@@ -46,11 +46,18 @@
  *
  *  @return If succeeded or not
  */
-- (BOOL)updateForKey:(NSString * _Nonnull)key withProperty:(id _Nullable)property;
+- (BOOL)updateForKey:(nonnull NSString *)key withProperty:(nullable id)property;
 
 /**
  *  Update preview
  */
 - (void)updatePreview;
+
+/**
+ *  Get the presets panel
+ *
+ *  @return A panel
+ */
+ - (nullable NSPanel *)presetsPanel;
 
 @end
