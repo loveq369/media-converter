@@ -173,8 +173,8 @@
             }
             else if (   (!([key isEqualToString:@"flags"] && [value isEqualToString:@"+loop+slice"])) &&
                         (!([key isEqualToString:@"rc_eq"] && [value isEqualToString:@"'blurCplx^(1-qComp)'"])) &&
-                        (![key isEqualToString:@"-acodec"] && [value isEqualToString:@"automatic"]) &&
-                        (![key isEqualToString:@"-vcodec"] && [value isEqualToString:@"automatic"]))
+                        (!([key isEqualToString:@"-acodec"] && [value isEqualToString:@"automatic"])) &&
+                        (!([key isEqualToString:@"-vcodec"] && [value isEqualToString:@"automatic"])))
             {
                 [modifiedEncoderOptions addObject:dictionary];
             }

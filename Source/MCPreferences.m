@@ -766,44 +766,10 @@
 {
     NSMutableArray *presetsData = [self presetsData];
     [presetsData removeAllObjects];
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-
-    NSString *folder1 = [@"~/Library/Application Support/Media Converter/Presets" stringByExpandingTildeInPath];
-    
-    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:@[folder1] withType:@"mcpreset"];
-    
-    NSMutableArray *currentPresets = [NSMutableArray array];
-    
-    NSInteger i;
-    for (i = 0; i < [presetPaths count]; i ++)
-    {
-	    NSString *presetPath = [presetPaths objectAtIndex:i];
-	    //NSDictionary *presetDictionary = [NSDictionary dictionaryWithContentsOfFile:presetPath];
-	    
-	    [currentPresets addObject:presetPath];
-    }
-    
-    NSMutableArray *savedPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"MCPresets"]];
-    NSArray *staticSavedPresets = [standardDefaults objectForKey:@"MCPresets"];
-    
-    for (i = 0; i < [staticSavedPresets count]; i ++)
-    {
-	    NSString *savedPath = [staticSavedPresets objectAtIndex:i];
-	    
-	    if ([currentPresets containsObject:savedPath])
-    	    [currentPresets removeObjectAtIndex:[currentPresets indexOfObject:savedPath]];
-	    else
-    	    [savedPresets removeObjectAtIndex:[savedPresets indexOfObject:savedPath]];
-    }
-    
-    [savedPresets addObjectsFromArray:currentPresets];
-    [standardDefaults setObject:savedPresets forKey:@"MCPresets"];
-    
+    NSArray *savedPresets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
     [presetsData addObjectsFromArray:savedPresets];
-    
+
     [[self presetsTableView] reloadData];
-    
     [[self delegate] preferencesDidUpdatePresets:self];
 }
 

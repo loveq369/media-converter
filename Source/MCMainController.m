@@ -95,25 +95,28 @@
     // Make sure the preset list format is right, it used to be a list of dictionaries, now they're paths
     NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
     NSMutableArray *updatedPresets = [[NSMutableArray alloc] init];
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    NSMutableArray *checkedPaths = [[NSMutableArray alloc] init];
     for (id presetObject in presets)
     {
         if ([presetObject isKindOfClass:[NSDictionary class]])
         {
             NSString *path = presetObject[@"Path"];
-            if (path != nil)
+            if (path != nil && [defaultManager fileExistsAtPath:path] && (![checkedPaths containsObject:path]))
             {
                 [updatedPresets addObject:path];
+                [checkedPaths addObject:path];
             }
         }
-        else
+        else if ([presetObject isKindOfClass:[NSString class]] && [defaultManager fileExistsAtPath:presetObject] && (![checkedPaths containsObject:presetObject]))
         {
             [updatedPresets addObject:presetObject];
+            [checkedPaths addObject:presetObject];
         }
     }
     [standardDefaults setObject:updatedPresets forKey:@"MCPresets"];
     
     // First check if there are still themes installed in /Library/Application Support/ by previous versions and move those presets
-    NSFileManager *defaultManager =  [NSFileManager defaultManager];
     NSString *applicationSupportFolder = @"/Library/Application Support/Media Converter";
     NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Presets"];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -207,18 +210,6 @@
 	    	    return;
     	    }
 	    }
-	    
-	    NSArray *presetPaths = [MCCommonMethods getFullPathsForFolders:@[userFolder] withType:@"mcpreset"];
-	    NSMutableArray *savedPresets = [NSMutableArray array];
-	    
-	    NSInteger i;
-	    for (i = 0; i < [presetPaths count]; i ++)
-	    {
-    	    NSString *path = [presetPaths objectAtIndex:i];
-    	    [savedPresets addObject:path];
-	    }
-
-	    [standardDefaults setObject:savedPresets forKey:@"MCPresets"];
     }
     
     //Now really update preset popup
@@ -659,6 +650,7 @@
     [progressPanel setTask:NSLocalizedString(@"Checking files...", nil)];
     [progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
     [progressPanel setMaximumValue:0.0];
+    [progressPanel setAllowCanceling:YES];
     [progressPanel setCancelButtonTitle:NSLocalizedString(@"progress-panel-cancel-button", nil)];
     [progressPanel setCancelHandler:^
     {

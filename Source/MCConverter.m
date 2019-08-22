@@ -326,8 +326,8 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    	    else
     	    	    width = height * aspect;
 
-	    	    NSInteger newWidth = width;
-	    	    NSInteger newHeight = height;
+	    	    NSInteger newWidth = evenInteger(width);
+	    	    NSInteger newHeight = evenInteger(height);
 	    
 	    	    if (keepAspect == 1)
 	    	    {
@@ -336,13 +336,13 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    	    
     	    	    if (aspect > inputAspect)
     	    	    {
-	    	    	    newWidth = evenInteger((NSInteger)(height * inputAspect));
-	    	    	    padX = (NSInteger)((width - newWidth) / 2.0);
+	    	    	    newWidth = evenInteger(floor(height * inputAspect));
+	    	    	    padX = floor((width - newWidth) / 2.0);
     	    	    }
     	    	    else
     	    	    {
-	    	    	    newHeight = evenInteger((NSInteger)(width / inputAspect));
-	    	    	    padY = (NSInteger)((height - newHeight) / 2.0);
+	    	    	    newHeight = evenInteger(floor(width / inputAspect));
+	    	    	    padY = floor((height - newHeight) / 2.0);
     	    	    }
 	    	    	    
                     padString = [NSString stringWithFormat:@"scale=%li:%li,pad=%li:%li:%li:%li:black", (long)newWidth, (long)newHeight, (long)width, (long)height, (long)padX, (long)padY];
@@ -354,13 +354,13 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    
     	    	    if (aspect > inputAspect)
     	    	    {
-	    	    	    newHeight = evenInteger((NSInteger)(width / inputAspect));
-	    	    	    cropY = (NSInteger)((newHeight - height) / 2.0);
+	    	    	    newHeight = evenInteger(floor(width / inputAspect));
+	    	    	    cropY = floor((newHeight - height) / 2.0);
     	    	    }
     	    	    else
     	    	    {
-	    	    	    newWidth = evenInteger((NSInteger)(height * inputAspect));
-	    	    	    cropX = (NSInteger)((newWidth - width) / 2.0);
+	    	    	    newWidth = evenInteger(floor(height * inputAspect));
+	    	    	    cropX = floor((newWidth - width) / 2.0);
     	    	    }
 	    	    
                     padString = [NSString stringWithFormat:@"scale=%li:%li,crop=%li:%li:%li:%li:0", (long)newWidth, (long)newHeight, (long)width, (long)height, (long)cropX, (long)cropY];
@@ -369,7 +369,9 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    }
 	    
 	    if (!padString)
+        {
             padString = [NSString stringWithFormat:@"scale=%li:%li", (long)width, (long)height];
+        }
 	    
 	    [options setObject:padString forKey:@"-vf"];
     }

@@ -479,32 +479,15 @@ static MCPresetEditPanel *_defaultManager = nil;
     	    NSString *path = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mcpreset", fileName]];
 	    
     	    currentPresetPath = [MCCommonMethods uniquePathNameFromPath:path withSeperator:@" "];
-	    }
-    
-	    //Save the (new) dictionary
-	    [newDictionary writeToFile:currentPresetPath atomically:YES];
-    
-	    NSString *oldFileName = [[currentPresetPath lastPathComponent] stringByDeletingPathExtension];
-
-	    if (![fileName isEqualTo:oldFileName])
-	    {
-    	    NSString *newPresetPath = [[[currentPresetPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:@"mcpreset"];
-    	    newPresetPath = [MCCommonMethods uniquePathNameFromPath:newPresetPath withSeperator:@" "];
-
-    	    [MCCommonMethods moveItemAtPath:currentPresetPath toPath:newPresetPath error:nil];
-	    
-    	    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    	    NSMutableArray *newPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"MCPresets"]];
-    	    [newPresets replaceObjectAtIndex:[newPresets indexOfObject:currentPresetPath] withObject:newPresetPath];
-    	    [standardDefaults setObject:newPresets forKey:@"MCPresets"];
-	    }
-        else
-        {
+         
             NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
             NSMutableArray *newPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"MCPresets"]];
             [newPresets addObject:currentPresetPath];
             [standardDefaults setObject:newPresets forKey:@"MCPresets"];
-        }
+	    }
+    
+	    //Save the (new) dictionary
+	    [newDictionary writeToFile:currentPresetPath atomically:YES];
     }
     
     [[presetsPanel sheetParent] endSheet:presetsPanel returnCode:result];

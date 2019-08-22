@@ -27,47 +27,59 @@
 
     if (_details != nil)
     {
-	    [self setExpanded:NO];
+        [self setExpanded:NO];
     
-	    NSView *superview = [[self window] contentView];
+        NSView *superview = [[self window] contentView];
         NSRect contentFrame = [superview frame];
-	    NSRect frame = NSMakeRect(16, 16, 88, 24);
+        NSRect frame = NSMakeRect(16, 16.0, 88, 24);
     
-	    //Create details button
-	    NSButton *button = [[NSButton alloc] initWithFrame:frame];
-	    [button setBezelStyle:NSRoundedBezelStyle];
-	    NSFont *detailsButtonFont = [NSFont fontWithName:@"Lucida Grande" size:13];
-	    if (detailsButtonFont)
-    	    [[button cell] setFont:detailsButtonFont];
-	    [button setTitle:NSLocalizedString(@"Details", nil)];
-	    [button setAction:@selector(showDetails)];
+        //Create details button
+        NSButton *button = [[NSButton alloc] initWithFrame:frame];
+        [button setBezelStyle:NSRoundedBezelStyle];
+        NSFont *detailsButtonFont = [NSFont fontWithName:@"Lucida Grande" size:13];
+        if (detailsButtonFont)
+            [[button cell] setFont:detailsButtonFont];
+        [button setTitle:NSLocalizedString(@"Details", nil)];
+        [button setAction:@selector(showDetails)];
+        
+        frame.origin.x += frame.size.width + 6.0;
+        NSButton *copyButton = [[NSButton alloc] initWithFrame:frame];
+        [copyButton setBezelStyle:NSRoundedBezelStyle];
+        if (detailsButtonFont)
+            [[button cell] setFont:detailsButtonFont];
+        [copyButton setTitle:NSLocalizedString(@"Copy Details Text", nil)];
+        [copyButton sizeToFit];
+        frame.size.width = [copyButton frame].size.width;
+        [copyButton setFrame:frame];
+        [copyButton setAction:@selector(copyDetailsText)];
     
-	    //Create scrollview with textview
-	    frame = NSMakeRect(20, 50, contentFrame.size.width - (20.0 * 2.0), 0);
-	    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:frame];
-	    [scrollView setAutoresizingMask:NSViewHeightSizable];
-	    [scrollView setBorderType:NSBezelBorder];
-	    frame = NSMakeRect(0, 0, contentFrame.size.width - (20.0 * 2.0), 0);
-	    MCDetailsTextView *textView = [[MCDetailsTextView alloc] initWithFrame:frame];
-	    NSFont *consoleFont = [NSFont fontWithName:@"Andale Mono" size:12];
+        //Create scrollview with textview
+        frame = NSMakeRect(20, 50, contentFrame.size.width - (20.0 * 2.0), 0);
+        NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:frame];
+        [scrollView setAutoresizingMask:NSViewHeightSizable];
+        [scrollView setBorderType:NSBezelBorder];
+        frame = NSMakeRect(0, 0, contentFrame.size.width - (20.0 * 2.0), 0);
+        MCDetailsTextView *textView = [[MCDetailsTextView alloc] initWithFrame:frame];
+        NSFont *consoleFont = [NSFont fontWithName:@"Andale Mono" size:12];
         
         if (consoleFont)
         {
             [textView setFont:consoleFont];
         }
-	    [scrollView setDocumentView:textView];
-	    [scrollView setHasVerticalScroller:YES];
+        [scrollView setDocumentView:textView];
+        [scrollView setHasVerticalScroller:YES];
     
-	    //Set the details and scroll to end
-	    [textView insertText:_details];
-	    NSRange range = NSMakeRange ([[textView string] length], 0);
-	    [textView scrollRangeToVisible:range];
-	    [textView setEditable:NO];
+        //Set the details and scroll to end
+        [textView insertText:_details];
+        NSRange range = NSMakeRange ([[textView string] length], 0);
+        [textView scrollRangeToVisible:range];
+        [textView setEditable:NO];
         [self setTextView:textView];
     
-	    //Add our button and scrollview to alert
-	    [superview addSubview:button];
-	    [superview addSubview:scrollView];
+        //Add our button and scrollview to alert
+        [superview addSubview:button];
+        [superview addSubview:copyButton];
+        [superview addSubview:scrollView];
     
         [scrollView setWantsLayer:YES];
         [[scrollView layer] setOpacity:0.0f];
@@ -75,23 +87,33 @@
     }
 }
 
+- (void)copyDetailsText
+{
+    NSString *string = [[[self textView] textStorage] string];
+
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:@[NSStringPboardType] owner:nil];
+    [pasteBoard setString:string forType:NSStringPboardType];
+}
+
 - (void)showDetails
 {
+    BOOL isExpanded = [self isExpanded];
+
     NSWindow *window = [self window];
     NSRect windowFrame = [window frame];
     NSInteger newHeight = windowFrame.size.height;
     NSInteger newY = windowFrame.origin.y;
     
-    BOOL isExpanded = [self isExpanded];
     if (isExpanded)
     {
-	    newHeight = newHeight - 100;
-	    newY = newY + 100;
+        newHeight = newHeight - 100;
+        newY = newY + 100;
     }
     else
     {
-	    newHeight = newHeight + 100;
-	    newY = newY - 100;
+        newHeight = newHeight + 100;
+        newY = newY - 100;
     }
     
     [self setExpanded:!isExpanded];
