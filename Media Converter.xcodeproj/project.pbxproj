@@ -147,7 +147,6 @@
 		FE45EB852302FFEE00057039 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCPreferences.strings; sourceTree = "<group>"; };
 		FE45EB8623030F3900057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/MediaConverterHelp; sourceTree = "<group>"; };
 		FE45EB8723030F4900057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Base; path = Base.lproj/MCPresets.icns; sourceTree = "<group>"; };
-		FE45EB8823030FAB00057039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
 		FE48BD6B13A631A600C98912 /* Sintel-frame.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame.jpg"; path = "Images/Sintel-frame.jpg"; sourceTree = "<group>"; };
 		FE4E9893132105CB00B440F4 /* MCProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MCProgress.xib; path = Resources/MCProgress.xib; sourceTree = "<group>"; };
 		FE519C042300486400D65DC7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
@@ -889,7 +888,6 @@
 			children = (
 				FEF8AFF622F5C83100603B84 /* nl */,
 				FEF8B00422F5C83700603B84 /* en */,
-				FE45EB8823030FAB00057039 /* Base */,
 				FEC0455F230729C10055B6E9 /* it */,
 			);
 			name = Credits.rtf;
