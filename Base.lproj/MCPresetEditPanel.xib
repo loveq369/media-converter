@@ -50,8 +50,8 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="162" y="-3" width="651" height="519"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-            <view key="contentView" id="83">
-                <rect key="frame" x="0.0" y="0.0" width="620" height="519"/>
+            <view key="contentView" misplaced="YES" id="83">
+                <rect key="frame" x="0.0" y="0.0" width="651" height="519"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button hidden="YES" horizontalHuggingPriority="249" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="189" customClass="MCCrippledButton">
@@ -336,9 +336,9 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="134">
-                                            <rect key="frame" x="105" y="166" width="47" height="22"/>
+                                            <rect key="frame" x="105" y="166" width="56" height="22"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="47" id="E1d-FW-jnN"/>
+                                                <constraint firstAttribute="width" constant="56" id="E1d-FW-jnN"/>
                                                 <constraint firstAttribute="height" constant="22" id="qXl-Yg-IkZ"/>
                                             </constraints>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="25" drawsBackground="YES" id="135">

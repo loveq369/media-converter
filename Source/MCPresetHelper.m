@@ -362,6 +362,11 @@
         if (result)
         {
             [self updatePresetAtPath:filePath];
+            
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            NSMutableArray *presets = [[userDefaults objectForKey:@"MCPresets"] mutableCopy];
+            [presets addObject:filePath];
+            [userDefaults setObject:presets forKey:@"MCPresets"];
         }
         else
         {

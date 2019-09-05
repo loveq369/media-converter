@@ -797,7 +797,9 @@ static MCPresetEditPanel *_defaultManager = nil;
     [[self videoFormatPopUp] setArray:videoPopupItems];
     [[self audioFormatPopUp] setArray:audioPopupItems];
     
-    NSArray *subtitleNames = [NSArray arrayWithObjects:	    NSLocalizedString(@"Disable", nil),
+    NSArray *subtitleNames = [NSArray arrayWithObjects:     NSLocalizedString(@"preset-panel-pop-up-automatic", nil),
+                                                            @"",
+                                                            NSLocalizedString(@"Disable", nil),
                                                             @"",
                                                             NSLocalizedString(@"Hardcoded", nil),
                                                             NSLocalizedString(@"SRT (External)", nil),
@@ -807,7 +809,9 @@ static MCPresetEditPanel *_defaultManager = nil;
                                                             NSLocalizedString(@"Ogg (Kate)", nil),
     nil];
     
-    NSArray *subtitleFormats = [NSArray arrayWithObjects:   @"none",
+    NSArray *subtitleFormats = [NSArray arrayWithObjects:   @"automatic",
+                                                            @"",
+                                                            @"none",
                                                             @"",
                                                             @"hard",
                                                             @"srt",

@@ -384,7 +384,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    
     NSString *displayName  = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    if (![subtitleType isEqualTo:@"none"] && ![subtitleType isEqualTo:@"dvd"])
+    if (![subtitleType isEqualTo:@"none"] && ![subtitleType isEqualTo:@"dvd"] && ![subtitleType isEqualToString:@"automatic"])
     {
         [[MCProgressPanel progressPanel] setStatus:[NSString stringWithFormat:NSLocalizedString(@"Converting subtitles: %@…", nil), displayName]];
 	    temporarySubtitleFile = [[temporaryFolder stringByAppendingPathComponent:@"tmpmovie"] stringByAppendingPathExtension:subtitleType];

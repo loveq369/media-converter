@@ -12,7 +12,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="-3" userLabel="Application"/>
         <menu systemMenu="main" id="29" userLabel="MainMenu">
             <items>
                 <menuItem title="Media Converter" id="56">
@@ -68,7 +68,7 @@
                             </menuItem>
                             <menuItem title="Quit Media Converter" keyEquivalent="q" id="136" userLabel="1111">
                                 <connections>
-                                    <action selector="terminate:" target="-3" id="449"/>
+                                    <action selector="terminate:" target="-3" id="djc-Dj-2MG"/>
                                 </connections>
                             </menuItem>
                         </items>

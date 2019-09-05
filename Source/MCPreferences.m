@@ -276,8 +276,13 @@
                     NSString *presetPath = [selectedObjects objectAtIndex:i];
                     [[NSFileManager defaultManager] removeItemAtPath:presetPath error:nil];
                 }
+                NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+                NSMutableArray *presets = [[standardDefaults objectForKey:@"MCPresets"] mutableCopy];
+                [presets removeObjectsInArray:selectedObjects];
+                [standardDefaults setObject:presets forKey:@"MCPresets"];
             
                 [self reloadPresets];
+                [[self delegate] preferencesDidUpdatePresets:self];
                 [presetsTableView deselectAll:nil];
             }
         }];
@@ -311,6 +316,7 @@
                     
                         [[MCPresetHelper sharedHelper] openPresetFiles:fileNames];
                         [self reloadPresets];
+                        [[self delegate] preferencesDidUpdatePresets:self];
                     }
                 }];
             }
@@ -321,6 +327,7 @@
                     if (returnCode == NSModalResponseOK)
                     {
                         [self reloadPresets];
+                        [[self delegate] preferencesDidUpdatePresets:self];
                     }
                 }];
             }
@@ -348,6 +355,7 @@
             if (returnCode == NSModalResponseOK)
             {
                 [self reloadPresets];
+                [[self delegate] preferencesDidUpdatePresets:self];
             }
         }];
     }
@@ -374,6 +382,10 @@
     	    NSString *newPath = [MCCommonMethods uniquePathNameFromPath:path withSeperator:@" "];
     	    NSString *newName = [[newPath lastPathComponent] stringByDeletingPathExtension];
     	    [presetDictionary setObject:newName forKey:@"Name"];
+         
+            NSMutableArray *presetSaveData = [presetsData mutableCopy];
+            [presetSaveData addObject:newPath];
+            [[NSUserDefaults standardUserDefaults] setObject:presetSaveData forKey:@"MCPresets"];
 	    
     	    NSString *error = nil;
     	    BOOL result = [MCCommonMethods writeDictionary:presetDictionary toFile:newPath errorString:&error];
@@ -385,6 +397,7 @@
     	    else
     	    {
 	    	    [self reloadPresets];
+                [[self delegate] preferencesDidUpdatePresets:self];
 	    	    NSInteger lastRow = [presetsData count] - 1;
 	    	    [presetsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:lastRow] byExtendingSelection:YES];
     	    }
@@ -770,7 +783,6 @@
     [presetsData addObjectsFromArray:savedPresets];
 
     [[self presetsTableView] reloadData];
-    [[self delegate] preferencesDidUpdatePresets:self];
 }
 
 - (void)installModeChanged:(NSNotification *)notification

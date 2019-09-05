@@ -85,9 +85,6 @@
     //Placeholder error string
     NSString *error = NSLocalizedString(@"An unknown error occured", nil);
     
-    //Quit the application when the main window is closed (seems to be accepted in Mac OS X)
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeWindow) name:NSWindowWillCloseNotification object:[self mainWindow]];
-    
     //Setup Preset popup in the main window
     NSPopUpButton *presetPopUp = [self presetPopUp];
     [presetPopUp removeAllItems];
@@ -118,72 +115,79 @@
     
     // First check if there are still themes installed in /Library/Application Support/ by previous versions and move those presets
     NSString *applicationSupportFolder = @"/Library/Application Support/Media Converter";
-    NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Presets"];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *applicationSupportDirectory = [paths firstObject];
     NSString *userSupportFolder = [applicationSupportDirectory stringByAppendingPathComponent:@"Media Converter"];
     NSString *userPresetsFolder = [userSupportFolder stringByAppendingPathComponent:@"Presets"];
-    BOOL supportIsWritable = [defaultManager isWritableFileAtPath:folder];
+    BOOL supportIsWritable = [defaultManager isWritableFileAtPath:applicationSupportFolder];
     
-    if (supportIsWritable && [defaultManager fileExistsAtPath:folder])
+    if (supportIsWritable)
     {
         NSString *fontPath = [applicationSupportFolder stringByAppendingPathComponent:@"Fonts"];
-        NSString *newFontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
-        if (![defaultManager fileExistsAtPath:newFontPath])
+        if ([defaultManager fileExistsAtPath:fontPath])
         {
-            NSError *error;
-            [defaultManager moveItemAtPath:fontPath toPath:newFontPath error:nil];
-            if (error != nil)
+            
+            NSString *newFontPath = [userSupportFolder stringByAppendingPathComponent:@"Fonts"];
+            if (![defaultManager fileExistsAtPath:newFontPath])
             {
-                NSLog(@"Error: %@", error);
+                NSError *error;
+                [defaultManager moveItemAtPath:fontPath toPath:newFontPath error:nil];
+                if (error != nil)
+                {
+                    NSLog(@"Error: %@", error);
+                }
             }
         }
-    
-        NSMutableArray *checkedPresets = [updatedPresets mutableCopy];
-        for (NSString *presetPath in updatedPresets)
+        
+        NSString *folder = [applicationSupportFolder stringByAppendingPathComponent:@"Presets"];
+        if ([defaultManager fileExistsAtPath:folder])
         {
-            if ([presetPath rangeOfString:folder].length > 0)
+            NSMutableArray *checkedPresets = [updatedPresets mutableCopy];
+            for (NSString *presetPath in updatedPresets)
             {
-                if ([defaultManager fileExistsAtPath:presetPath])
+                if ([presetPath rangeOfString:folder].length > 0)
                 {
-                    NSError *error;
-                    if (![defaultManager fileExistsAtPath:userPresetsFolder])
+                    if ([defaultManager fileExistsAtPath:presetPath])
                     {
-                        [defaultManager createDirectoryAtPath:userPresetsFolder withIntermediateDirectories:YES attributes:@{} error:&error];
+                        NSError *error;
+                        if (![defaultManager fileExistsAtPath:userPresetsFolder])
+                        {
+                            [defaultManager createDirectoryAtPath:userPresetsFolder withIntermediateDirectories:YES attributes:@{} error:&error];
+                            if (error != nil)
+                            {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }
+                        
+                        NSString *fileName = [presetPath lastPathComponent];
+                        NSString *newPath = [userPresetsFolder stringByAppendingPathComponent:fileName];
+                        if ([defaultManager fileExistsAtPath:newPath])
+                        {
+                            newPath = [MCCommonMethods uniquePathNameFromPath:newPath withSeperator:@" "];
+                        }
+                        [defaultManager moveItemAtPath:presetPath toPath:newPath error:&error];
                         if (error != nil)
                         {
                             NSLog(@"Error: %@", error);
                         }
+                        [checkedPresets replaceObjectAtIndex:[checkedPresets indexOfObject:presetPath] withObject:newPath];
                     }
-                    
-                    NSString *fileName = [presetPath lastPathComponent];
-                    NSString *newPath = [userPresetsFolder stringByAppendingPathComponent:fileName];
-                    if ([defaultManager fileExistsAtPath:newPath])
+                    else
                     {
-                        newPath = [MCCommonMethods uniquePathNameFromPath:newPath withSeperator:@" "];
+                        [checkedPresets removeObjectAtIndex:[checkedPresets indexOfObject:presetPath]];
                     }
-                    [defaultManager moveItemAtPath:presetPath toPath:newPath error:&error];
-                    if (error != nil)
-                    {
-                        NSLog(@"Error: %@", error);
-                    }
-                    [checkedPresets replaceObjectAtIndex:[checkedPresets indexOfObject:presetPath] withObject:newPath];
-                }
-                else
-                {
-                    [checkedPresets removeObjectAtIndex:[checkedPresets indexOfObject:presetPath]];
                 }
             }
+            [standardDefaults setObject:checkedPresets forKey:@"MCPresets"];
+            [defaultManager removeItemAtPath:applicationSupportFolder error:nil];
         }
-        [standardDefaults setObject:checkedPresets forKey:@"MCPresets"];
-        [defaultManager removeItemAtPath:applicationSupportFolder error:nil];
     }
     
     NSString *userFolder = [userSupportFolder stringByAppendingPathComponent:@"Presets"];
     BOOL hasSupportFolder = [defaultManager fileExistsAtPath:userFolder];
     
     //Popupulate preset folder after creating it
-    if (!hasSupportFolder || [updatedPresets count] == 0)
+    if (!hasSupportFolder)
     {
 	    if (!hasSupportFolder)
 	    {
@@ -210,6 +214,11 @@
 	    	    return;
     	    }
 	    }
+    }
+    
+    if ([updatedPresets count] == 0)
+    {
+        [self recoverPresets];
     }
     
     //Now really update preset popup
@@ -255,6 +264,11 @@
 	    if (result != 0)
 	    {
     	    [self updatePresets];
+            [[self preferences] reloadPresets];
+         
+            NSPopUpButton *presetPopUp = [self presetPopUp];
+            [presetPopUp selectItemAtIndex:[presetPopUp numberOfItems] - 1];
+            [self selectPreset:presetPopUp];
         }
     }
     
@@ -433,18 +447,14 @@
     }
     else
     {
-	    NSInteger i;
-	    for (i = 0; i < [presets count]; i ++)
+        NSMenu *presetMenu = [presetPopUp menu];
+    
+	    for (NSString *path in presets)
 	    {
-    	    NSString *path = [presets objectAtIndex:i];
-    	    
-    	    if ([[NSFileManager defaultManager] fileExistsAtPath:path])
-    	    {
-	    	    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
-	    	    NSString *name = [dictionary objectForKey:@"Name"];
-    	    
-	    	    [presetPopUp addItemWithTitle:name];
-    	    }
+            NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
+            NSString *name = [dictionary objectForKey:@"Name"];
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:name action:NULL keyEquivalent:@""];
+            [presetMenu addItem:menuItem];
 	    }
     
 	    if (currentTitle && [presetPopUp itemWithTitle:currentTitle])
@@ -455,7 +465,7 @@
 	    }
 	    else
 	    {
-    	    NSInteger saveIndex = [[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue];
+    	    NSInteger saveIndex = [standardDefaults integerForKey:@"MCSelectedPreset"];
 	    
     	    while (saveIndex >= [presets count])
     	    {
@@ -463,6 +473,7 @@
     	    }
 	    
     	    [presetPopUp selectItemAtIndex:saveIndex];
+            [standardDefaults setInteger:saveIndex forKey:@"MCSelectedPreset"];
 	    }
     }
 }
@@ -493,6 +504,7 @@
         if (returnCode == NSModalResponseOK)
         {
             [self updatePresets];
+            [[self preferences] reloadPresets];
         }
     }];
 }
@@ -517,6 +529,7 @@
         if (returnCode == NSModalResponseOK)
         {
             [self updatePresets];
+            [[self preferences] reloadPresets];
             
             NSPopUpButton *presetPopUp = [self presetPopUp];
             NSInteger numberOfItems = [presetPopUp numberOfItems];
@@ -946,6 +959,13 @@
     [self checkFiles:@[[url absoluteString]]];
 }
 
+#pragma mark - Application Delegate Methods
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+{
+    return YES;
+}
+
 #pragma mark - Preferences Delegate Methods
 
 - (void)preferencesDidUpdatePresets:(MCPreferences *)preferences
@@ -1148,6 +1168,40 @@
     
     NSUserNotificationCenter *defaultUserNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     [defaultUserNotificationCenter deliverNotification:userNotification];
+}
+
+- (void)recoverPresets
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *presets = [[standardDefaults objectForKey:@"MCPresets"] mutableCopy];
+    
+    NSString *applicationSupportFolder = [@"~/Library/Application Support/Media Converter/Presets" stringByExpandingTildeInPath];
+    NSArray *subPaths = [[NSFileManager defaultManager] subpathsAtPath:applicationSupportFolder];
+    NSString *firstPath = @"Nessuna";
+    for (NSString *subPath in subPaths)
+    {
+        if ([[subPath pathExtension] isEqualToString:@"mcpreset"])
+        {
+            firstPath = subPath;
+            NSString *path = [applicationSupportFolder stringByAppendingPathComponent:subPath];
+            BOOL hasPath = NO;
+            for (NSString *presetPath in presets)
+            {
+                if ([path isEqualToString:presetPath])
+                {
+                    hasPath = YES;
+                    break;
+                }
+            }
+            
+            if (!hasPath)
+            {
+                [presets addObject:path];
+            }
+        }
+    }
+    
+    [standardDefaults setObject:presets forKey:@"MCPresets"];
 }
 
 @end

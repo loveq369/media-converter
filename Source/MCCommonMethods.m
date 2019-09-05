@@ -377,7 +377,7 @@ BOOL isAppearanceIsDark(NSAppearance * appearance)
     NSInteger i;
     for (i = 0; i < [showArgs count]; i ++)
 	    {
-    	    commandString = [NSString stringWithFormat:@"%@ %@", commandString, [showArgs objectAtIndex:i]];
+    	    commandString = [NSString stringWithFormat:@"%@ \"%@\"", commandString, [showArgs objectAtIndex:i]];
 	    }
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"MCDebug"] == YES) 
@@ -392,9 +392,13 @@ BOOL isAppearanceIsDark(NSAppearance * appearance)
     
     NSTask *task;
     if (preTask != nil)
+    {
 	    task = preTask;
+    }
     else
+    {
 	    task = [[NSTask alloc] init];
+    }
     
     NSPipe *pipe =[ [NSPipe alloc] init];
     NSPipe *outputPipe = [[NSPipe alloc] init];
@@ -409,34 +413,46 @@ BOOL isAppearanceIsDark(NSAppearance * appearance)
     if (!error)
     {
 	    [task setStandardOutput:outputPipe];
-	    outputHandle=[outputPipe fileHandleForReading];
+	    outputHandle = [outputPipe fileHandleForReading];
     }
     
     if (inPipe != nil)
+    {
 	    [task setStandardInput:inPipe];
+    }
     
     [MCCommonMethods logCommandIfNeeded:task];
     [task launch];
     
     if (error)
+    {
 	    output = [handle readDataToEndOfFile];
+    }
     else
+    {
 	    output = [outputHandle readDataToEndOfFile];
+    }
 	    
     output = [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
 	    
     if (!error && string)
+    {
 	    errorString = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+    }
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"MCDebug"])
+    {
 	    NSLog(@"%@\n%@", output, errorString);
+    }
 	    
     [task waitUntilExit];
     
     NSInteger result = [task terminationStatus];
 
     if (!error && result != 0)
+    {
 	    output = errorString;
+    }
     
     pipe = nil;
     outputPipe = nil;

@@ -40,4 +40,9 @@
  */
 - (void)showPreferences;
 
+/**
+ *  Reload the presets
+ */
+ - (void)reloadPresets;
+
 @end
