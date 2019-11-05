@@ -45,6 +45,11 @@
 + (void)initialize
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] localizedInfoDictionary];
+    // TODO: remove me after Apple fixes the bug causing this to be nil
+    if (!infoDictionary)
+    {
+        infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    }
 
     //Setup some defaults for the preferences (used when options aren't set)
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1177,12 +1182,10 @@
     
     NSString *applicationSupportFolder = [@"~/Library/Application Support/Media Converter/Presets" stringByExpandingTildeInPath];
     NSArray *subPaths = [[NSFileManager defaultManager] subpathsAtPath:applicationSupportFolder];
-    NSString *firstPath = @"Nessuna";
     for (NSString *subPath in subPaths)
     {
         if ([[subPath pathExtension] isEqualToString:@"mcpreset"])
         {
-            firstPath = subPath;
             NSString *path = [applicationSupportFolder stringByAppendingPathComponent:subPath];
             BOOL hasPath = NO;
             for (NSString *presetPath in presets)

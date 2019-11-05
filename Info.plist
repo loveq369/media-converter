@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English (United Kingdom)</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -52,13 +52,13 @@
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.6</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>2.0.8</string>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>13</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
 	<key>MCSubtitleLanguage</key>
@@ -86,5 +86,9 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSSupportsAutomaticTermination</key>
+	<true/>
+	<key>NSSupportsSuddenTermination</key>
+	<true/>
 </dict>
 </plist>

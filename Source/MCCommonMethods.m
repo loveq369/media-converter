@@ -936,7 +936,10 @@ BOOL isAppearanceIsDark(NSAppearance * appearance)
     }
     else
     {
-        return CFBooleanGetValue(CFPreferencesCopyAppValue(CFSTR("voiceOverOnOffKey"), CFSTR("com.apple.universalaccess")));
+        CFPropertyListRef value = CFPreferencesCopyAppValue(CFSTR("voiceOverOnOffKey"), CFSTR("com.apple.universalaccess"));
+        BOOL isVoiceOverEnabled = CFBooleanGetValue(value);
+        CFRelease(value);
+        return isVoiceOverEnabled;
     }
 }
 

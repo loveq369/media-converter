@@ -30,13 +30,13 @@
 		FE58A6AA135EBE8400A99750 /* SubTest.srt in Resources */ = {isa = PBXBuildFile; fileRef = FE58A69E135EBE8400A99750 /* SubTest.srt */; };
 		FE59A53513ED22B5001414DC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE59A53013ED22B5001414DC /* QuartzCore.framework */; };
 		FE59A54C13ED2576001414DC /* Sintel-frame-dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */; };
+		FE5A42B6236B499E0040ABC4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		FE6677201425D434009BB3A5 /* MCPresetEditPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */; };
 		FE6677281425D458009BB3A5 /* MCPresetEditPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6677251425D458009BB3A5 /* MCPresetEditPanel.xib */; };
 		FE6840A422F9D27D005B55DB /* MCAutoLayoutTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */; };
 		FE700959140CD7F1002429E1 /* MCProgressSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FE700953140CD7F1002429E1 /* MCProgressSlider.m */; };
 		FE703A6022FC822F00917539 /* MCPresetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE703A5F22FC822F00917539 /* MCPresetHelper.m */; };
 		FE7AAEE513B602E8008DC4F7 /* MCFilterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AAEE013B602E8008DC4F7 /* MCFilterDelegate.m */; };
-		FEA8CF4113227D3C00C10516 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		FEA8CF4213227D3C00C10516 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		FEA8CF4413227D3C00C10516 /* Dropzone.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FE8086DC12EB01F20047FD26 /* Dropzone.pdf */; };
 		FEA8CF4513227D3C00C10516 /* Media Converter.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE8086DE12EB092D0047FD26 /* Media Converter.icns */; };
@@ -119,7 +119,6 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Media Converter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Media Converter_Prefix.pch"; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE01E90E23021CF200ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		FE01E90F23021E9B00ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE01E9102302BF1F00ECEB90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -159,6 +158,7 @@
 		FE58A69E135EBE8400A99750 /* SubTest.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SubTest.srt; path = Resources/SubTest.srt; sourceTree = "<group>"; };
 		FE59A53013ED22B5001414DC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		FE59A54713ED2576001414DC /* Sintel-frame-dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Sintel-frame-dark.jpg"; path = "Images/Sintel-frame-dark.jpg"; sourceTree = "<group>"; };
+		FE5A42B5236B43E30040ABC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE62A58F230764C100CE2F9A /* it */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = it; path = it.lproj/MCPresets.icns; sourceTree = "<group>"; };
 		FE66771D1425D434009BB3A5 /* MCPresetEditPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPresetEditPanel.h; path = Source/MCPresetEditPanel.h; sourceTree = "<group>"; };
 		FE66771E1425D434009BB3A5 /* MCPresetEditPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPresetEditPanel.m; path = Source/MCPresetEditPanel.m; sourceTree = "<group>"; };
@@ -173,6 +173,7 @@
 		FE6840A322F9D27C005B55DB /* MCAutoLayoutTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCAutoLayoutTextField.m; path = Source/MCAutoLayoutTextField.m; sourceTree = "<group>"; };
 		FE6B48732306F4E300E1F522 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCTextFilter.strings; sourceTree = "<group>"; };
 		FE6B48752306F4E600E1F522 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCWatermarkFilter.strings; sourceTree = "<group>"; };
+		FE6BE8272340E458002185E8 /* Media Converter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Media Converter.entitlements"; sourceTree = "<group>"; };
 		FE700952140CD7F1002429E1 /* MCProgressSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressSlider.h; path = Source/MCProgressSlider.h; sourceTree = "<group>"; };
 		FE700953140CD7F1002429E1 /* MCProgressSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCProgressSlider.m; path = Source/MCProgressSlider.m; sourceTree = "<group>"; };
 		FE703A5E22FC822F00917539 /* MCPresetHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCPresetHelper.h; path = Source/MCPresetHelper.h; sourceTree = "<group>"; };
@@ -330,6 +331,7 @@
 		29B97314FDCFA39411CA2CEA /* Media Converter */ = {
 			isa = PBXGroup;
 			children = (
+				FE6BE8272340E458002185E8 /* Media Converter.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -611,12 +613,12 @@
 		FEF7FBBD131A89E100E244C9 /* Strings */ = {
 			isa = PBXGroup;
 			children = (
+				FE5A42B5236B43E30040ABC4 /* Info.plist */,
 				FEFA3D161333F651009B543D /* Languages.plist */,
 				FE0353DE15FA5D0D0006538C /* LanguageCodes.plist */,
 				FEDB790C1688743400745F56 /* LanguageConversion.plist */,
 				FEF466401324E2000079DBCF /* Credits.rtf */,
 				FE4E9897132105DA00B440F4 /* Localizable.strings */,
-				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = Strings;
@@ -633,6 +635,7 @@
 				FEA8CF5813227D3C00C10516 /* Sources */,
 				FEA8CF6D13227D3C00C10516 /* Frameworks */,
 				FEA8CF7013227D3C00C10516 /* Copy Frameworks */,
+				FE85D7172340E22A0002E338 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -650,7 +653,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1120;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Media Converter" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -678,7 +681,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEC2C81322FB3DA20014808E /* mkvmerge in Resources */,
-				FEA8CF4113227D3C00C10516 /* InfoPlist.strings in Resources */,
+				FE5A42B6236B499E0040ABC4 /* InfoPlist.strings in Resources */,
 				FEA8CF4213227D3C00C10516 /* MainMenu.xib in Resources */,
 				FEA8CF4413227D3C00C10516 /* Dropzone.pdf in Resources */,
 				FEA8CF4513227D3C00C10516 /* Media Converter.icns in Resources */,
@@ -729,6 +732,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE85D7172340E22A0002E338 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FRAMEWORKS_FOLDER=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nRESOURCES_FOLDER=\"${BUILT_PRODUCTS_DIR}\"/\"${PRODUCT_NAME}.app/Contents/Resources\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n  # If a code signing identity is not specified, use ad hoc signing\n  IDENTITY=\"-\"\nfi\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$FRAMEWORKS_FOLDER/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$FRAMEWORKS_FOLDER/Sparkle.framework/Versions/A\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/ffmpeg\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/katedec\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/kateenc\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/mkvextract\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/mkvinfo\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/mkvmerge\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/MP4Box\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/oggz-info\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/oggz-merge\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/oggz-rip\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/qt-faststart\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$RESOURCES_FOLDER/spumux\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FEA8CF5813227D3C00C10516 /* Sources */ = {
@@ -992,21 +1015,28 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Media Converter.entitlements";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 5M4D5N9TXW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Media Converter_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiwifruitware.Media-Converter";
 				PRODUCT_NAME = "Media Converter";
+				PROVISIONING_PROFILE_SPECIFIER = "Media Converter Distribution";
 			};
 			name = Debug;
 		};
@@ -1016,20 +1046,27 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Media Converter.entitlements";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5M4D5N9TXW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Media Converter_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiwifruitware.Media-Converter";
 				PRODUCT_NAME = "Media Converter";
+				PROVISIONING_PROFILE_SPECIFIER = "Media Converter Distribution";
 			};
 			name = Release;
 		};
