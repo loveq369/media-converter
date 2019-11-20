@@ -109,10 +109,6 @@
     	    <string>1</string>
 	    </dict>
 	    <dict>
-    	    <key>-threads</key>
-    	    <string>8</string>
-	    </dict>
-	    <dict>
     	    <key>-af</key>
     	    <string>aresample=async=1:min_hard_comp=0.100000:first_pts=0</string>
 	    </dict>

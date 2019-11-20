@@ -24,10 +24,6 @@
     	    <key>-ar</key>
     	    <string>44100</string>
 	    </dict>
-	    <dict>
-    	    <key>-threads</key>
-    	    <string>8</string>
-	    </dict>
     </array>
     <key>Extension</key>
     <string>mp3</string>

@@ -7,6 +7,8 @@
 //
 
 #import "MCFilterDelegate.h"
+#import "MCConstants.h"
+
 #import "MCCommonMethods.h"
 #import "MCPopupButton.h"
 #import "NSArray_Extensions.h"
@@ -83,7 +85,7 @@
         [[MCPresetEditPanel editPanel] updatePreview];
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewSelectionDidChange:) name:@"MCListSelected" object:tableView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewSelectionDidChange:) name:MCListSelected object:tableView];
 }
 
 - (IBAction)addFilter:(id)sender

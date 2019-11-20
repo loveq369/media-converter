@@ -7,6 +7,8 @@
 //
 
 #import "MCPresetEditPanel.h"
+#import "MCConstants.h"
+
 #import "MCConverter.h"
 #import "MCProgressPanel.h"
 #import "MCPopupButton.h"
@@ -481,9 +483,9 @@ static MCPresetEditPanel *_defaultManager = nil;
     	    currentPresetPath = [MCCommonMethods uniquePathNameFromPath:path withSeperator:@" "];
          
             NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-            NSMutableArray *newPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"MCPresets"]];
+            NSMutableArray *newPresets = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:MCPresets]];
             [newPresets addObject:currentPresetPath];
-            [standardDefaults setObject:newPresets forKey:@"MCPresets"];
+            [standardDefaults setObject:newPresets forKey:MCPresets];
 	    }
     
 	    //Save the (new) dictionary
@@ -901,7 +903,7 @@ static MCPresetEditPanel *_defaultManager = nil;
     [[[NSOperationQueue alloc] init] addOperationWithBlock:^
     {
         NSFileManager *defaultManager =     [NSFileManager defaultManager];
-        NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCFontFolderPath"];
+        NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:MCFontFolderPath];
         
         NSMutableArray *fontDictionaries = [NSMutableArray array];
         NSArray *fonts = [defaultManager subpathsAtPath:fontPath];

@@ -198,6 +198,7 @@
 		FE808B7A12EB0FEE0047FD26 /* MCConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCConverter.h; path = Source/MCConverter.h; sourceTree = "<group>"; };
 		FE808B7B12EB0FEE0047FD26 /* MCProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCProgressPanel.h; path = Source/MCProgressPanel.h; sourceTree = "<group>"; };
 		FE8F58D3230568B6001BE0D2 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MCPresetEditPanel.strings; sourceTree = "<group>"; };
+		FEA887192383CA5600464306 /* MCConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCConstants.h; path = Source/MCConstants.h; sourceTree = "<group>"; };
 		FEA8CF7513227D3C00C10516 /* Media Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Media Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA8D4B313229AB200C10516 /* MCTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCTableView.h; path = Source/MCTableView.h; sourceTree = "<group>"; };
 		FEB4483A1689F32300938559 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Readme.txt; path = Binaries/Readme.txt; sourceTree = "<group>"; };
@@ -512,6 +513,7 @@
 		FE808B7512EB0FE40047FD26 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				FEA887192383CA5600464306 /* MCConstants.h */,
 				FEC2C7FF22FAF4B60014808E /* Panels */,
 				FE3A195A22FAC232005BED34 /* Custom Views and Cells */,
 				FEF7FB72131A881400E244C9 /* Extensions */,

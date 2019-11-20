@@ -69,6 +69,12 @@
 /* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "41"; */
 "41.title" = "Choose…";
 
+/* NSTextFieldCell = "NSButtonCell"; title = "Threads"; ObjectID = "bE7-li-oYH"; */
+"bE7-li-oYH.title" = "Threads";
+
+/* Class = "NSTextFieldCell"; title = "Can speed up conversion depending on your Macs processor (number of processors / cores)"; ObjectID = "w6e-wO-AV4"; */
+"w6e-wO-AV4.title" = "Can speed up conversion depending on your Macs processor (number of processors / cores)";
+
 /* Class = "NSButtonCell"; title = "Rebuild Fonts…"; ObjectID = "665"; */
 "665.title" = "Rebuild Fonts…";
 

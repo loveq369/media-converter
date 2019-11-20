@@ -7,6 +7,7 @@
 //
 
 #import "MCMainController.h"
+#import "MCConstants.h"
 #import "NSArray_Extensions.h"
 #import "MCAlert.h"
 #import "MCActionButton.h"
@@ -45,7 +46,6 @@
 + (void)initialize
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] localizedInfoDictionary];
-    // TODO: remove me after Apple fixes the bug causing this to be nil
     if (!infoDictionary)
     {
         infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -53,19 +53,21 @@
 
     //Setup some defaults for the preferences (used when options aren't set)
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults =  @{ @"MCInstallMode": @(0),
-                                    @"MCSaveMethod": @(0),
-                                    @"MCSaveLocation": [@"~/Movies" stringByExpandingTildeInPath],
-                                    @"MCDebug": @(NO),
-                                    @"MCUseCustomFFMPEG": @(NO),
-                                    @"MCCustomFFMPEG": @"",
-                                    @"MCSavedPrefView": @"General",
-                                    @"MCSelectedPreset": @(0),
-                                    @"MCDVDForceAspect": @(0),
-                                    @"MCMuxSeperateStreams": @(NO),
-                                    @"MCRemuxMPEG2Streams": @(NO),
-                                    @"MCSubtitleLanguage": infoDictionary[@"MCSubtitleLanguage"],
-                                    @"MCQuitAfterConvertion": @(NO),
+    NSDictionary *appDefaults =  @{ MCInstallMode: @(0),
+                                    MCSaveMethod: @(0),
+                                    MCSaveLocation: [@"~/Movies" stringByExpandingTildeInPath],
+                                    MCDebug: @(NO),
+                                    MCUseCustomFFMPEG: @(NO),
+                                    MCCustomFFMPEG: @"",
+                                    MCSavedPrefView: @"General",
+                                    MCSelectedPreset: @(0),
+                                    MCDVDForceAspect: @(0),
+                                    MCMuxSeperateStreams: @(NO),
+                                    MCRemuxMPEG2Streams: @(NO),
+                                    MCSubtitleLanguage: infoDictionary[MCSubtitleLanguage],
+                                    MCQuitAfterConvertion: @(NO),
+                                    MCEncodingThreadsEnabled: @(YES),
+                                    MCEncodingThreads: @(8)
                                  };
     
     [defaults registerDefaults:appDefaults];
@@ -95,7 +97,7 @@
     [presetPopUp removeAllItems];
     
     // Make sure the preset list format is right, it used to be a list of dictionaries, now they're paths
-    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+    NSArray *presets = [standardDefaults objectForKey:MCPresets];
     NSMutableArray *updatedPresets = [[NSMutableArray alloc] init];
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     NSMutableArray *checkedPaths = [[NSMutableArray alloc] init];
@@ -116,7 +118,7 @@
             [checkedPaths addObject:presetObject];
         }
     }
-    [standardDefaults setObject:updatedPresets forKey:@"MCPresets"];
+    [standardDefaults setObject:updatedPresets forKey:MCPresets];
     
     // First check if there are still themes installed in /Library/Application Support/ by previous versions and move those presets
     NSString *applicationSupportFolder = @"/Library/Application Support/Media Converter";
@@ -183,7 +185,7 @@
                     }
                 }
             }
-            [standardDefaults setObject:checkedPresets forKey:@"MCPresets"];
+            [standardDefaults setObject:checkedPresets forKey:MCPresets];
             [defaultManager removeItemAtPath:applicationSupportFolder error:nil];
         }
     }
@@ -250,16 +252,18 @@
     NSMutableArray *presetFiles = [NSMutableArray array];
     NSMutableArray *otherFiles = [NSMutableArray array];
     
-    NSInteger i;
-    for (i = 0; i < [filenames count]; i ++)
+    for (NSString *fileName in filenames)
     {
-	    NSString *file = [filenames objectAtIndex:i];
-	    NSString *extension = [file pathExtension];
+	    NSString *extension = [fileName pathExtension];
 	    
 	    if ([[extension lowercaseString] isEqualTo:@"mcpreset"])
-    	    [presetFiles addObject:file];
+        {
+    	    [presetFiles addObject:fileName];
+        }
 	    else
-    	    [otherFiles addObject:file];
+        {
+    	    [otherFiles addObject:fileName];
+        }
     }
     
     if ([presetFiles count] > 0)
@@ -295,7 +299,7 @@
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
-    id lastCheckObject = [standardDefaults objectForKey:@"MCLastCheck"];
+    id lastCheckObject = [standardDefaults objectForKey:MCLastCheck];
     NSString *lastCheckString = [lastCheckObject isKindOfClass:[NSString class]] ? lastCheckObject : [(NSNumber *)lastCheckObject stringValue];
     NSInteger lastCheck = [MCCommonMethods getVersionForString:lastCheckString];
     NSInteger returnCode;
@@ -303,7 +307,7 @@
     if (lastCheck < 120)
     {
         // Check for old presets
-        NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+        NSArray *presets = [standardDefaults objectForKey:MCPresets];
         BOOL hasOldPresets = NO;
         for (NSString *path in presets)
         {
@@ -329,7 +333,7 @@
             //Update presets when the user chose "Update"
             if (returnCode == NSAlertFirstButtonReturn)
             {
-                NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+                NSArray *presets = [standardDefaults objectForKey:MCPresets];
                 for (NSString *path in presets)
                 {
                     NSMutableDictionary *preset = [NSMutableDictionary dictionaryWithContentsOfFile:path];
@@ -339,31 +343,49 @@
                     NSMutableDictionary *extraOptions = [preset objectForKey:@"Extra Options"];
                 
                     if ([encoderOptions indexOfObject:@"matroska" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"mkv" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"ogg" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"kate" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"ogv" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"kate" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"ipod" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"mp4" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"3gp" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"3g2" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"mp4" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"avi" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"srt" forKey:@"Subtitle Type"];
+                    }
                     
                     if ([encoderOptions indexOfObject:@"dvd" forKey:@"-f"] != NSNotFound)
+                    {
                         [extraOptions setObject:@"dvd" forKey:@"Subtitle Type"];
+                    }
                     
                     [extraOptions setObject:@"Helvetica" forKey:@"Subtitle Font"];
                     [extraOptions setObject:@"24" forKey:@"Subtitle Font Size"];
@@ -419,14 +441,14 @@
     if (lastCheck < 202)
     {
         // Update presets to work with newer versions of FFmpeg (4.2 currently)
-        NSArray *presets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
+        NSArray *presets = [[NSUserDefaults standardUserDefaults] objectForKey:MCPresets];
         for (NSString *path in presets)
         {
             [[MCPresetHelper sharedHelper] updatePresetAtPath:path];
         }
         
         //Update "MCLastCheck" so we'll won't check again
-        [standardDefaults setObject:@"2.0.2" forKey:@"MCLastCheck"];
+        [standardDefaults setObject:@"2.0.2" forKey:MCLastCheck];
     }
 }
 
@@ -441,7 +463,7 @@
 
     [presetPopUp removeAllItems];
     
-    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+    NSArray *presets = [standardDefaults objectForKey:MCPresets];
 
     BOOL hasPresets = ([presets count] > 0);
     [presetPopUp setEnabled:hasPresets];
@@ -466,11 +488,11 @@
 	    {
     	    [presetPopUp selectItemWithTitle:currentTitle];
     	    NSNumber *selectIndex = [NSNumber numberWithInteger:[presetPopUp indexOfItemWithTitle:currentTitle]];
-    	    [standardDefaults setObject:selectIndex forKey:@"MCSelectedPreset"];
+    	    [standardDefaults setObject:selectIndex forKey:MCSelectedPreset];
 	    }
 	    else
 	    {
-    	    NSInteger saveIndex = [standardDefaults integerForKey:@"MCSelectedPreset"];
+    	    NSInteger saveIndex = [standardDefaults integerForKey:MCSelectedPreset];
 	    
     	    while (saveIndex >= [presets count])
     	    {
@@ -478,7 +500,7 @@
     	    }
 	    
     	    [presetPopUp selectItemAtIndex:saveIndex];
-            [standardDefaults setInteger:saveIndex forKey:@"MCSelectedPreset"];
+            [standardDefaults setInteger:saveIndex forKey:MCSelectedPreset];
 	    }
     }
 }
@@ -493,15 +515,15 @@
 //Save the current preset to the preferences
 - (IBAction)selectPreset:(id)sender
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[sender objectValue] forKey:@"MCSelectedPreset"];
+    [[NSUserDefaults standardUserDefaults] setObject:[sender objectValue] forKey:MCSelectedPreset];
 }
 
 //Edit the preset
 - (IBAction)edit:(id)sender
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
-    NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue]];
+    NSArray *presets = [standardDefaults objectForKey:MCPresets];
+    NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:MCSelectedPreset] integerValue]];
     
     MCPresetEditPanel *presetManager = [MCPresetEditPanel editPanel];
     [presetManager beginModalForWindow:[self mainWindow] withPresetPath:path completionHandler:^(NSModalResponse returnCode)
@@ -518,9 +540,9 @@
 - (IBAction)saveDocumentAs:(id)sender
 {    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
+    NSArray *presets = [standardDefaults objectForKey:MCPresets];
     
-    NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue]];
+    NSString *path = [presets objectAtIndex:[[standardDefaults objectForKey:MCSelectedPreset] integerValue]];
 
     [[MCPresetEditPanel editPanel] savePresetForWindow:[self mainWindow] withPresetPath:path];
 }
@@ -848,7 +870,7 @@
     }
     else
     {
-        [self convertFiles:[standardDefaults objectForKey:@"MCSaveLocation"]];
+        [self convertFiles:[standardDefaults objectForKey:MCSaveLocation]];
     }
 }
 
@@ -881,8 +903,8 @@
     [self setConverter:converter];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *presets = [standardDefaults objectForKey:@"MCPresets"];
-    NSString *presetPath = [presets objectAtIndex:[[standardDefaults objectForKey:@"MCSelectedPreset"] integerValue]];
+    NSArray *presets = [standardDefaults objectForKey:MCPresets];
+    NSString *presetPath = [presets objectAtIndex:[[standardDefaults objectForKey:MCSelectedPreset] integerValue]];
     NSDictionary *options = [NSDictionary dictionaryWithContentsOfFile:presetPath];
     
     [[[NSOperationQueue alloc] init] addOperationWithBlock:^
@@ -1005,7 +1027,7 @@
 //Check for protected file types
 - (BOOL)isProtected:(NSString *)path
 {
-    NSArray *protectedFileTypes = [NSArray arrayWithObjects:@"m4p", @"m4b", NSFileTypeForHFSTypeCode('M4P '), NSFileTypeForHFSTypeCode('M4B '), nil];
+    NSArray *protectedFileTypes = @[@"m4p", @"m4b", NSFileTypeForHFSTypeCode('M4P '), NSFileTypeForHFSTypeCode('M4B ')];
     
     long hfsType = [[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] objectForKey:NSFileHFSTypeCode] longValue];
     return ([protectedFileTypes containsObject:[[path pathExtension] lowercaseString]] || [protectedFileTypes containsObject:NSFileTypeForHFSTypeCode((OSType)hfsType)]);
@@ -1019,7 +1041,9 @@
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
     if ([[self mainWindow] attachedSheet] && (aSelector == @selector(openFiles:) || aSelector == @selector(openURLs:) || aSelector == @selector(saveDocumentAs:) || aSelector == @selector(edit:)))
+    {
 	    return NO;
+    }
     
     return [super respondsToSelector:aSelector];
 }
@@ -1027,7 +1051,7 @@
 + (void)updateFontListForWindow:(NSWindow *)window withCompletion:(void (^)(void))completion
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *fontPath = [standardDefaults objectForKey:@"MCFontFolderPath"];
+    NSString *fontPath = [standardDefaults objectForKey:MCFontFolderPath];
     if (fontPath != nil)
     {
         [[NSFileManager defaultManager]  removeItemAtPath:fontPath error:nil];
@@ -1038,7 +1062,7 @@
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     NSString *applicationSupportFolder = [@"~/Library/Application Support" stringByExpandingTildeInPath];
     fontPath = [[applicationSupportFolder stringByAppendingPathComponent:@"Media Converter"] stringByAppendingPathComponent:@"Fonts"];
-    [standardDefaults setObject:fontPath forKey:@"MCFontFolderPath"];
+    [standardDefaults setObject:fontPath forKey:MCFontFolderPath];
     
     MCProgressPanel *progressPanel = [MCProgressPanel progressPanel];
     [progressPanel setTask:NSLocalizedString(@"Adding fonts (one time)", nil)];
@@ -1178,7 +1202,7 @@
 - (void)recoverPresets
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *presets = [[standardDefaults objectForKey:@"MCPresets"] mutableCopy];
+    NSMutableArray *presets = [[standardDefaults objectForKey:MCPresets] mutableCopy];
     
     NSString *applicationSupportFolder = [@"~/Library/Application Support/Media Converter/Presets" stringByExpandingTildeInPath];
     NSArray *subPaths = [[NSFileManager defaultManager] subpathsAtPath:applicationSupportFolder];
@@ -1204,7 +1228,7 @@
         }
     }
     
-    [standardDefaults setObject:presets forKey:@"MCPresets"];
+    [standardDefaults setObject:presets forKey:MCPresets];
 }
 
 @end

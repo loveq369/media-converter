@@ -7,6 +7,8 @@
 //
 
 #import "MCTableView.h"
+#import "MCConstants.h"
+
 #import "MCPreferences.h"
 
 
@@ -14,7 +16,7 @@
 
 - (BOOL)becomeFirstResponder 
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCListSelected" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MCListSelected object:self];
 
     return [super becomeFirstResponder];
 }

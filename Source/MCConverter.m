@@ -6,6 +6,7 @@
 //
 
 #import "MCConverter.h"
+#import "MCConstants.h"
 #import "NSArray_Extensions.h"
 #import "MCFilter.h"
 #import "MCProgressPanel.h"
@@ -425,8 +426,11 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    }
 	        
     	    [args addObjectsFromArray:inputOptions];
-    
-    	    NSString *threads = @"1";
+            
+            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+            BOOL encodingThreadsEnabled = [standardUserDefaults boolForKey:MCEncodingThreadsEnabled];
+            NSInteger numberOfThreads = encodingThreadsEnabled ? [standardUserDefaults integerForKey:MCEncodingThreads] : 1;
+    	    NSString *threads = [NSString stringWithFormat:@"%li", (long)numberOfThreads];
     
     	    NSInteger x;
     	    for (x = 0; x < [options count]; x ++)
@@ -635,7 +639,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 //                if ([defaultManager fileExistsAtPath:spumuxPath])
 //                    [MCCommonMethods moveItemAtPath:spumuxPath toPath:uniqueSpumuxPath error:nil];
 //
-//                NSString *savedFontPath = [defaults objectForKey:@"MCFontFolderPath"];
+//                NSString *savedFontPath = [defaults objectForKey:MCFontFolderPath];
 //
 //                #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
 //                [defaultManager createSymbolicLinkAtPath:spumuxPath withDestinationPath:savedFontPath error:nil];
@@ -1468,7 +1472,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    }
 	    else if ([type isEqualTo:@"hard"])
 	    {
-    	    NSString *defaultLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCSubtitleLanguage"];
+    	    NSString *defaultLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:MCSubtitleLanguage];
 	    
     	    NSString *subtitlePath = [[[temporaryFolder stringByAppendingPathComponent:[inFile lastPathComponent]] stringByDeletingPathExtension] stringByAppendingPathExtension:@"srt"];
 
@@ -1598,7 +1602,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     	    	    	    originalString = [MCCommonMethods stringWithContentsOfFile:currentPath encoding:NSUnicodeStringEncoding error:nil];
 	    	    	    
 	    	    	    if ([language isEqualTo:@""])
-    	    	    	    language = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCSubtitleLanguage"];
+    	    	    	    language = [[NSUserDefaults standardUserDefaults] objectForKey:MCSubtitleLanguage];
 	    	    	    
 	    	    	    if (rename == YES)
 	    	    	    {
@@ -2283,7 +2287,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 	    NSString *subPath = [subtitles objectAtIndex:i];
 	    NSString *fontSize = [extraOptions objectForKey:@"Subtitle Font Size"];
 
-	    NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCFontFolderPath"];
+	    NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:MCFontFolderPath];
 	    NSString *language = [[subPath stringByDeletingPathExtension] pathExtension];
 	    language = [[language componentsSeparatedByString:@"_"] objectAtIndex:0];
 	    
@@ -2382,7 +2386,7 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
 {
     NSString *xmlPath = [MCCommonMethods uniquePathNameFromPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"sub.xml"] withSeperator:@"-"];
     NSString *testSubtitle = [[NSBundle mainBundle] pathForResource:@"SubTest" ofType:@"srt"];
-    NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCFontFolderPath"];
+    NSString *fontPath = [[NSUserDefaults standardUserDefaults] objectForKey:MCFontFolderPath];
     NSString *xmlContent = [NSString stringWithFormat:@"<subpictures format=\"NTSC\"><stream><textsub filename=\"%@\" characterset=\"UTF-8\" fontsize=\"12\" font=\"%@\" horizontal-alignment=\"center\" vertical-alignment=\"bottom\" left-margin=\"60\" right-margin=\"60\" top-margin=\"20\" bottom-margin=\"30\" subtitle-fps=\"1\" movie-fps=\"1\" movie-width=\"720\" movie-height=\"480\" force=\"yes\"/></stream></subpictures>", testSubtitle, [fontPath stringByAppendingPathComponent:name]];
 	    
     NSString *error = nil;

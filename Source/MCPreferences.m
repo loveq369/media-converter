@@ -7,6 +7,8 @@
 //
 
 #import "MCPreferences.h"
+#import "MCConstants.h"
+
 #import "MCConverter.h"
 #import "MCProgressPanel.h"
 #import "MCPopupButton.h"
@@ -24,6 +26,7 @@
 #import "MCMainController.h"
 #import "MCPresetHelper.h"
 #import <Sparkle/Sparkle.h>
+
 
 @interface MCPreferences() <MCTableViewDelegate>
 
@@ -65,15 +68,17 @@
 
     if (self != nil)
     {
-	    _preferenceMappings = [[NSArray alloc] initWithObjects:     @"MCUseSoundEffects",    	    //1
-                                                                    @"MCSaveMethod",	    	    //2
-                                                                    @"MCInstallMode",	    	    //3
-                                                                    @"MCDebug",	    	    	    //4
-                                                                    @"MCUseCustomFFMPEG",    	    //5
-                                                                    @"MCCustomFFMPEG",	    	    //6
-                                                                    @"MCSubtitleLanguage",    	    //7
-                                                                    @"MCQuitAfterConvertion",       //8
-	    nil];
+        _preferenceMappings = @[    MCUseSoundEffects,              //1
+                                    MCSaveMethod,                   //2
+                                    MCInstallMode,                  //3
+                                    MCDebug,                        //4
+                                    MCUseCustomFFMPEG,              //5
+                                    MCCustomFFMPEG,                 //6
+                                    MCSubtitleLanguage,             //7
+                                    MCQuitAfterConvertion,          //8
+                                    MCEncodingThreadsEnabled,       //9
+                                    MCEncodingThreads               //10
+	    ];
 	    
 	    _presetsData = [[NSMutableArray alloc] init];
 	    _loaded = NO;
@@ -92,17 +97,16 @@
     NSFileManager *defaultManager =     [NSFileManager defaultManager];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
-    [defaultCenter addObserver:self selector:@selector(tableViewSelectionDidChange:) name:@"MCListSelected" object:[self presetsTableView]];
-    [defaultCenter addObserver:self selector:@selector(installModeChanged:) name:@"MCInstallModeChanged" object:nil];
+    [defaultCenter addObserver:self selector:@selector(tableViewSelectionDidChange:) name:MCListSelected object:[self presetsTableView]];
     
     //General
     NSPopUpButton *saveFolderPopUp = [self saveFolderPopUp];
-    NSString *temporaryFolder = [standardDefaults objectForKey:@"MCSaveLocation"];
+    NSString *temporaryFolder = [standardDefaults objectForKey:MCSaveLocation];
     [saveFolderPopUp insertItemWithTitle:[defaultManager displayNameAtPath:temporaryFolder] atIndex:0];
     NSImage *folderImage = [[NSWorkspace sharedWorkspace] iconForFile:temporaryFolder];
     [folderImage setSize:NSMakeSize(16,16)];
     [[saveFolderPopUp itemAtIndex:0] setImage:folderImage];
-    [[saveFolderPopUp itemAtIndex:0] setToolTip:[standardDefaults objectForKey:@"MCSaveLocation"]];
+    [[saveFolderPopUp itemAtIndex:0] setToolTip:[standardDefaults objectForKey:MCSaveLocation]];
     
     NSMutableArray *subtitleLanguages = [NSMutableArray array];
     NSDictionary *languageDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Languages" ofType:@"plist"]];
@@ -124,7 +128,7 @@
     [self reloadPresets];
     
     NSTableView *presetsTableView = [self presetsTableView];
-    [presetsTableView registerForDraggedTypes:[NSArray arrayWithObject:@"NSGeneralPboardType"]];
+    [presetsTableView registerForDraggedTypes:@[@"NSGeneralPboardType"]];
     
     [presetsTableView setTarget:self];
     [presetsTableView setDoubleAction:@selector(edit:)];
@@ -140,13 +144,13 @@
     [presetsActionButton addMenuItemWithTitle:NSLocalizedString(@"Export Preset…", nil) withSelector:@selector(saveDocumentAs:)];
     
     //Load the options for our views
-    [MCCommonMethods setViewOptions:[NSArray arrayWithObjects:[self generalView], [self presetsView], [self advancedView], nil] infoObject:[NSUserDefaults standardUserDefaults] fallbackInfo:nil mappingsObject:[self preferenceMappings] startCount:0];
+    [MCCommonMethods setViewOptions:@[[self generalView], [self presetsView], [self advancedView]] infoObject:[NSUserDefaults standardUserDefaults] fallbackInfo:nil mappingsObject:[self preferenceMappings] startCount:0];
     
     // Store the saved frame for later use
     NSString *savedFrameString = [[self window] stringWithSavedFrame];
     
     NSToolbar *toolbar = [self toolbar];
-    [toolbar setSelectedItemIdentifier:[standardDefaults objectForKey:@"MCSavedPrefView"]];
+    [toolbar setSelectedItemIdentifier:[standardDefaults objectForKey:MCSavedPrefView]];
     [self toolbarAction:[self selectedToolbarItem]];
 
     [defaultCenter addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
@@ -207,18 +211,18 @@
                 [item setToolTip:[[temporaryFolder stringByDeletingLastPathComponent] stringByAppendingPathComponent:[defaultManager displayNameAtPath:temporaryFolder]]];
                 [saveFolderPopUp selectItemAtIndex:0];
             
-                [standardDefaults setObject:fileName forKey:@"MCSaveLocation"];
-                [standardDefaults setObject:[NSNumber numberWithInteger:0] forKey:@"MCSaveMethod"];
+                [standardDefaults setObject:fileName forKey:MCSaveLocation];
+                [standardDefaults setObject:@(0) forKey:MCSaveMethod];
             }
             else
             {
-                [[self saveFolderPopUp] selectItemAtIndex:[[standardDefaults objectForKey:@"MCSaveMethod"] integerValue]];
+                [[self saveFolderPopUp] selectItemAtIndex:[[standardDefaults objectForKey:MCSaveMethod] integerValue]];
             }
         }];
     }
     else
     {
-	    [standardDefaults setObject:object forKey:[[self preferenceMappings] objectAtIndex:tag - 1]];
+	    [standardDefaults setObject:object forKey:[self preferenceMappings][tag - 1]];
     }
 }
 
@@ -270,16 +274,15 @@
             if (returnCode == NSAlertFirstButtonReturn)
             {
                 NSArray *selectedObjects = [MCCommonMethods allSelectedItemsInTableView:presetsTableView fromArray:presetsData];
-                NSInteger i;
-                for (i = 0; i < [selectedObjects count]; i ++)
+
+                for (NSString *presetPath in selectedObjects)
                 {
-                    NSString *presetPath = [selectedObjects objectAtIndex:i];
                     [[NSFileManager defaultManager] removeItemAtPath:presetPath error:nil];
                 }
                 NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-                NSMutableArray *presets = [[standardDefaults objectForKey:@"MCPresets"] mutableCopy];
+                NSMutableArray *presets = [[standardDefaults objectForKey:MCPresets] mutableCopy];
                 [presets removeObjectsInArray:selectedObjects];
-                [standardDefaults setObject:presets forKey:@"MCPresets"];
+                [standardDefaults setObject:presets forKey:MCPresets];
             
                 [self reloadPresets];
                 [[self delegate] preferencesDidUpdatePresets:self];
@@ -385,7 +388,7 @@
          
             NSMutableArray *presetSaveData = [presetsData mutableCopy];
             [presetSaveData addObject:newPath];
-            [[NSUserDefaults standardUserDefaults] setObject:presetSaveData forKey:@"MCPresets"];
+            [[NSUserDefaults standardUserDefaults] setObject:presetSaveData forKey:MCPresets];
 	    
     	    NSString *error = nil;
     	    BOOL result = [MCCommonMethods writeDictionary:presetDictionary toFile:newPath errorString:&error];
@@ -448,20 +451,12 @@
         {
             NSString *path = [[commandPanel path] copy];
             [[self commandTextField] setStringValue:path];
-            [[NSUserDefaults standardUserDefaults] setObject:path forKey:@"MCCustomFFMPEG"];
+            [[NSUserDefaults standardUserDefaults] setObject:path forKey:MCCustomFFMPEG];
         }
         
         [self setCommandPanel:nil];
     }];
     [self setCommandPanel:commandPanel];
-
-//    [[self window] beginSheet:[self commandPanel] completionHandler:nil];
-
-//    NSPanel *commandPanel = [self commandPanel];
-//    [NSApp runModalForWindow:commandPanel];
-//    [commandPanel orderOut:self];
-    //[self setupPopups];
-    //[NSThread detachNewThreadSelector:@selector(setupPopups) toTarget:self withObject:nil];
 }
 
 - (IBAction)rebuildFonts:(id)sender
@@ -491,7 +486,7 @@
     
     [self saveFrame];
 
-    [[NSUserDefaults standardUserDefaults] setObject:itemIdentifier forKey:@"MCSavedPrefView"];
+    [[NSUserDefaults standardUserDefaults] setObject:itemIdentifier forKey:MCSavedPrefView];
 }
 
 - (id)myViewWithIdentifier:(NSString *)identifier
@@ -523,9 +518,13 @@
 {
     NSString *newTitle;
     if ([[self presetsTableView] numberOfSelectedRows] > 1)
+    {
 	    newTitle = NSLocalizedString(@"Duplicate Presets", nil);
+    }
     else
+    {
 	    newTitle = NSLocalizedString(@"Duplicate Preset", nil);
+    }
 	    
     [[self presetsActionButton] setTitle:newTitle atIndex:1];
 }
@@ -537,10 +536,14 @@
         NSTableView *presetsTableView = [self presetsTableView];
     
 	    if (([presetsTableView selectedRow] == -1 || [presetsTableView numberOfSelectedRows] > 1) && (aSelector == @selector(edit:) || aSelector == @selector(saveDocumentAs:)))
+        {
     	    return NO;
+        }
 	    
 	    if (([presetsTableView selectedRow] == -1) && (aSelector == @selector(duplicate:) || (aSelector == @selector(delete:))))
+        {
     	    return NO;
+        }
     }
 	    
     return [super respondsToSelector:aSelector];
@@ -568,7 +571,7 @@
         MCAddPresetCellView *cellView = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:nil];
         if (row == 0)
         {
-            [[cellView imageView] setImage:[NSImage imageNamed:@"MCPresets"]];
+            [[cellView imageView] setImage:[NSImage imageNamed:MCPresets]];
             [[cellView textField] setStringValue:NSLocalizedString(@"Open an existing preset file", nil)];
             [[cellView subTextField] setStringValue:NSLocalizedString(@"Choose a downloaded or copied preset file", nil)];
         }
@@ -616,9 +619,12 @@
     NSInteger firstIndex = [rowIndexes firstIndex];
     
     if (row > firstIndex - 1 && row < firstIndex + [rowIndexes count] + 1)
+    {
 	    return result;
+    }
 
-    if (op == NSTableViewDropAbove) {
+    if (op == NSTableViewDropAbove)
+    {
         result = NSDragOperationMove;
     }
 
@@ -693,8 +699,10 @@
     NSUInteger current_index = [indexSet firstIndex];
     while (current_index != NSNotFound)
     {
-	    if ([array objectAtIndex:current_index]) 
+	    if ([array objectAtIndex:current_index])
+        {
     	    [items addObject:[array objectAtIndex:current_index]];
+        }
     	    
         current_index = [indexSet indexGreaterThanIndex: current_index];
     }
@@ -708,8 +716,9 @@
     NSMutableArray *presetsData = [self presetsData];
 
     NSArray *allSelectedItems = [self allSelectedItemsInTableView:presetsTableView fromArray:presetsData];
-    NSData *data = [NSArchiver archivedDataWithRootObject:[presetsData objectAtIndex:index]];
-    BOOL isSelected = [allSelectedItems containsObject:[presetsData objectAtIndex:index]];
+    id object = presetsData[index];
+    NSData *data = [NSArchiver archivedDataWithRootObject:object];
+    BOOL isSelected = [allSelectedItems containsObject:object];
 	    
     if (isSelected)
 	    [presetsTableView deselectRow:index];
@@ -719,7 +728,7 @@
 	    NSInteger x;
 	    for (x = index; x > destIndex; x --)
 	    {
-    	    id object = [presetsData objectAtIndex:x - 1];
+    	    id object = presetsData[x - 1];
     
     	    [presetsData replaceObjectAtIndex:x withObject:object];
 	    
@@ -733,9 +742,9 @@
     else
     {
 	    NSInteger x;
-	    for (x = index;x<destIndex;x++)
+	    for (x = index; x < destIndex; x ++)
 	    {
-    	    id object = [presetsData objectAtIndex:x + 1];
+    	    id object = presetsData[x + 1];
     
     	    [presetsData replaceObjectAtIndex:x withObject:object];
 	    
@@ -753,9 +762,11 @@
     [presetsTableView reloadData];
     
     if (isSelected)
+    {
 	    [presetsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:destIndex] byExtendingSelection:YES];
+    }
     
-    [[NSUserDefaults standardUserDefaults] setObject:presetsData forKey:@"MCPresets"];
+    [[NSUserDefaults standardUserDefaults] setObject:presetsData forKey:MCPresets];
     [[self delegate] preferencesDidUpdatePresets:self];
 }
 
@@ -768,10 +779,14 @@
 
 - (void)resizeWindowOnSpotWithRect:(NSRect)aRect
 {
-    NSRect r = NSMakeRect([[self window] frame].origin.x - 
-        (aRect.size.width - [[self window] frame].size.width), [[self window] frame].origin.y - 
-        (aRect.size.height+78 - [[self window] frame].size.height), aRect.size.width, aRect.size.height+78);
-    [[self window] setFrame:r display:YES animate:YES];
+    CGFloat titleBarHeight = 78.0;
+    NSWindow *window = [self window];
+    NSRect windowFrame = [window frame];
+    NSRect newFrame = NSMakeRect(   windowFrame.origin.x,
+                                    windowFrame.origin.y - (aRect.size.height + titleBarHeight - windowFrame.size.height),
+                                    aRect.size.width,
+                                    aRect.size.height + titleBarHeight);
+    [window setFrame:newFrame display:YES animate:YES];
 }
 
 
@@ -779,16 +794,10 @@
 {
     NSMutableArray *presetsData = [self presetsData];
     [presetsData removeAllObjects];
-    NSArray *savedPresets = [[NSUserDefaults standardUserDefaults] objectForKey:@"MCPresets"];
+    NSArray *savedPresets = [[NSUserDefaults standardUserDefaults] objectForKey:MCPresets];
     [presetsData addObjectsFromArray:savedPresets];
 
     [[self presetsTableView] reloadData];
-}
-
-- (void)installModeChanged:(NSNotification *)notification
-{
-    NSInteger mode = [[notification object] integerValue];
-    [(NSPopUpButton *)[[self generalView] viewWithTag:3] selectItemAtIndex:mode];
 }
 
 - (NSToolbarItem *)selectedToolbarItem

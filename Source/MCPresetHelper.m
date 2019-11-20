@@ -6,6 +6,7 @@
 //
 
 #import "MCPresetHelper.h"
+#import "MCConstants.h"
 #import "NSArray_Extensions.h"
 #import "MCCommonMethods.h"
 
@@ -364,9 +365,9 @@
             [self updatePresetAtPath:filePath];
             
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSMutableArray *presets = [[userDefaults objectForKey:@"MCPresets"] mutableCopy];
+            NSMutableArray *presets = [[userDefaults objectForKey:MCPresets] mutableCopy];
             [presets addObject:filePath];
-            [userDefaults setObject:presets forKey:@"MCPresets"];
+            [userDefaults setObject:presets forKey:MCPresets];
         }
         else
         {

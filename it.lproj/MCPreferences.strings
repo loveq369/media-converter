@@ -78,6 +78,12 @@
 /* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "41"; */
 "41.title" = "Scegli…";
 
+/* Class = "NSTextFieldCell"; title = "Threads"; ObjectID = "bE7-li-oYH"; */
+"bE7-li-oYH.title" = "Velocità delle conversioni";
+
+/* Class = "NSTextFieldCell"; title = "Can speed up conversion depending on your Macs processor (number of processors / cores)"; ObjectID = "w6e-wO-AV4"; */
+"w6e-wO-AV4.title" = "Media Converter può accellerare la velocità delle conversioni in base al processore del tuo Mac";
+
 /* Class = "NSButtonCell"; title = "Rebuild Fonts…"; ObjectID = "665"; */
 "665.title" = "Ricostruisci font…";
 

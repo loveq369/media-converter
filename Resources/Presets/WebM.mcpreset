@@ -25,10 +25,6 @@
     	    <string>224000</string>
 	    </dict>
 	    <dict>
-    	    <key>-threads</key>
-    	    <string>8</string>
-	    </dict>
-	    <dict>
     	    <key>-async</key>
     	    <string>1</string>
 	    </dict>
