@@ -11,6 +11,8 @@
                 <outlet property="addPanel" destination="291" id="311"/>
                 <outlet property="addTableView" destination="296" id="314"/>
                 <outlet property="advancedView" destination="6" id="62"/>
+                <outlet property="commandButton" destination="36" id="hIF-Kr-Zjp"/>
+                <outlet property="commandChooseButton" destination="40" id="vi3-La-jiG"/>
                 <outlet property="commandTextField" destination="38" id="0Ar-pd-YHb"/>
                 <outlet property="generalAutomaticUpdatesButton" destination="egp-j2-i2e" id="hyz-Lz-sqH"/>
                 <outlet property="generalView" destination="4" id="60"/>

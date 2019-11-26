@@ -42,7 +42,9 @@
 @property (nonatomic, weak) IBOutlet MCActionButton *presetsActionButton;
 // Advanced
 @property (nonatomic, strong) IBOutlet NSView *advancedView;
+@property (nonatomic, weak) IBOutlet NSButton *commandButton;
 @property (nonatomic, weak) IBOutlet NSTextField *commandTextField;
+@property (nonatomic, weak) IBOutlet NSButton *commandChooseButton;
 
 /* Preset add panel */
 @property (nonatomic, strong) IBOutlet NSPanel *addPanel;
@@ -146,6 +148,10 @@
     //Load the options for our views
     [MCCommonMethods setViewOptions:@[[self generalView], [self presetsView], [self advancedView]] infoObject:[NSUserDefaults standardUserDefaults] fallbackInfo:nil mappingsObject:[self preferenceMappings] startCount:0];
     
+    BOOL commandSelected = [[self commandButton] state] == NSOnState;
+    [[self commandTextField] setEnabled:commandSelected];
+    [[self commandChooseButton] setEnabled:commandSelected];
+    
     // Store the saved frame for later use
     NSString *savedFrameString = [[self window] stringWithSavedFrame];
     
@@ -184,8 +190,14 @@
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger tag = [sender tag];
     id object = [sender objectValue];
-
-    if (tag == 2 && [sender indexOfSelectedItem] == 4)
+    
+    if (tag == 5)
+    {
+        BOOL selected = [object boolValue];
+        [[self commandTextField] setEnabled:selected];
+        [[self commandChooseButton] setEnabled:selected];
+    }
+    else if (tag == 2 && [sender indexOfSelectedItem] == 4)
     {
 	    NSOpenPanel *sheet = [NSOpenPanel openPanel];
 	    [sheet setCanChooseFiles:NO];

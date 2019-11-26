@@ -246,8 +246,16 @@ BOOL CGImageWriteToFile(CGImageRef image, NSString *path)
     {
 	    NSString *sizeString = [options objectForKey:@"-s"];
 	    NSArray *sizeParts = [sizeString componentsSeparatedByString:@"x"];
-	    width = [[sizeParts objectAtIndex:0] doubleValue];
-	    height = [[sizeParts objectAtIndex:1] doubleValue];
+        if ([sizeParts count] == 2)
+        {
+            width = [[sizeParts objectAtIndex:0] doubleValue];
+            height = [[sizeParts objectAtIndex:1] doubleValue];
+        }
+        else
+        {
+            width = (CGFloat)inputWidth;
+            height = (CGFloat)inputHeight;
+        }
     }
     else
     {
